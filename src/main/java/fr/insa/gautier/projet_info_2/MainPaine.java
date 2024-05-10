@@ -102,7 +102,6 @@ public class MainPaine extends BorderPane {
                 char ptVirgule = ';';
                 int lecteur = 0;
                 int nombre;
-                String tempNom;
                 char tempChar[] = new char[25];
                 
                 // affichage de la ligne
@@ -123,7 +122,7 @@ public class MainPaine extends BorderPane {
                 
                 // On recupere le nom du revetement
                 line.getChars(separateurs[0] + 1, separateurs[1], tempChar, 0);
-                tempNom = Arrays.toString(tempChar);
+                String tempNom = new String(tempChar);
                 
                 // On recupere els valeurs booleennes du revetement
                 tempPourMur = (1 == Character.getNumericValue(line.charAt(separateurs[1]+1)));
