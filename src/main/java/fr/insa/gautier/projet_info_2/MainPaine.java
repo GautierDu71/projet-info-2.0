@@ -151,13 +151,17 @@ public class MainPaine extends BorderPane {
                         if (i > line.length() - 3) {
                             if (!(nombre == -1)) {
                                 tempPrix += nombre * Math.pow(10, separateurs[4]-(i-3));
+                                
                             }
                         }
                     }
                 }
+                // manoeuvre d'arrondis pour eviter les imprecisions a 0.00000001 pres
+                tempPrix = (Math.round(tempPrix*100));
+                double prix = tempPrix/100;
                 
                 // ajout le revetement a une Array List
-                Revetements.add(new Revetement(tempId, tempNom, tempPourPlafond, tempPourSol, tempPourMur, tempPrix));
+                Revetements.add(new Revetement(tempId, tempNom, tempPourPlafond, tempPourSol, tempPourMur, prix));
                 
                 // lecture de la prochaine ligne
                 line = reader.readLine();

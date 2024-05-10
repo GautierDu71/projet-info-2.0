@@ -9,7 +9,7 @@ package fr.insa.gautier.projet_info_2;
  * @author gserouart01
  */
 public class Revetement {
-      private int idRev;
+    private int idRev;
     private String nom;
     private boolean pourPlafond, pourSol, pourMur;
     private double prixUnitaire;
