@@ -68,7 +68,7 @@ public class MainPaine extends BorderPane {
         System.out.println("fpsdojfpjospdojfpsojdfs");
         ArrayList<Revetement> Revetements = new ArrayList();
         LectureRevetements(Revetements);
-        System.out.println(Revetements.get(0).toString());
+        System.out.println(Revetements.get(2).toString());
     }
     public void bcNouvellePiece(){
         System.out.println("suzette");
@@ -88,22 +88,22 @@ public class MainPaine extends BorderPane {
             // Création d'un bufferedReader qui utilise le fileReader
             BufferedReader reader = new BufferedReader(fileReader);
 			
-            // une fonction à essayer pouvant générer une erreur
             String line = reader.readLine();
-            
-            int separateurs[] = new int[5];
-            int indPtVirgule = 0;
-            int tempId = 0;
-            double tempPrix = 0;
-            boolean tempPourSol, tempPourMur,tempPourPlafond;
-            String tempNom;
-            char tempChar[] = new char[50];
-            int indiceRev = 0;
-            char ptVirgule = ';';
-            int lecteur = 0;
-            int nombre = 0;
-                        
+                       
             while (line != null) {
+                // creation de variables temporaires
+                int separateurs[] = new int[5];
+                int indPtVirgule = 0;
+                int tempId = 0;
+                double tempPrix = 0;
+                boolean tempPourSol, tempPourMur,tempPourPlafond;
+                int indiceRev = 0;
+                char ptVirgule = ';';
+                int lecteur = 0;
+                int nombre = 0;
+                String tempNom;
+                char tempChar[] = new char[50];
+                
                 // affichage de la ligne
                 System.out.println(line);
                 
@@ -120,34 +120,38 @@ public class MainPaine extends BorderPane {
                     lecteur++;
                 }
                 
+                // On recupere le nom du revetement
                 line.getChars(separateurs[0] + 1, separateurs[1], tempChar, 0);
                 tempNom = Arrays.toString(tempChar);
                 
+                // On recupere els valeurs booleennes du revetement
                 tempPourMur = (1 == Character.getNumericValue(line.charAt(separateurs[1]+1)));
                 tempPourSol = (1 == Character.getNumericValue(line.charAt(separateurs[2]+1)));
                 tempPourPlafond = (1 == Character.getNumericValue(line.charAt(separateurs[3]+1)));
                 
+                // on recupere les valeurs numeriques :
                 for (int i=0; i<line.length(); i++){
                     if (!(";".equals(line.charAt(i)))) {
+                        
                         nombre = Character.getNumericValue(line.charAt(i));
                         
                         if (i < separateurs[0]) {
-                            
+                            // on ajoute le nombre multiplie a la puissance de 10 correspondant
+                            // a son rang dans la valeur temporaire
                             tempId += nombre * Math.pow(10, separateurs[0]-i-1);
                         }
                         if (i > separateurs[4]) {
-                            tempPrix += nombre * Math.pow(10, separateurs[4]-(i+1));
+                            // idem
+                            tempPrix += nombre * Math.pow(10, separateurs[4]-(i-1-2));
                         }
                     }
                 }
                 
+                // ajout le revetement a une Array List
                 Revetements.add(new Revetement(tempId, tempNom, tempPourPlafond, tempPourSol, tempPourMur, tempPrix));
                 
                 // lecture de la prochaine ligne
                 line = reader.readLine();
-                indiceRev++;
-                lecteur = 0;
-                indPtVirgule = 0;
             }
             reader.close();
         } catch (IOException e) {
