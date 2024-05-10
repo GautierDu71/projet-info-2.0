@@ -73,6 +73,11 @@ public class Revetement {
     public void setNom(String nom) {
         this.nom = nom;
     }
+
+    @Override
+    public String toString() {
+        return "Revetement{" + "idRev=" + idRev + ", nom=" + nom + ", pourPlafond=" + pourPlafond + ", pourSol=" + pourSol + ", pourMur=" + pourMur + ", prixUnitaire=" + prixUnitaire + '}';
+    }
     
       
 }

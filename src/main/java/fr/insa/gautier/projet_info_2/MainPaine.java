@@ -9,6 +9,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.lang.Character;
 
 
 import javafx.event.ActionEvent;
@@ -91,48 +92,52 @@ public class MainPaine extends BorderPane {
             String line = reader.readLine();
             
             int separateurs[] = new int[5];
-            int compt = 0;
+            int indPtVirgule = 0;
             int tempId = 0;
             double tempPrix = 0;
             boolean tempPourSol, tempPourMur,tempPourPlafond;
             String tempNom;
-            char tempChar[] = new char[20];
-            int faireUnNouveau = 0;
-            int indice = 0;
+            char tempChar[] = new char[50];
+            int indiceRev = 0;
+            char ptVirgule = ';';
+            int lecteur = 0;
+            int nombre = 0;
                         
             while (line != null) {
                 // affichage de la ligne
                 System.out.println(line);
                 
-                for (int i=0; i<line.length(); i++) {
-                    if (line.charAt(i)).equals(";")) {
+                while (lecteur < line.length()) {
+                    char iEmeChar = line.charAt(lecteur);
+                    if (iEmeChar == ptVirgule) {
                         //on crée un tabeau avec les emplacements des ";"
-                        separateurs[compt]=i;
-                        compt++;
-                        System.out.println(separateurs[0]);
+                        separateurs[indPtVirgule]=lecteur;
+                        indPtVirgule++;
+                        //System.out.println(separateurs[0]);
+                        //System.out.println(indPtVirgule);
+                        iEmeChar++;
                     }
+                    lecteur++;
                 }
-                line.getChars(separateurs[0], separateurs[1], tempChar, 0);
+                
+                line.getChars(separateurs[0] + 1, separateurs[1], tempChar, 0);
                 tempNom = Arrays.toString(tempChar);
-                tempPourMur = ("1".equals(line.charAt(separateurs[1]+1)));
-                tempPourSol = ("1".equals(line.charAt(separateurs[2]+1)));
-                tempPourPlafond = ("1".equals(line.charAt(separateurs[3]+1)));
+                
+                tempPourMur = (1 == Character.getNumericValue(line.charAt(separateurs[1]+1)));
+                tempPourSol = (1 == Character.getNumericValue(line.charAt(separateurs[2]+1)));
+                tempPourPlafond = (1 == Character.getNumericValue(line.charAt(separateurs[3]+1)));
                 
                 for (int i=0; i<line.length(); i++){
                     if (!(";".equals(line.charAt(i)))) {
+                        nombre = Character.getNumericValue(line.charAt(i));
+                        
                         if (i < separateurs[0]) {
-                            tempId += line.charAt(i) * Math.pow(10, separateurs[0]-i);
+                            
+                            tempId += nombre * Math.pow(10, separateurs[0]-i-1);
                         }
                         if (i > separateurs[4]) {
-                            tempPrix +=line.charAt(i) * Math.pow(10, separateurs[4]-(i+2));
+                            tempPrix += nombre * Math.pow(10, separateurs[4]-(i+1));
                         }
-                    }
-                }
-                for (int i = 0; i < indice; i++){
-                    if (!(Revetements.get(i).getIdRev()==tempId)) {
-                        faireUnNouveau = 1;
-                    } else {
-                        faireUnNouveau = 0;
                     }
                 }
                 
@@ -140,7 +145,9 @@ public class MainPaine extends BorderPane {
                 
                 // lecture de la prochaine ligne
                 line = reader.readLine();
-                indice++;
+                indiceRev++;
+                lecteur = 0;
+                indPtVirgule = 0;
             }
             reader.close();
         } catch (IOException e) {
