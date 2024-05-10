@@ -54,7 +54,7 @@ public class MainPaine extends BorderPane {
         
         
         
-        this.cDessin = new DessinCanvas(200,200) ;
+        this.cDessin = new DessinCanvas() ;
         
         
         
