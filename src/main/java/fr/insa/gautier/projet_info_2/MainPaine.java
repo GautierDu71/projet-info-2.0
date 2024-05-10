@@ -67,6 +67,7 @@ public class MainPaine extends BorderPane {
         System.out.println("fpsdojfpjospdojfpsojdfs");
         ArrayList<Revetement> Revetements = new ArrayList();
         LectureRevetements(Revetements);
+        System.out.println(Revetements.get(0).toString());
     }
     public void bcNouvellePiece(){
         System.out.println("suzette");
@@ -104,9 +105,11 @@ public class MainPaine extends BorderPane {
                 System.out.println(line);
                 
                 for (int i=0; i<line.length(); i++) {
-                    if (";".equals(line.charAt(i))) { //on crée un tabeau avec les emplacements des ";"
+                    if (line.charAt(i)).equals(";")) {
+                        //on crée un tabeau avec les emplacements des ";"
                         separateurs[compt]=i;
                         compt++;
+                        System.out.println(separateurs[0]);
                     }
                 }
                 line.getChars(separateurs[0], separateurs[1], tempChar, 0);
@@ -132,9 +135,9 @@ public class MainPaine extends BorderPane {
                         faireUnNouveau = 0;
                     }
                 }
-                if (faireUnNouveau ==1) {
-                    Revetements.add(new Revetement(tempId, tempNom, tempPourPlafond, tempPourSol, tempPourMur, tempPrix));
-                }
+                
+                Revetements.add(new Revetement(tempId, tempNom, tempPourPlafond, tempPourSol, tempPourMur, tempPrix));
+                
                 // lecture de la prochaine ligne
                 line = reader.readLine();
                 indice++;
