@@ -68,7 +68,9 @@ public class MainPaine extends BorderPane {
         System.out.println("fpsdojfpjospdojfpsojdfs");
         ArrayList<Revetement> Revetements = new ArrayList();
         LectureRevetements(Revetements);
-        System.out.println(Revetements.get(2).toString());
+        for (int i = 0; i<19; i++) {
+            System.out.println(Revetements.get(i).toString());
+        }
     }
     public void bcNouvellePiece(){
         System.out.println("suzette");
@@ -97,12 +99,11 @@ public class MainPaine extends BorderPane {
                 int tempId = 0;
                 double tempPrix = 0;
                 boolean tempPourSol, tempPourMur,tempPourPlafond;
-                int indiceRev = 0;
                 char ptVirgule = ';';
                 int lecteur = 0;
-                int nombre = 0;
+                int nombre;
                 String tempNom;
-                char tempChar[] = new char[50];
+                char tempChar[] = new char[25];
                 
                 // affichage de la ligne
                 System.out.println(line);
@@ -140,9 +141,17 @@ public class MainPaine extends BorderPane {
                             // a son rang dans la valeur temporaire
                             tempId += nombre * Math.pow(10, separateurs[0]-i-1);
                         }
-                        if (i > separateurs[4]) {
-                            // idem
-                            tempPrix += nombre * Math.pow(10, separateurs[4]-(i-1-2));
+                        
+                        // idem mais on doit prendre en compte la virgule et l'ignorer
+                        if ((i > separateurs[4]) && (i < line.length() - 3)) {
+                            if (!(nombre == -1)) {
+                                tempPrix += nombre * Math.pow(10, separateurs[4]-(i-2));
+                            }
+                        }
+                        if (i > line.length() - 3) {
+                            if (!(nombre == -1)) {
+                                tempPrix += nombre * Math.pow(10, separateurs[4]-(i-3));
+                            }
                         }
                     }
                 }
