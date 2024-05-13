@@ -9,5 +9,9 @@ package fr.insa.gautier.projet_info_2;
  * @author gserouart01
  */
 public class Controleur {
-    
+    public void dessinPiece(DessinCanvas canvas) {
+        canvas.setOnMouseClicked((o)->{
+            canvas.get
+        });
+    }
 }

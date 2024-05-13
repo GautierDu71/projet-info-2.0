@@ -6,14 +6,14 @@ package fr.insa.gautier.projet_info_2;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.layout.Region;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 /**
  *
  * @author gserouart01
  */
-public class DessinCanvas extends Region{
+public class DessinCanvas extends Pane{
     
     private Canvas realCanvas ;
     
@@ -37,6 +37,11 @@ public class DessinCanvas extends Region{
         contexte.setFill(Color.WHITE);
         contexte.fillRect(0, 0, this.realCanvas.getWidth(), this.realCanvas.getHeight());
         
+    }
+    
+    public void test(){
+        GraphicsContext contexte = this.realCanvas.getGraphicsContext2D();
+        contexte.strokeLine(USE_PREF_SIZE, USE_PREF_SIZE, USE_PREF_SIZE, USE_PREF_SIZE);
     }
     
 }
