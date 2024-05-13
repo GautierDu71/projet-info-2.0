@@ -23,11 +23,9 @@ public class App extends Application {
         var javaVersion = SystemInfo.javaVersion();
         var javafxVersion = SystemInfo.javafxVersion();
         
+        // On recupere du fichier tous les revetements
         ArrayList<Revetement> Revetements = new ArrayList();
         LectureRevetements(Revetements);
-        for (int i = 0; i<19; i++) {
-            System.out.println(Revetements.get(i).toString());
-        }
 
         var scene = new Scene(new MainPaine());
         stage.setTitle("projet info S2");

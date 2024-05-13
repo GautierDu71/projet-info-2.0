@@ -5,8 +5,12 @@
 package fr.insa.gautier.projet_info_2;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.lang.Character;
@@ -59,7 +63,7 @@ public class MainPaine extends BorderPane {
         this.bCharger.setOnAction(event ->{
             bcCharger();
         });
-        VBox vbDroite = new VBox(this.bNouvelEtage,this.bNouvellePiece,this.bDevis,this.bFin);
+        VBox vbDroite = new VBox(this.bNouvelEtage,this.bNouvellePiece,this.bDevis,this.bFin,this.bSauvegarder,this.bCharger);
         vbDroite.setSpacing(10);
         
         
@@ -87,12 +91,38 @@ public class MainPaine extends BorderPane {
     }
     public void bcSauvegarder(){
         System.out.println("des crêpes");
+        Sauvegarde();
     }
     public void bcCharger(){
         System.out.println("Chargement...");
         LectureSauvegarde();
         
     }
+    public void Sauvegarde() {
+        try (PrintWriter out = new PrintWriter("Sauvegarde.txt")) {
+            File myObj = new File("Sauvegarde.txt");
+            if (myObj.createNewFile()) {
+                System.out.println("File created: " + myObj.getName());
+            } else {
+                System.out.println("File already exists.");
+            }
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        
+        try {
+            FileWriter myWriter = new FileWriter("Sauvegarde.txt");
+            myWriter.write("Files in Java might be tricky, but it is fun enough!");
+            myWriter.close();
+            System.out.println("Successfully wrote to the file.");
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+    
     
     public void LectureSauvegarde() {
 	try {
@@ -172,7 +202,6 @@ public class MainPaine extends BorderPane {
                 double prix = tempPrix/100;
                 
                 // ajout le revetement a une Array List
-                Revetements.add(new Revetement(tempId, tempNom, tempPourPlafond, tempPourSol, tempPourMur, prix));
                 
                 // lecture de la prochaine ligne
                 line = reader.readLine();
