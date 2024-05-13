@@ -16,9 +16,11 @@ import javafx.scene.paint.Color;
 public class DessinCanvas extends Pane{
     
     private Canvas realCanvas ;
+    public GraphicsContext contexte;
     
     public DessinCanvas() {
         this.realCanvas = new Canvas(this.getWidth(),this.getHeight());
+        this.contexte = this.realCanvas.getGraphicsContext2D() ;
         this.getChildren().add(this.realCanvas);
         this.realCanvas.heightProperty().bind(this.heightProperty());
         this.realCanvas.heightProperty().addListener((o) -> {
@@ -33,15 +35,11 @@ public class DessinCanvas extends Pane{
     
     public void redrawAll() {
         
-        GraphicsContext contexte = this.realCanvas.getGraphicsContext2D();
-        contexte.setFill(Color.WHITE);
-        contexte.fillRect(0, 0, this.realCanvas.getWidth(), this.realCanvas.getHeight());
+        this.contexte.setFill(Color.WHITE);
+        this.contexte.fillRect(0, 0, this.realCanvas.getWidth(), this.realCanvas.getHeight());
         
     }
     
-    public void test(){
-        GraphicsContext contexte = this.realCanvas.getGraphicsContext2D();
-        contexte.strokeLine(USE_PREF_SIZE, USE_PREF_SIZE, USE_PREF_SIZE, USE_PREF_SIZE);
-    }
+
     
 }

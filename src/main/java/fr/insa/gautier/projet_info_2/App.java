@@ -26,7 +26,8 @@ public class App extends Application {
         // On recupere du fichier tous les revetements
         ArrayList<Revetement> Revetements = new ArrayList();
         LectureRevetements(Revetements);
-
+        
+        var controleur = new Controleur();
         var scene = new Scene(new MainPaine());
         stage.setTitle("projet info S2");
         stage.setScene(scene);
