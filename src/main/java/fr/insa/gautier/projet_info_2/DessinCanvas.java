@@ -6,27 +6,36 @@ package fr.insa.gautier.projet_info_2;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 
 /**
  *
  * @author gserouart01
  */
-public class DessinCanvas extends Pane{
+public class DessinCanvas extends Region{
     
     private Canvas realCanvas ;
     
     public DessinCanvas() {
         this.realCanvas = new Canvas(this.getWidth(),this.getHeight());
+        this.getChildren().add(this.realCanvas);
+        this.realCanvas.heightProperty().bind(this.heightProperty());
+        this.realCanvas.heightProperty().addListener((o) -> {
+            this.redrawAll();
+        });
+        this.realCanvas.widthProperty().bind(this.widthProperty());
+        this.realCanvas.widthProperty().addListener((o) -> {
+            this.redrawAll();
+        });
         redrawAll();
     }
     
     public void redrawAll() {
         
         GraphicsContext contexte = this.realCanvas.getGraphicsContext2D();
-        contexte.setFill(Color.RED);
-        contexte.fillRect(0, 0, this.getWidth(), this.getHeight());
+        contexte.setFill(Color.WHITE);
+        contexte.fillRect(0, 0, this.realCanvas.getWidth(), this.realCanvas.getHeight());
         
     }
     
