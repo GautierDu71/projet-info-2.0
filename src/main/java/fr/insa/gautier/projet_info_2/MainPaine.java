@@ -5,6 +5,7 @@
 package fr.insa.gautier.projet_info_2;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -114,8 +115,13 @@ public class MainPaine extends BorderPane {
         
         try {
             FileWriter myWriter = new FileWriter("Sauvegarde.txt");
-            myWriter.write("Files in Java might be tricky, but it is fun enough!");
-            myWriter.close();
+            BufferedWriter buffer = new BufferedWriter(myWriter);
+
+            
+            buffer.write("Files in Java might be tricky, but it is fun enough!");
+            
+            
+            buffer.close();
             System.out.println("Successfully wrote to the file.");
         } catch (IOException e) {
             System.out.println("An error occurred.");
