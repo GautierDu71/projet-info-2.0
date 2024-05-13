@@ -29,6 +29,8 @@ public class MainPaine extends BorderPane {
     private Button bNouvellePiece;
     private Button bDevis;
     private Button bFin;
+    private Button bSauvegarder;
+    private Button bCharger;
     
     private DessinCanvas cDessin;
     
@@ -49,6 +51,13 @@ public class MainPaine extends BorderPane {
         this.bFin = new Button("Fin");
         this.bFin.setOnAction(event ->{
             bcFin();
+        });
+        this.bSauvegarder = new Button("Sauvegarder");
+        this.bSauvegarder.setOnAction(event ->{
+            bcSauvegarder();
+        });this.bCharger = new Button("Charger");
+        this.bCharger.setOnAction(event ->{
+            bcCharger();
         });
         VBox vbDroite = new VBox(this.bNouvelEtage,this.bNouvellePiece,this.bDevis,this.bFin);
         vbDroite.setSpacing(10);
@@ -76,5 +85,101 @@ public class MainPaine extends BorderPane {
     public void bcFin(){
         System.out.println("des crêpes");
     }
+    public void bcSauvegarder(){
+        System.out.println("des crêpes");
+    }
+    public void bcCharger(){
+        System.out.println("Chargement...");
+        LectureSauvegarde();
+        
+    }
     
+    public void LectureSauvegarde() {
+	try {
+            // Création d'un fileReader pour lire le fichier
+            FileReader fileReader = new FileReader("Sauvegarde.txt");
+            
+            // Création d'un bufferedReader qui utilise le fileReader
+            BufferedReader reader = new BufferedReader(fileReader);
+			
+            String line = reader.readLine();
+                       
+            while (line != null) {
+                // creation de variables temporaires
+                int separateurs[] = new int[5];
+                int indPtVirgule = 0;
+                int tempId = 0;
+                double tempPrix = 0;
+                boolean tempPourSol, tempPourMur,tempPourPlafond;
+                char ptVirgule = ';';
+                int lecteur = 0;
+                int nombre;
+                char tempChar[] = new char[25];
+                
+                // affichage de la ligne
+                System.out.println(line);
+                
+                while (lecteur < line.length()) {
+                    char iEmeChar = line.charAt(lecteur);
+                    if (iEmeChar == ptVirgule) {
+                        //on crée un tabeau avec les emplacements des ";"
+                        separateurs[indPtVirgule]=lecteur;
+                        indPtVirgule++;
+                        //System.out.println(separateurs[0]);
+                        //System.out.println(indPtVirgule);
+                        iEmeChar++;
+                    }
+                    lecteur++;
+                }
+                
+                // On recupere le nom du revetement
+                line.getChars(separateurs[0] + 1, separateurs[1], tempChar, 0);
+                String tempNom = new String(tempChar);
+                
+                // On recupere els valeurs booleennes du revetement
+                tempPourMur = (1 == Character.getNumericValue(line.charAt(separateurs[1]+1)));
+                tempPourSol = (1 == Character.getNumericValue(line.charAt(separateurs[2]+1)));
+                tempPourPlafond = (1 == Character.getNumericValue(line.charAt(separateurs[3]+1)));
+                
+                // on recupere les valeurs numeriques :
+                for (int i=0; i<line.length(); i++){
+                    if (!(";".equals(line.charAt(i)))) {
+                        
+                        nombre = Character.getNumericValue(line.charAt(i));
+                        
+                        if (i < separateurs[0]) {
+                            // on ajoute le nombre multiplie a la puissance de 10 correspondant
+                            // a son rang dans la valeur temporaire
+                            tempId += nombre * Math.pow(10, separateurs[0]-i-1);
+                        }
+                        
+                        // idem mais on doit prendre en compte la virgule et l'ignorer
+                        if ((i > separateurs[4]) && (i < line.length() - 3)) {
+                            if (!(nombre == -1)) {
+                                tempPrix += nombre * Math.pow(10, separateurs[4]-(i-2));
+                            }
+                        }
+                        if (i > line.length() - 3) {
+                            if (!(nombre == -1)) {
+                                tempPrix += nombre * Math.pow(10, separateurs[4]-(i-3));
+                                
+                            }
+                        }
+                    }
+                }
+                // manoeuvre d'arrondis pour eviter les imprecisions a 0.00000001 pres
+                tempPrix = (Math.round(tempPrix*100));
+                double prix = tempPrix/100;
+                
+                // ajout le revetement a une Array List
+                Revetements.add(new Revetement(tempId, tempNom, tempPourPlafond, tempPourSol, tempPourMur, prix));
+                
+                // lecture de la prochaine ligne
+                line = reader.readLine();
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

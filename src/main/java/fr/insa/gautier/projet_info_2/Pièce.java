@@ -18,6 +18,10 @@ public class Pièce {
         this.sol = sol;
     }
 
+    public Pièce(ArrayList<Coin> coins, Revetement sol) {
+        this.coins = coins;
+        this.sol = sol;
+    }
    
     public double prix() {        
         return this.sol.getPrixUnitaire()*surface();
