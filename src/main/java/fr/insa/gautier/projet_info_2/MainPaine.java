@@ -92,14 +92,24 @@ public class MainPaine extends BorderPane {
     }
     public void bcSauvegarder(){
         System.out.println("des crêpes");
-        Sauvegarde();
+        
+        
+        ArrayList<Etage> Etages = new ArrayList();
+        Etages.add(new Etage(0,2));
+        
+        ArrayList<Batiment> Batiments = new ArrayList();
+        Batiments.add(new Batiment(0,Etages));
+       
+        ArrayList<Coin> Coins = new ArrayList();
+        Coins.add(new Coin(0,1,2,Etages.get(0)));
+        Sauvegarde(Coins,Etages,Batiments/*,Murs,Pieces,*/);
     }
     public void bcCharger(){
         System.out.println("Chargement...");
         LectureSauvegarde();
         
     }
-    public void Sauvegarde() {
+    public void Sauvegarde(ArrayList<Coin> Coins,ArrayList<Etage> Etages,ArrayList<Batiment> Batiments/*,ArrayList<Pièce> Pieces,ArrayList<Mur> Murs*/) {
         try (PrintWriter out = new PrintWriter("Sauvegarde.txt")) {
             File myObj = new File("Sauvegarde.txt");
             if (myObj.createNewFile()) {
@@ -116,14 +126,30 @@ public class MainPaine extends BorderPane {
         try {
             FileWriter myWriter = new FileWriter("Sauvegarde.txt");
             BufferedWriter buffer = new BufferedWriter(myWriter);
-
             
-            buffer.write("Files in Java might be tricky, but it is fun enough!");
+            buffer.write("BATIMENTS"+'\r');
+            for (int b = 0; b < Batiments.size(); b++) {
+                buffer.write(Batiments.get(b).getIdBatiment()+","+Batiments.get(b).getEtages().size()+'\r');
+            }
+            buffer.write('\r'+'\r');
+            for (int b = 0; b < Batiments.size(); b++) {
+                buffer.write("** Batiment "+Batiments.get(b).getIdBatiment()+" **"+'\r'+'\r');
+                buffer.write("ETAGES"+'\r');
+                for (int i = 0; i < Etages.size(); i++) {
+                    buffer.write(Etages.get(i).getId()+","+Etages.get(i).getHauteur()+'\r');
+                }
             
-            
+                buffer.write('\r'+"COINS"+'\r');
+                for (int i = 0; i < Coins.size(); i++){
+                    buffer.write(Coins.get(i).getId()+","+Coins.get(i).getX()+","+Coins.get(i).getY()+","+Coins.get(i).getEtage().getId()+'\r');
+                }
+                
+            }
+            buffer.write('\r'+"FIN");
+                
             buffer.close();
             System.out.println("Successfully wrote to the file.");
-        } catch (IOException e) {
+            } catch (IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
