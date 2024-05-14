@@ -23,8 +23,9 @@ public class Revetement {
         this.prixUnitaire = prixUnitaire;
     }
 
-    
-    
+    public Revetement(int idRev) {
+        this.idRev = idRev;
+    }
     
     public boolean isPourPlafond() {
         return pourPlafond;

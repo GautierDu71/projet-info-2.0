@@ -50,5 +50,23 @@ public class Pièce {
     public String toString() {
         return "Pi\u00e8ce{" + "coins=" + coins + '}';
     }
+
+    public ArrayList<Coin> getCoins() {
+        return coins;
+    }
+
+    public void setCoins(ArrayList<Coin> coins) {
+        this.coins = coins;
+    }
+
+    public Revetement getSol() {
+        return sol;
+    }
+
+    public void setSol(Revetement sol) {
+        this.sol = sol;
+    }
+    
+    
             
 }

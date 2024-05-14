@@ -104,14 +104,23 @@ public class MainPaine extends BorderPane {
        
         ArrayList<Coin> Coins = new ArrayList();
         Coins.add(new Coin(0,1,2,Etages.get(0)));
-        Sauvegarde(Coins,Etages,Batiments/*,Murs,Pieces,*/);
+        Coins.add(new Coin(1,3,5,Etages.get(0)));
+        
+        ArrayList<Mur> Murs = new ArrayList();
+        Murs.add(new Mur(Coins.get(0),Coins.get(1)));
+        
+        ArrayList<Pièce> Pieces = new ArrayList();
+        Pieces.add(new Pièce(Coins,new Revetement(3222)));
+        
+        Sauvegarde(Coins,Etages,Batiments,Murs,Pieces);
+
     }
     public void bcCharger(){
         System.out.println("Chargement...");
         LectureSauvegarde();
         
     }
-    public void Sauvegarde(ArrayList<Coin> Coins,ArrayList<Etage> Etages,ArrayList<Batiment> Batiments/*,ArrayList<Pièce> Pieces,ArrayList<Mur> Murs*/) {
+    public void Sauvegarde(ArrayList<Coin> Coins,ArrayList<Etage> Etages,ArrayList<Batiment> Batiments,ArrayList<Mur> Murs,ArrayList<Pièce> Pieces) {
         try (PrintWriter out = new PrintWriter("Sauvegarde.txt")) {
             File myObj = new File("Sauvegarde.txt");
             if (myObj.createNewFile()) {
@@ -129,11 +138,13 @@ public class MainPaine extends BorderPane {
             FileWriter myWriter = new FileWriter("Sauvegarde.txt");
             BufferedWriter buffer = new BufferedWriter(myWriter);
             
+            buffer.flush();
+            
             buffer.write("BATIMENTS"+'\r');
             for (int b = 0; b < Batiments.size(); b++) {
                 buffer.write(Batiments.get(b).getIdBatiment()+","+Batiments.get(b).getEtages().size()+'\r');
             }
-            buffer.write('\r'+'\r');
+            buffer.write('\r');
             for (int b = 0; b < Batiments.size(); b++) {
                 buffer.write("** Batiment "+Batiments.get(b).getIdBatiment()+" **"+'\r'+'\r');
                 buffer.write("ETAGES"+'\r');
@@ -145,6 +156,23 @@ public class MainPaine extends BorderPane {
                 for (int i = 0; i < Coins.size(); i++){
                     buffer.write(Coins.get(i).getId()+","+Coins.get(i).getX()+","+Coins.get(i).getY()+","+Coins.get(i).getEtage().getId()+'\r');
                 }
+                
+                buffer.write('\r'+"MURS"+'\r');
+                for (int i = 0; i < Murs.size(); i++){
+                    buffer.write(Murs.get(i).getPt1().getId()+","+Murs.get(i).getPt1().getId()+","+Murs.get(i).getRev1()+","+Murs.get(i).getRev2()+","+Murs.get(i).getRev3()+","+
+                            Murs.get(i).getSeparation()+","+Murs.get(i).getPortes()+","+Murs.get(i).getFenetres()+'\r');
+                }
+                
+                buffer.write('\r'+"PIECES"+'\r');
+                for (int i = 0; i < Pieces.size(); i++){
+                    buffer.write(Pieces.get(i).getSol().getIdRev());
+                    buffer.write("ggggg");
+                    for (int j = 0; j < Pieces.get(i).getCoins().size(); j++) {
+                        buffer.write(","+Pieces.get(i).getCoins().get(j).getId());
+                    }
+                    buffer.write('\r');
+                }
+                
                 
             }
             buffer.write('\r'+"FIN");
