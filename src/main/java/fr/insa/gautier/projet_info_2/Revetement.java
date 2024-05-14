@@ -22,10 +22,6 @@ public class Revetement {
         this.pourMur = pourMur;
         this.prixUnitaire = prixUnitaire;
     }
-
-    public Revetement(int idRev) {
-        this.idRev = idRev;
-    }
     
     public boolean isPourPlafond() {
         return pourPlafond;

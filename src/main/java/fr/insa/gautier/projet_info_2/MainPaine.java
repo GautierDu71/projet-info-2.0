@@ -110,7 +110,7 @@ public class MainPaine extends BorderPane {
         Murs.add(new Mur(Coins.get(0),Coins.get(1)));
         
         ArrayList<Pièce> Pieces = new ArrayList();
-        Pieces.add(new Pièce(Coins,new Revetement(3222)));
+        Pieces.add(new Pièce(Coins,new Revetement(1,"nn",true, true, true,3)));
         
         Sauvegarde(Coins,Etages,Batiments,Murs,Pieces);
 
@@ -124,9 +124,9 @@ public class MainPaine extends BorderPane {
         try (PrintWriter out = new PrintWriter("Sauvegarde.txt")) {
             File myObj = new File("Sauvegarde.txt");
             if (myObj.createNewFile()) {
-                System.out.println("File created: " + myObj.getName());
+                System.out.println("Fichier cree: " + myObj.getName());
             } else {
-                System.out.println("File already exists.");
+                System.out.println("Fichier sauvegarde trouve.");
             }
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
@@ -144,29 +144,28 @@ public class MainPaine extends BorderPane {
             for (int b = 0; b < Batiments.size(); b++) {
                 buffer.write(Batiments.get(b).getIdBatiment()+","+Batiments.get(b).getEtages().size()+'\r');
             }
-            buffer.write('\r');
+            buffer.write("."+'\r');
             for (int b = 0; b < Batiments.size(); b++) {
-                buffer.write("** Batiment "+Batiments.get(b).getIdBatiment()+" **"+'\r'+'\r');
+                buffer.write("** Batiment "+Batiments.get(b).getIdBatiment()+" **"+'\r'+"."+'\r');
                 buffer.write("ETAGES"+'\r');
                 for (int i = 0; i < Etages.size(); i++) {
                     buffer.write(Etages.get(i).getId()+","+Etages.get(i).getHauteur()+'\r');
                 }
             
-                buffer.write('\r'+"COINS"+'\r');
+                buffer.write("."+'\r'+"COINS"+'\r');
                 for (int i = 0; i < Coins.size(); i++){
                     buffer.write(Coins.get(i).getId()+","+Coins.get(i).getX()+","+Coins.get(i).getY()+","+Coins.get(i).getEtage().getId()+'\r');
                 }
                 
-                buffer.write('\r'+"MURS"+'\r');
+                buffer.write("."+'\r'+"MURS"+'\r');
                 for (int i = 0; i < Murs.size(); i++){
                     buffer.write(Murs.get(i).getPt1().getId()+","+Murs.get(i).getPt1().getId()+","+Murs.get(i).getRev1()+","+Murs.get(i).getRev2()+","+Murs.get(i).getRev3()+","+
                             Murs.get(i).getSeparation()+","+Murs.get(i).getPortes()+","+Murs.get(i).getFenetres()+'\r');
                 }
                 
-                buffer.write('\r'+"PIECES"+'\r');
+                buffer.write("."+'\r'+"PIECES"+'\r');
                 for (int i = 0; i < Pieces.size(); i++){
-                    buffer.write(Pieces.get(i).getSol().getIdRev());
-                    buffer.write("ggggg");
+                    buffer.write(Pieces.get(i).getSol().getNom());
                     for (int j = 0; j < Pieces.get(i).getCoins().size(); j++) {
                         buffer.write(","+Pieces.get(i).getCoins().get(j).getId());
                     }
@@ -175,12 +174,12 @@ public class MainPaine extends BorderPane {
                 
                 
             }
-            buffer.write('\r'+"FIN");
+            //buffer.write("."+'\r'+"FIN");
                 
             buffer.close();
-            System.out.println("Successfully wrote to the file.");
+            System.out.println("Sauvegarde terminee.");
             } catch (IOException e) {
-            System.out.println("An error occurred.");
+            System.out.println("Erreur.");
             e.printStackTrace();
         }
     }
@@ -195,21 +194,58 @@ public class MainPaine extends BorderPane {
             BufferedReader reader = new BufferedReader(fileReader);
 			
             String line = reader.readLine();
-                       
+            line = reader.readLine();
+            
             while (line != null) {
                 // creation de variables temporaires
-                int separateurs[] = new int[5];
-                int indPtVirgule = 0;
-                int tempId = 0;
-                double tempPrix = 0;
-                boolean tempPourSol, tempPourMur,tempPourPlafond;
-                char ptVirgule = ';';
-                int lecteur = 0;
-                int nombre;
-                char tempChar[] = new char[25];
-                
+                char tempChar[] = new char[10];
+                int etat = 0;
+                int batNo = 0;
                 // affichage de la ligne
                 System.out.println(line);
+                
+                switch (line) {
+                    case "BATIMENTS":
+                        etat = 1;
+                        break;
+                    case "ETAGES":
+                        etat = 2;
+                        break;
+                    case "COINS":
+                        etat = 3;
+                        break;
+                    case "MURS":
+                        etat = 4;
+                        break;
+                    case "PIECES":
+                        etat = 5;
+                        break;
+                    default:
+                        break;
+                }
+                
+                switch (etat) {
+                    case 0:
+                        
+                        break;
+                    case 1:
+                        
+                        break;
+                    case 2:
+                        
+                        break;
+                    case 3:
+                        
+                        break;
+                    case 4:
+                        
+                        break;
+                    case 5:
+                        
+                        break;
+                }
+                
+                String tempNom = new String(tempChar);
                 
                 while (lecteur < line.length()) {
                     char iEmeChar = line.charAt(lecteur);
@@ -225,8 +261,7 @@ public class MainPaine extends BorderPane {
                 }
                 
                 // On recupere le nom du revetement
-                line.getChars(separateurs[0] + 1, separateurs[1], tempChar, 0);
-                String tempNom = new String(tempChar);
+                
                 
                 // On recupere els valeurs booleennes du revetement
                 tempPourMur = (1 == Character.getNumericValue(line.charAt(separateurs[1]+1)));
