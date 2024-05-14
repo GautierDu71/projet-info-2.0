@@ -28,7 +28,7 @@ public class App extends Application {
         LectureRevetements(Revetements);
         
         var controleur = new Controleur();
-        var scene = new Scene(new MainPaine());
+        var scene = new Scene(new MainPaine(),800,800);
         stage.setTitle("projet info S2");
         stage.setScene(scene);
         stage.show();
