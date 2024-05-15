@@ -18,35 +18,42 @@ import javafx.scene.input.MouseEvent;
 public class Controleur {
     
     private Etage etage = new Etage(2,2);
-    private boolean creationPiece = false;
+    private DessinCanvas canvas;
+    //états: 1:dessinpièce
+    private int etat = 0;
     
     
-    public void dessinPiece(DessinCanvas canvas) {
+    public Controleur(DessinCanvas canvas) {
         
+        this.canvas = canvas ;
         ArrayList<Coin> coins = new ArrayList<Coin>() ;
-        canvas.contexte.setLineWidth(5);
-        this.creationPiece = true ;
-        
-        
-        
-        canvas.setOnMouseClicked(o->{
+                
+        this.canvas.setOnMouseClicked(o->{
+            
            double x = o.getX();
            double y = o.getY();
            
-           if (this.creationPiece){
-           if (coins.isEmpty()){
+           switch (etat) {
+               case 0:
+               break;
+               
+               case 1:
+               canvas.contexte.setLineWidth(5);
+                     
+               if (coins.isEmpty()){
                coins.add(new Coin(coins.size(),x,y,etage));
-           }  else if(coinProche(coins,x,y)) {
+               }  else if(coinProche(coins,x,y)) {
                canvas.contexte.strokeLine(coins.get(coins.size()-1).getX(),coins.get(coins.size()-1).getY() , coins.get(0).getX(), coins.get(0).getY());
-               this.creationPiece = false;
-           } else {
-           canvas.contexte.strokeLine(coins.get(coins.size()-1).getX(),coins.get(coins.size()-1).getY() , x, y);
-           coins.add(new Coin(coins.size(),x,y,etage));
-           }
+               this.etat = 0;
+               } else {
+               canvas.contexte.strokeLine(coins.get(coins.size()-1).getX(),coins.get(coins.size()-1).getY() , x, y);
+               coins.add(new Coin(coins.size(),x,y,etage));
+               } break ;
+           
            }
         });
-        
-    }
+    }    
+    
     
     public boolean coinProche(ArrayList<Coin> coins, double x, double y){
         int i;
@@ -57,6 +64,10 @@ public class Controleur {
             }
         }
         return result;
+    }
+    
+        public void dessinPiece() {        
+        this.etat = 1 ;        
     }
     
 }

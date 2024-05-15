@@ -30,8 +30,8 @@ import javafx.scene.layout.VBox;
  */
 public class MainPaine extends BorderPane {
     
-    private Controleur controleur = new Controleur();
-    
+
+
     private Button bNouvelEtage;
     private Button bNouvellePiece;
     private Button bDevis;
@@ -40,8 +40,11 @@ public class MainPaine extends BorderPane {
     private Button bCharger;
     
     private DessinCanvas cDessin;
+    private Controleur controleur = new Controleur(this.cDessin);
     
     public MainPaine() {
+        
+        
         
         this.bNouvelEtage = new Button("Nouvel étage");
         this.bNouvelEtage.setOnAction(event ->{
@@ -84,7 +87,7 @@ public class MainPaine extends BorderPane {
         System.out.println("fpsdojfpjospdojfpsojdfs");
     }
     public void bcNouvellePiece(){
-        this.controleur.dessinPiece(cDessin);
+        this.controleur.dessinPiece();
     }
     public void bcDevis(){
         System.out.println("fais moi");

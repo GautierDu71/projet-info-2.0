@@ -27,9 +27,8 @@ public class App extends Application {
         ArrayList<Revetement> Revetements = new ArrayList();
         LectureRevetements(Revetements);
         
-        var controleur = new Controleur();
         var scene = new Scene(new MainPaine(),800,800);
-        stage.setTitle("projet info S2");
+        stage.setTitle("projet info 2.0 dolby digital stereo laser 2024");
         stage.setScene(scene);
         stage.show();
     }
