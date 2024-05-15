@@ -196,79 +196,88 @@ public class MainPaine extends BorderPane {
             String line = reader.readLine();
             line = reader.readLine();
             
+            char tempChar[] = new char[10];
+            int etat = 0;
+            int batNo = 0;
+            int lnDepuisChangement = 0;
+            char Virgule = ',';
+            
             while (line != null) {
                 // creation de variables temporaires
-                char tempChar[] = new char[10];
-                int etat = 0;
-                int batNo = 0;
+                int lecteur = 0;
+                int indVirgules[];
+                int comptVirgules = 0;
                 // affichage de la ligne
                 System.out.println(line);
                 
                 switch (line) {
                     case "BATIMENTS":
+                        lnDepuisChangement = 0;
                         etat = 1;
+                        indVirgules = new int[1];
                         break;
                     case "ETAGES":
+                        lnDepuisChangement = 0;
                         etat = 2;
+                        indVirgules = new int[1];
                         break;
                     case "COINS":
+                        lnDepuisChangement = 0;
                         etat = 3;
+                        indVirgules = new int[3];
                         break;
                     case "MURS":
+                        lnDepuisChangement = 0;
                         etat = 4;
+                        indVirgules = new int[6];
                         break;
                     case "PIECES":
+                        lnDepuisChangement = 0;
                         etat = 5;
+                        indVirgules = new int[2];
                         break;
                     default:
+                        lnDepuisChangement++;
+                        indVirgules = new int[1];
                         break;
                 }
+                System.out.println("taille indVirg = "+indVirgules.length);
                 
-                switch (etat) {
-                    case 0:
-                        
-                        break;
-                    case 1:
-                        
-                        break;
-                    case 2:
-                        
-                        break;
-                    case 3:
-                        
-                        break;
-                    case 4:
-                        
-                        break;
-                    case 5:
-                        
-                        break;
+                while (lecteur < line.length()) {
+                    char iEmeChar = line.charAt(lecteur);
+                    if (iEmeChar == Virgule) {
+                        //on crée un tabeau avec les emplacements des ";"
+                        System.out.println("lecteur = "+lecteur+" + iemechar = "+iEmeChar+" + comptVirgules = "+comptVirgules);
+                        indVirgules[comptVirgules] = lecteur;
+                        comptVirgules++;
+                    }
+                    lecteur++;
+                }
+                
+                if (etat == 0 && lnDepuisChangement > 0) {
+                
+                } else if(etat == 1 && lnDepuisChangement > 0) {
+                
+                } else if(etat == 2 && lnDepuisChangement > 0) {
+                
+                } else if(etat == 3 && lnDepuisChangement > 0) {
+                
+                } else if(etat == 4 && lnDepuisChangement > 0) {
+                
+                } else if(etat == 5 && lnDepuisChangement > 0) {
+                
                 }
                 
                 String tempNom = new String(tempChar);
                 
-                while (lecteur < line.length()) {
-                    char iEmeChar = line.charAt(lecteur);
-                    if (iEmeChar == ptVirgule) {
-                        //on crée un tabeau avec les emplacements des ";"
-                        separateurs[indPtVirgule]=lecteur;
-                        indPtVirgule++;
-                        //System.out.println(separateurs[0]);
-                        //System.out.println(indPtVirgule);
-                        iEmeChar++;
-                    }
-                    lecteur++;
-                }
+                
                 
                 // On recupere le nom du revetement
                 
                 
                 // On recupere els valeurs booleennes du revetement
-                tempPourMur = (1 == Character.getNumericValue(line.charAt(separateurs[1]+1)));
-                tempPourSol = (1 == Character.getNumericValue(line.charAt(separateurs[2]+1)));
-                tempPourPlafond = (1 == Character.getNumericValue(line.charAt(separateurs[3]+1)));
                 
-                // on recupere les valeurs numeriques :
+                /*
                 for (int i=0; i<line.length(); i++){
                     if (!(";".equals(line.charAt(i)))) {
                         
@@ -294,14 +303,18 @@ public class MainPaine extends BorderPane {
                         }
                     }
                 }
+                */
                 // manoeuvre d'arrondis pour eviter les imprecisions a 0.00000001 pres
-                tempPrix = (Math.round(tempPrix*100));
-                double prix = tempPrix/100;
+                
                 
                 // ajout le revetement a une Array List
                 
                 // lecture de la prochaine ligne
+                comptVirgules = 0;
                 line = reader.readLine();
+                System.out.println("etat = "+etat);
+                System.out.println("lnDepuisChangement = "+lnDepuisChangement);
+                System.out.println("comptVirgules = "+comptVirgules);
             }
             reader.close();
         } catch (IOException e) {
