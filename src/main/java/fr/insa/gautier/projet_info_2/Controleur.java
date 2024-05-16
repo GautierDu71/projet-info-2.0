@@ -20,6 +20,7 @@ import javafx.scene.input.MouseEvent;
  */
 public class Controleur {
     
+   
     private Etage etage = new Etage(2,2);
     //private DessinCanvas canvas;
     //états: 0:défaut 10:dessinpièce
@@ -46,7 +47,7 @@ public class Controleur {
                case 0:
                break;
                
-               case 1:
+               case 10:
                canvas_.contexte.setLineWidth(5);
                      
                if (coins.isEmpty()){
