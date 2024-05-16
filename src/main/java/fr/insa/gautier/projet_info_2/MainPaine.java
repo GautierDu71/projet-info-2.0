@@ -12,10 +12,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Arrays;
 import java.util.ArrayList;
-import java.lang.Character;
-
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -204,7 +201,13 @@ public class MainPaine extends BorderPane {
             int batNo = 0;
             int lnDepuisChangement = 0;
             char Virgule = ',';
-            
+            ArrayList<Batiment> Batiments = new ArrayList();
+            ArrayList<Etage> Etages = new ArrayList();
+            ArrayList<Coin> Coins = new ArrayList();
+            ArrayList<Mur> Murs = new ArrayList();
+            ArrayList<Pièce> Pieces = new ArrayList();
+
+
             while (line != null) {
                 // creation de variables temporaires
                 int lecteur = 0;
@@ -260,7 +263,7 @@ public class MainPaine extends BorderPane {
                 if (etat == 0 && lnDepuisChangement > 0) {
                     
                 } else if(etat == 1 && lnDepuisChangement > 0) {
-                
+                    Batiments.add(new Batiment(calculNombre(line,0,indVirgules[0])),);
                 } else if(etat == 2 && lnDepuisChangement > 0) {
                 
                 } else if(etat == 3 && lnDepuisChangement > 0) {
@@ -288,6 +291,7 @@ public class MainPaine extends BorderPane {
             e.printStackTrace();
         }
     }
+    
     
     public int calculNombre(String line, int debut, int fin) {
         int res = 0;
