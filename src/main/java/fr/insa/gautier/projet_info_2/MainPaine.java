@@ -36,7 +36,7 @@ public class MainPaine extends BorderPane {
     private Button bSauvegarder;
     private Button bCharger;
     
-    private DessinCanvas cDessin;
+    private DessinCanvas cDessin = new DessinCanvas();
     private Controleur controleur = new Controleur(this.cDessin);
     
     public MainPaine() {
@@ -263,7 +263,7 @@ public class MainPaine extends BorderPane {
                 if (etat == 0 && lnDepuisChangement > 0) {
                     
                 } else if(etat == 1 && lnDepuisChangement > 0) {
-                    Batiments.add(new Batiment(calculNombre(line,0,indVirgules[0])),);
+                    //Batiments.add(new Batiment(calculNombre(line,0,indVirgules[0])),);
                 } else if(etat == 2 && lnDepuisChangement > 0) {
                 
                 } else if(etat == 3 && lnDepuisChangement > 0) {
