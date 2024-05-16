@@ -21,38 +21,41 @@ import javafx.scene.input.MouseEvent;
 public class Controleur {
     
     private Etage etage = new Etage(2,2);
-    private DessinCanvas canvas;
+    //private DessinCanvas canvas;
     //états: 1:dessinpièce
     private int etat = 0;
     
     
-    public Controleur(DessinCanvas canvas) {
+    public Controleur(DessinCanvas canvas_) {
         
         ArrayList<Revetement> Revetements = new ArrayList();
         LectureRevetements(Revetements);
         
-        this.canvas = canvas ;
+        
         ArrayList<Coin> coins = new ArrayList<Coin>() ;
-                
-        this.canvas.setOnMouseClicked(o->{
+        
+        //this.canvas = canvas_ ;
+        canvas_.setOnMouseClicked(o->{
             
            double x = o.getX();
            double y = o.getY();
            
-           switch (etat) {
+           System.out.println(this.etat);
+           
+           switch (this.etat) {
                case 0:
                break;
                
                case 1:
-               canvas.contexte.setLineWidth(5);
+               canvas_.contexte.setLineWidth(5);
                      
                if (coins.isEmpty()){
                coins.add(new Coin(coins.size(),x,y,etage));
                }  else if(coinProche(coins,x,y)) {
-               canvas.contexte.strokeLine(coins.get(coins.size()-1).getX(),coins.get(coins.size()-1).getY() , coins.get(0).getX(), coins.get(0).getY());
+               canvas_.contexte.strokeLine(coins.get(coins.size()-1).getX(),coins.get(coins.size()-1).getY() , coins.get(0).getX(), coins.get(0).getY());
                this.etat = 0;
                } else {
-               canvas.contexte.strokeLine(coins.get(coins.size()-1).getX(),coins.get(coins.size()-1).getY() , x, y);
+               canvas_.contexte.strokeLine(coins.get(coins.size()-1).getX(),coins.get(coins.size()-1).getY() , x, y);
                coins.add(new Coin(coins.size(),x,y,etage));
                } break ;
            

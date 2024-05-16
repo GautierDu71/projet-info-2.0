@@ -36,12 +36,13 @@ public class MainPaine extends BorderPane {
     private Button bSauvegarder;
     private Button bCharger;
     
-    private DessinCanvas cDessin = new DessinCanvas();
-    private Controleur controleur = new Controleur(this.cDessin);
+    private DessinCanvas cDessin ;
+    private Controleur controleur ;
     
     public MainPaine() {
         
-        
+        this.cDessin = new DessinCanvas();
+        this.controleur = new Controleur(this.cDessin);
         
         this.bNouvelEtage = new Button("Nouvel étage");
         this.bNouvelEtage.setOnAction(event ->{
