@@ -82,7 +82,7 @@ public class MainPaine extends BorderPane {
     }
     
     public void bcNouvelEtage(){
-        
+        this.controleur.nouvelEtage();
     }
     public void bcNouvellePiece(){
         this.controleur.dessinPiece();
@@ -101,7 +101,7 @@ public class MainPaine extends BorderPane {
         Etages.add(new Etage(0,2));
         
         ArrayList<Batiment> Batiments = new ArrayList();
-        Batiments.add(new Batiment(0,Etages));
+        Batiments.add(new Batiment(0));
        
         ArrayList<Coin> Coins = new ArrayList();
         Coins.add(new Coin(0,1,2,Etages.get(0)));
