@@ -212,7 +212,7 @@ public class MainPaine extends BorderPane {
             while (line != null) {
                 // creation de variables temporaires
                 int lecteur = 0;
-                int indVirgules[];
+                int indVirgules[] = new int[7];
                 int comptVirgules = 0;
                 // affichage de la ligne
                 System.out.println(line);
@@ -221,40 +221,35 @@ public class MainPaine extends BorderPane {
                     case "BATIMENTS":
                         lnDepuisChangement = 0;
                         etat = 1;
-                        indVirgules = new int[1];
                         break;
                     case "ETAGES":
                         lnDepuisChangement = 0;
                         etat = 2;
-                        indVirgules = new int[1];
                         break;
                     case "COINS":
                         lnDepuisChangement = 0;
                         etat = 3;
-                        indVirgules = new int[3];
                         break;
                     case "MURS":
                         lnDepuisChangement = 0;
                         etat = 4;
-                        indVirgules = new int[6];
                         break;
                     case "PIECES":
                         lnDepuisChangement = 0;
                         etat = 5;
-                        indVirgules = new int[2];
                         break;
+                    case ".":
+                        break;
+                        
                     default:
                         lnDepuisChangement++;
-                        indVirgules = new int[1];
                         break;
                 }
-                System.out.println("taille indVirg = "+indVirgules.length);
                 
                 while (lecteur < line.length()) {
                     char iEmeChar = line.charAt(lecteur);
                     if (iEmeChar == virgule) {
                         //on crée un tabeau avec les emplacements des ";"
-                        System.out.println("lecteur = "+lecteur+" + iemechar = "+iEmeChar+" + comptVirgules = "+comptVirgules);
                         indVirgules[comptVirgules] = lecteur;
                         comptVirgules++;
                     }
@@ -266,7 +261,8 @@ public class MainPaine extends BorderPane {
                 } else if(etat == 1 && lnDepuisChangement > 0) {
 
                 } else if(etat == 2 && lnDepuisChangement > 0) {
-                    Etages.add(new Etage(calculInt(line,0,indVirgules[0]),calculDouble(line,indVirgules[0]+1,line.length())));
+                    Etages.add(new Etage(calculInt(line,0,indVirgules[0]), Double.parseDouble(line.substring(indVirgules[0]+1, line.length()))));
+                    //System.out.println(Etages.get(0));
                 } else if(etat == 3 && lnDepuisChangement > 0) {
                 
                 } else if(etat == 4 && lnDepuisChangement > 0) {
@@ -283,9 +279,6 @@ public class MainPaine extends BorderPane {
                 // lecture de la prochaine ligne
                 comptVirgules = 0;
                 line = reader.readLine();
-                System.out.println("etat = "+etat);
-                System.out.println("lnDepuisChangement = "+lnDepuisChangement);
-                System.out.println("comptVirgules = "+comptVirgules);
             }
             reader.close();
         } catch (IOException e) {
@@ -297,25 +290,9 @@ public class MainPaine extends BorderPane {
     public int calculInt(String line, int debut, int fin) {
         int res = 0;
         for (int i = debut; i < fin; i++){
-            res += Character.getNumericValue(line.charAt(i)) * Math.pow(10, fin - debut - i);
+            res += Character.getNumericValue(line.charAt(i)) * Math.pow(10, fin - debut - i -1);
         }
+        System.out.println(res);
         return res;
-    }
-    public double calculDouble(String line, int debut, int fin) {
-        double res = 0;
-        int lecteur = 0;
-        char point = ',';
-        int indPoints = 0;
-        int comptPoints = 0;
-        
-        for (int i = 0; i< line.length(); i++) {
-            char iEmeChar = line.charAt(i);
-            if (iEmeChar == point) {
-                //on crée un tabeau avec les emplacements des ";"
-                indPoints = i;
-                comptPoints++;
-            }            
-        }
-        res += calculInt(line, debut, fin);
     }
 }
