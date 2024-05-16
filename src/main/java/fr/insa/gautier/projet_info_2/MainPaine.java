@@ -194,13 +194,13 @@ public class MainPaine extends BorderPane {
             BufferedReader reader = new BufferedReader(fileReader);
 			
             String line = reader.readLine();
-            line = reader.readLine();
             
             char tempChar[] = new char[10];
             int etat = 0;
             int batNo = 0;
             int lnDepuisChangement = 0;
-            char Virgule = ',';
+            char virgule = ',';
+            
             ArrayList<Batiment> Batiments = new ArrayList();
             ArrayList<Etage> Etages = new ArrayList();
             ArrayList<Coin> Coins = new ArrayList();
@@ -251,7 +251,7 @@ public class MainPaine extends BorderPane {
                 
                 while (lecteur < line.length()) {
                     char iEmeChar = line.charAt(lecteur);
-                    if (iEmeChar == Virgule) {
+                    if (iEmeChar == virgule) {
                         //on crée un tabeau avec les emplacements des ";"
                         System.out.println("lecteur = "+lecteur+" + iemechar = "+iEmeChar+" + comptVirgules = "+comptVirgules);
                         indVirgules[comptVirgules] = lecteur;
@@ -263,9 +263,9 @@ public class MainPaine extends BorderPane {
                 if (etat == 0 && lnDepuisChangement > 0) {
                     
                 } else if(etat == 1 && lnDepuisChangement > 0) {
-                    //Batiments.add(new Batiment(calculNombre(line,0,indVirgules[0])),);
+
                 } else if(etat == 2 && lnDepuisChangement > 0) {
-                
+                    Etages.add(new Etage(calculInt(line,0,indVirgules[0]),calculDouble(line,indVirgules[0]+1,line.length())));
                 } else if(etat == 3 && lnDepuisChangement > 0) {
                 
                 } else if(etat == 4 && lnDepuisChangement > 0) {
@@ -293,11 +293,28 @@ public class MainPaine extends BorderPane {
     }
     
     
-    public int calculNombre(String line, int debut, int fin) {
+    public int calculInt(String line, int debut, int fin) {
         int res = 0;
         for (int i = debut; i < fin; i++){
             res += Character.getNumericValue(line.charAt(i)) * Math.pow(10, fin - debut - i);
         }
         return res;
+    }
+    public double calculDouble(String line, int debut, int fin) {
+        double res = 0;
+        int lecteur = 0;
+        char point = ',';
+        int indPoints = 0;
+        int comptPoints = 0;
+        
+        for (int i = 0; i< line.length(); i++) {
+            char iEmeChar = line.charAt(i);
+            if (iEmeChar == point) {
+                //on crée un tabeau avec les emplacements des ";"
+                indPoints = i;
+                comptPoints++;
+            }            
+        }
+        res += calculInt(line, debut, fin);
     }
 }

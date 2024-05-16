@@ -17,12 +17,18 @@ public class Etage {
     public Etage(int id, double hauteur) {
         this.id = id;
         this.hauteur = hauteur;
+        this.pieces = new ArrayList();
     }
 
     public void Ajouter(Pièce p) {
         this.pieces.add(p);
     }
-    
+
+    public Etage(int id, double hauteur, ArrayList<Pièce> pieces) {
+        this.id = id;
+        this.hauteur = hauteur;
+        this.pieces = pieces;
+    }
     
     public int getId() {
         return id;
