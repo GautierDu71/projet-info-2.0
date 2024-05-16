@@ -258,7 +258,7 @@ public class MainPaine extends BorderPane {
                 }
                 
                 if (etat == 0 && lnDepuisChangement > 0) {
-                
+                    
                 } else if(etat == 1 && lnDepuisChangement > 0) {
                 
                 } else if(etat == 2 && lnDepuisChangement > 0) {
@@ -271,42 +271,6 @@ public class MainPaine extends BorderPane {
                 
                 }
                 
-                String tempNom = new String(tempChar);
-                
-                
-                
-                // On recupere le nom du revetement
-                
-                
-                // On recupere els valeurs booleennes du revetement
-                
-                /*
-                for (int i=0; i<line.length(); i++){
-                    if (!(";".equals(line.charAt(i)))) {
-                        
-                        nombre = Character.getNumericValue(line.charAt(i));
-                        
-                        if (i < separateurs[0]) {
-                            // on ajoute le nombre multiplie a la puissance de 10 correspondant
-                            // a son rang dans la valeur temporaire
-                            tempId += nombre * Math.pow(10, separateurs[0]-i-1);
-                        }
-                        
-                        // idem mais on doit prendre en compte la virgule et l'ignorer
-                        if ((i > separateurs[4]) && (i < line.length() - 3)) {
-                            if (!(nombre == -1)) {
-                                tempPrix += nombre * Math.pow(10, separateurs[4]-(i-2));
-                            }
-                        }
-                        if (i > line.length() - 3) {
-                            if (!(nombre == -1)) {
-                                tempPrix += nombre * Math.pow(10, separateurs[4]-(i-3));
-                                
-                            }
-                        }
-                    }
-                }
-                */
                 // manoeuvre d'arrondis pour eviter les imprecisions a 0.00000001 pres
                 
                 
@@ -323,5 +287,13 @@ public class MainPaine extends BorderPane {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    public int calculNombre(String line, int debut, int fin) {
+        int res = 0;
+        for (int i = debut; i < fin; i++){
+            res += Character.getNumericValue(line.charAt(i)) * Math.pow(10, fin - debut - i);
+        }
+        return res;
     }
 }
