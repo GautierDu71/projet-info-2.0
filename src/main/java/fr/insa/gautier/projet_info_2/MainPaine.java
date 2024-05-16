@@ -72,7 +72,7 @@ public class MainPaine extends BorderPane {
         
         
         
-        this.cDessin = new DessinCanvas() ;
+        
         
         
         
@@ -82,19 +82,19 @@ public class MainPaine extends BorderPane {
     }
     
     public void bcNouvelEtage(){
-        System.out.println("fpsdojfpjospdojfpsojdfs");
+        
     }
     public void bcNouvellePiece(){
         this.controleur.dessinPiece();
     }
     public void bcDevis(){
-        System.out.println("fais moi");
+        
     }
     public void bcFin(){
         System.out.println("des crêpes");
     }
     public void bcSauvegarder(){
-        System.out.println("des crêpes");
+
         
         
         ArrayList<Etage> Etages = new ArrayList();

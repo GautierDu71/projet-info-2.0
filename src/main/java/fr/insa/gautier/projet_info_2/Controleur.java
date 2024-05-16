@@ -22,7 +22,7 @@ public class Controleur {
     
     private Etage etage = new Etage(2,2);
     //private DessinCanvas canvas;
-    //états: 1:dessinpièce
+    //états: 0:défaut 10:dessinpièce
     private int etat = 0;
     
     
@@ -76,8 +76,15 @@ public class Controleur {
     }
     
         public void dessinPiece() {        
-        this.etat = 1 ;        
+        this.etat = 10 ;        
     }
+        public void nouvelEtage() {        
+        this.etat = 10 ;        
+    }
+        public void devis() {        
+        this.etat = 10 ;        
+    }
+
         
         public void LectureRevetements(ArrayList<Revetement> Revetements) {
 	try {
