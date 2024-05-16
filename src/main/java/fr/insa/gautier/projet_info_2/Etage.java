@@ -24,11 +24,6 @@ public class Etage {
         this.pieces.add(p);
     }
 
-    public Etage(int id, double hauteur, ArrayList<Pièce> pieces) {
-        this.id = id;
-        this.hauteur = hauteur;
-        this.pieces = pieces;
-    }
     
     public int getId() {
         return id;
@@ -45,6 +40,8 @@ public class Etage {
     public void setHauteur(double hauteur) {
         this.hauteur = hauteur;
     }
+    
+    
 
     @Override
     public String toString() {

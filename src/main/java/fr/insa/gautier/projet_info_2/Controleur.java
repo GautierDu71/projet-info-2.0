@@ -20,15 +20,19 @@ import javafx.scene.input.MouseEvent;
  */
 public class Controleur {
     
-   
-    private Etage etage = new Etage(2,2);
+    
+    private Batiment batiment ;
+    private int etageActuel = 0;
+    
+    
     //private DessinCanvas canvas;
-    //états: 0:défaut 10:dessinpièce
+    //états: -1:début 0:défaut 10:dessinpièce
     private int etat = 0;
     
     
     public Controleur(DessinCanvas canvas_) {
         
+        this.batiment = new Batiment(0);
         ArrayList<Revetement> Revetements = new ArrayList();
         LectureRevetements(Revetements);
         
@@ -44,6 +48,11 @@ public class Controleur {
            System.out.println(this.etat);
            
            switch (this.etat) {
+               
+               case -1:
+                   System.out.println("pas d'étages");
+               break;
+               
                case 0:
                break;
                
@@ -51,13 +60,13 @@ public class Controleur {
                canvas_.contexte.setLineWidth(5);
                      
                if (coins.isEmpty()){
-               coins.add(new Coin(coins.size(),x,y,etage));
+               coins.add(new Coin(coins.size(),x,y,this.batiment.getEtage(this.etageActuel)));
                }  else if(coinProche(coins,x,y)) {
                canvas_.contexte.strokeLine(coins.get(coins.size()-1).getX(),coins.get(coins.size()-1).getY() , coins.get(0).getX(), coins.get(0).getY());
                this.etat = 0;
                } else {
                canvas_.contexte.strokeLine(coins.get(coins.size()-1).getX(),coins.get(coins.size()-1).getY() , x, y);
-               coins.add(new Coin(coins.size(),x,y,etage));
+               coins.add(new Coin(coins.size(),x,y,this.batiment.getEtage(this.etageActuel)));
                } break ;
            
            }
@@ -80,7 +89,7 @@ public class Controleur {
         this.etat = 10 ;        
     }
         public void nouvelEtage() {        
-        this.etat = 10 ;        
+        this.batiment.ajoutEtage();   
     }
         public void devis() {        
         this.etat = 10 ;        

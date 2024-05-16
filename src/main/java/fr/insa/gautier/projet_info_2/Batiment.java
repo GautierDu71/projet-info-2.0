@@ -12,11 +12,14 @@ import java.util.ArrayList;
  */
 public class Batiment {
     int idBatiment;
+    
+
+
     private ArrayList<Etage> etages ;
 
-    public Batiment(int idBatiment, ArrayList<Etage> etages) {
+    public Batiment(int idBatiment) {
         this.idBatiment = idBatiment;
-        this.etages = etages;
+        this.etages = new ArrayList<Etage>();
     }
 
     public int getIdBatiment() {
@@ -34,7 +37,15 @@ public class Batiment {
     public void setEtages(ArrayList<Etage> etages) {
         this.etages = etages;
     }
+    
+    public Etage getEtage(int i) {
+        return etages.get(i);
+    }
 
+    public void ajoutEtage() {
+        this.etages.add(new Etage(this.etages.size(),4));
+    }
+    
     @Override
     public String toString() {
         return "Batiment{" + "idBatiment=" + idBatiment + ", etages=" + etages + '}';
