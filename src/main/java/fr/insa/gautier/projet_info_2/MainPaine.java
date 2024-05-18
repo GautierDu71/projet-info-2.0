@@ -16,10 +16,13 @@ import java.util.ArrayList;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 
 /**
  *
@@ -28,7 +31,11 @@ import javafx.scene.layout.VBox;
 public class MainPaine extends BorderPane {
     
 
-
+    private Label lEtage;
+    private Button bEtageHaut;
+    private Button bEtageBas;
+    
+    private Label lNombreEtages;
     private Button bNouvelEtage;
     private Button bNouvellePiece;
     private Button bDevis;
@@ -41,8 +48,20 @@ public class MainPaine extends BorderPane {
     
     public MainPaine() {
         
+        this.lNombreEtages = new Label("nombre d'étages : 0");
+        this.lEtage = new Label("étage actuel : 0");
+        this.bEtageBas = new Button("<");
+        this.bEtageBas.setOnAction(event ->{
+            changementEtage(-1);
+        });
+        this.bEtageHaut = new Button(">");
+        this.bEtageHaut.setOnAction(event ->{
+            changementEtage(1);
+        });
+        
+        
         this.cDessin = new DessinCanvas();
-        this.controleur = new Controleur(this.cDessin);
+        this.controleur = new Controleur(this.cDessin,this.lEtage,this.lNombreEtages);
         
         this.bNouvelEtage = new Button("Nouvel étage");
         this.bNouvelEtage.setOnAction(event ->{
@@ -67,20 +86,26 @@ public class MainPaine extends BorderPane {
         this.bCharger.setOnAction(event ->{
             bcCharger();
         });
-        VBox vbDroite = new VBox(this.bNouvelEtage,this.bNouvellePiece,this.bDevis,this.bFin,this.bSauvegarder,this.bCharger);
+        VBox vbDroite = new VBox(this.lNombreEtages,this.bNouvelEtage,this.bNouvellePiece,this.bDevis,this.bFin,this.bSauvegarder,this.bCharger);
         vbDroite.setSpacing(10);
         
+        HBox hbHaut = new HBox(this.bEtageBas,this.lEtage,this.bEtageHaut);
+        hbHaut.setAlignment(Pos.CENTER);
         
         
         
         
         
         
+        this.setTop(hbHaut);
         this.setRight(vbDroite);
         this.setCenter(this.cDessin);
                 
     }
     
+    public void changementEtage(int i) {
+        this.controleur.changementEtage(i);
+    }
     public void bcNouvelEtage(){
         this.controleur.nouvelEtage();
     }

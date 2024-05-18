@@ -14,10 +14,16 @@ public class Etage {
     private double hauteur;
     private ArrayList<Pièce> pieces;
 
+
+
     public Etage(int id, double hauteur) {
         this.id = id;
         this.hauteur = hauteur;
         this.pieces = new ArrayList();
+    }
+    
+    public ArrayList<Pièce> getPieces() {
+        return pieces;
     }
 
     public void Ajouter(Pièce p) {

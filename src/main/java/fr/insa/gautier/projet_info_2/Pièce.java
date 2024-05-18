@@ -13,10 +13,7 @@ public class Pièce {
     private ArrayList<Coin> coins ;
     private Revetement sol ;
 
-    public Pièce(Revetement sol) {
-        this.coins = new ArrayList() ;
-        this.sol = sol;
-    }
+
 
     public Pièce(ArrayList<Coin> coins, Revetement sol) {
         this.coins = coins;

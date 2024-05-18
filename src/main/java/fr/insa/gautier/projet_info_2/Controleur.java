@@ -14,7 +14,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import javafx.event.EventHandler;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+
 
 
 
@@ -25,8 +28,10 @@ import javafx.scene.input.MouseEvent;
  */
 public class Controleur {
     
-    
+    private Label lEtage;
+    private Label lNombreEtages;
     private Batiment Batiments ;
+    private DessinCanvas canvas;
     private int etageActuel = 0;
     private ArrayList<Coin> Coins = new ArrayList();
     
@@ -36,15 +41,20 @@ public class Controleur {
     private int etat = 0;
     
     
-    public Controleur(DessinCanvas canvas_) {
+    public Controleur(DessinCanvas canvas_, Label lEtage_, Label lNombreEtages_) {
         
+        this.lNombreEtages = lNombreEtages_;
+        this.lEtage = lEtage_;
+        this.canvas = canvas_;
         this.Batiments = new Batiment(0);
         ArrayList<Revetement> Revetements = new ArrayList();
         LectureRevetements(Revetements);
+        
+
                 
         
         //this.canvas = canvas_ ;
-        canvas_.setOnMouseClicked(o->{
+        this.canvas.setOnMouseClicked(o->{
             
            double x = o.getX();
            double y = o.getY();
@@ -61,22 +71,70 @@ public class Controleur {
                break;
                
                case 10:
-               canvas_.contexte.setLineWidth(5);
+               this.canvas.contexte.setLineWidth(5);
                      
-               if (Coins.isEmpty()){
-               Coins.add(new Coin(Coins.size(),x,y,this.Batiments.getEtage(this.etageActuel)));
-               }  else if(coinProche(Coins,x,y)) {
-               canvas_.contexte.strokeLine(Coins.get(Coins.size()-1).getX(),Coins.get(Coins.size()-1).getY() , Coins.get(0).getX(), Coins.get(0).getY());
+               if (this.Coins.isEmpty()){
+               this.Coins.add(new Coin(this.Coins.size(),x,y,this.Batiments.getEtage(this.etageActuel)));
+               }  else if(coinProche(this.Coins,x,y)) {
+               this.canvas.contexte.strokeLine(this.Coins.get(this.Coins.size()-1).getX(),this.Coins.get(this.Coins.size()-1).getY() , this.Coins.get(0).getX(), this.Coins.get(0).getY());
+               this.Batiments.getEtage(this.etageActuel).Ajouter(new Pièce(new ArrayList<Coin>(this.Coins),Revetements.get(0)));
+               this.Coins.clear();
                this.etat = 0;
                } else {
-               canvas_.contexte.strokeLine(Coins.get(Coins.size()-1).getX(),Coins.get(Coins.size()-1).getY() , x, y);
-               Coins.add(new Coin(Coins.size(),x,y,this.Batiments.getEtage(this.etageActuel)));
+               this.canvas.contexte.strokeLine(this.Coins.get(this.Coins.size()-1).getX(),this.Coins.get(this.Coins.size()-1).getY() , x, y);
+               this.Coins.add(new Coin(this.Coins.size(),x,y,this.Batiments.getEtage(this.etageActuel)));
                } break ;
            
            }
         });
     }    
     
+    public void changementEtage(int i){
+        int etageSuivant = this.etageActuel+i;
+        if(etageSuivant >= 0 && etageSuivant < this.Batiments.getEtages().size()){
+        this.etageActuel = this.etageActuel+i;
+        actualiserLabelEtage();
+        drawEtage(etageSuivant);
+        }     
+    }
+    
+    public void actualiserLabelEtage(){
+        this.lEtage.setText("étage actuel : "+this.etageActuel);
+    }
+    
+    public void actualiserLabelNombreEtage(){
+        this.lNombreEtages.setText("nombre d'étages : "+this.Batiments.getEtages().size());
+    }
+    
+    public void drawEtage(int nEtage){
+        int i;
+        int j;
+        this.canvas.redrawAll();
+        
+        if (nEtage-1 >= 0){
+            System.out.println(nEtage-1);
+            ArrayList<Pièce> piecesEtageDessous = this.Batiments.getEtage(nEtage-1).getPieces();
+            this.canvas.contexte.setStroke(Color.GREY);
+            System.out.println(this.Batiments.getEtage(nEtage-1).toString());
+            for (i=0 ; i< piecesEtageDessous.size() ; i++) {
+                ArrayList<Coin> coinsPiecei = piecesEtageDessous.get(i).getCoins();
+                for(j=1 ; j<coinsPiecei.size() ; j++) {
+                    this.canvas.contexte.strokeLine(coinsPiecei.get(j-1).getX(), coinsPiecei.get(j-1).getY(), coinsPiecei.get(j).getX(), coinsPiecei.get(j).getY());
+                }
+                this.canvas.contexte.strokeLine(coinsPiecei.get(0).getX(), coinsPiecei.get(0).getY(), coinsPiecei.get(coinsPiecei.size()-1).getX(), coinsPiecei.get(coinsPiecei.size()-1).getY());
+            }
+        }
+        
+        this.canvas.contexte.setStroke(Color.BLACK);
+        ArrayList<Pièce> piecesEtage = this.Batiments.getEtage(nEtage).getPieces();
+            for (i=0 ; i< piecesEtage.size() ; i++) {
+                ArrayList<Coin> coinsPiecei = piecesEtage.get(i).getCoins();
+                for(j=1 ; j<coinsPiecei.size() ; j++) {
+                    this.canvas.contexte.strokeLine(coinsPiecei.get(j-1).getX(), coinsPiecei.get(j-1).getY(), coinsPiecei.get(j).getX(), coinsPiecei.get(j).getY());
+                }
+                this.canvas.contexte.strokeLine(coinsPiecei.get(0).getX(), coinsPiecei.get(0).getY(), coinsPiecei.get(coinsPiecei.size()-1).getX(), coinsPiecei.get(coinsPiecei.size()-1).getY());
+            }
+    }
     
     public boolean coinProche(ArrayList<Coin> Coins, double x, double y){
         int i;
@@ -93,7 +151,8 @@ public class Controleur {
         this.etat = 10 ;        
     }
         public void nouvelEtage() {        
-        this.Batiments.ajoutEtage();   
+        this.Batiments.ajoutEtage();
+        this.actualiserLabelNombreEtage();
     }
         public void devis() {        
         this.etat = 10 ;        
@@ -117,7 +176,7 @@ public class Controleur {
 
     
         
-        public void LectureRevetements(ArrayList<Revetement> Revetements) {
+    public void LectureRevetements(ArrayList<Revetement> Revetements) {
 	try {
             // Création d'un fileReader pour lire le fichier
             FileReader fileReader = new FileReader("CatalogueRevetements.txt");
@@ -204,7 +263,8 @@ public class Controleur {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
+    }
+        /*
         public void Sauvegarde(ArrayList<Coin> Coins,ArrayList<Etage> Etages,Batiment Batiments,ArrayList<Mur> Murs,ArrayList<Pièce> Pieces) {
             try (PrintWriter out = new PrintWriter("Sauvegarde.txt")) {
             File myObj = new File("Sauvegarde.txt");
@@ -267,10 +327,11 @@ public class Controleur {
             System.out.println("Erreur.");
             e.printStackTrace();
         }
-    }
+    } */
     
     
-    public void LectureSauvegarde() {
+    
+public void LectureSauvegarde() {
 	try {
             // Création d'un fileReader pour lire le fichier
             FileReader fileReader = new FileReader("Sauvegarde.txt");
