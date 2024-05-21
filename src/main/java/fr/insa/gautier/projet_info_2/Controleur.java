@@ -34,6 +34,7 @@ public class Controleur {
     private DessinCanvas canvas;
     private int etageActuel = 0;
     private ArrayList<Coin> Coins = new ArrayList();
+    private ArrayList<Mur> Murs = new ArrayList(); 
     
     
     //private DessinCanvas canvas;
@@ -55,9 +56,11 @@ public class Controleur {
         
         //this.canvas = canvas_ ;
         this.canvas.setOnMouseClicked(o->{
-            
+           
+           int i;
            double x = o.getX();
            double y = o.getY();
+           Coin coinproche = null ;
            
            System.out.println(this.etat);
            
@@ -72,30 +75,52 @@ public class Controleur {
                
                case 10:
                this.canvas.contexte.setLineWidth(5);
-                     
+               
+               
+
+               for(i=0 ; i<this.Batiments.getEtage(this.etageActuel).getPieces().size() ; i++ ){
+               coinproche = coinProche(this.Batiments.getEtage(this.etageActuel).getPiece(i).getCoins(),x,y);
+               }
+               
+               
+               
                if (this.Coins.isEmpty()){
-               this.Coins.add(new Coin(this.Coins.size(),x,y,this.Batiments.getEtage(this.etageActuel)));
-               }  else if(coinProche(this.Coins,x,y)) {
+                   if (coinproche == null) {
+                       if(this.Batiments.getEtage(this.etageActuel).getPieces().size()==0){
+                       this.Coins.add(new Coin(this.Coins.size(),x,y,this.Batiments.getEtage(this.etageActuel)));
+                       }
+                   } else {
+                       this.Coins.add(coinproche);
+                   }
+               }  else if(coinProche(this.Coins,x,y) != null) {
                this.canvas.contexte.strokeLine(this.Coins.get(this.Coins.size()-1).getX(),this.Coins.get(this.Coins.size()-1).getY() , this.Coins.get(0).getX(), this.Coins.get(0).getY());
                this.Batiments.getEtage(this.etageActuel).Ajouter(new Pièce(new ArrayList<Coin>(this.Coins),Revetements.get(0)));
                this.Coins.clear();
                this.etat = 0;
                } else {
-               this.canvas.contexte.strokeLine(this.Coins.get(this.Coins.size()-1).getX(),this.Coins.get(this.Coins.size()-1).getY() , x, y);
-               this.Coins.add(new Coin(this.Coins.size(),x,y,this.Batiments.getEtage(this.etageActuel)));
-               } break ;
+                   this.canvas.contexte.strokeLine(this.Coins.get(this.Coins.size()-1).getX(),this.Coins.get(this.Coins.size()-1).getY() , x, y);
+                   if (coinproche == null){
+                        this.Coins.add(new Coin(this.Coins.size(),x,y,this.Batiments.getEtage(this.etageActuel)));
+                   } else {
+                        this.Coins.add(coinproche);
+                   }
+               }
+               
+               break ;
            
            }
         });
     }    
     
     public void changementEtage(int i){
-        int etageSuivant = this.etageActuel+i;
-        if(etageSuivant >= 0 && etageSuivant < this.Batiments.getEtages().size()){
-        this.etageActuel = this.etageActuel+i;
-        actualiserLabelEtage();
-        drawEtage(etageSuivant);
-        }     
+    int etageSuivant = this.etageActuel+i;
+        if (this.etat == 0){
+            if(etageSuivant >= 0 && etageSuivant < this.Batiments.getEtages().size()){
+            this.etageActuel = this.etageActuel+i;
+            actualiserLabelEtage();
+            drawEtage(etageSuivant);
+            }
+        }
     }
     
     public void actualiserLabelEtage(){
@@ -111,10 +136,10 @@ public class Controleur {
         int j;
         this.canvas.redrawAll();
         
+        this.canvas.contexte.setStroke(Color.LIGHTGREY);
         if (nEtage-1 >= 0){
             System.out.println(nEtage-1);
             ArrayList<Pièce> piecesEtageDessous = this.Batiments.getEtage(nEtage-1).getPieces();
-            this.canvas.contexte.setStroke(Color.GREY);
             System.out.println(this.Batiments.getEtage(nEtage-1).toString());
             for (i=0 ; i< piecesEtageDessous.size() ; i++) {
                 ArrayList<Coin> coinsPiecei = piecesEtageDessous.get(i).getCoins();
@@ -136,12 +161,12 @@ public class Controleur {
             }
     }
     
-    public boolean coinProche(ArrayList<Coin> Coins, double x, double y){
+    public Coin coinProche(ArrayList<Coin> Coins, double x, double y){
         int i;
-        boolean result = false;
+        Coin result = null;
         for(i=0;i<Coins.size();i++){
             if((Math.abs(x-Coins.get(i).getX())<5)&&(Math.abs(y-Coins.get(i).getY())<5)){
-                result = true ;
+                result = Coins.get(i) ;
             }
         }
         return result;
