@@ -34,9 +34,25 @@ public class DessinCanvas extends Pane{
     }
     
     public void redrawAll() {
-        
+        int i,j;
         this.contexte.setFill(Color.WHITE);
         this.contexte.fillRect(0, 0, this.realCanvas.getWidth(), this.realCanvas.getHeight());
+        this.contexte.setStroke(Color.LIGHTGREY);
+        this.contexte.setLineWidth(1);
+        for(i=0 ; i<=this.getWidth() ; i=i+20){
+            for(j=0 ; j<=this.getHeight() ; j=j+20){
+                this.contexte.strokeLine(i, j+2, i, j-2);
+                this.contexte.strokeLine(i+2, j, i-2, j);
+            }
+        }        
+        this.contexte.setLineWidth(5);
+        this.contexte.setFill(Color.GREY);
+        this.contexte.strokeLine(20,20 ,60 ,20 );
+        this.contexte.setStroke(Color.BLACK);
+        
+        this.contexte.setFill(Color.GREY);
+        this.contexte.fillText("1 mètre", 20, 40);
+        
         
     }
     

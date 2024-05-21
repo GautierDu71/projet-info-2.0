@@ -12,6 +12,7 @@ import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
@@ -31,7 +32,7 @@ public class MainPaine extends BorderPane {
     private Button bNouvelEtage;
     private Button bNouvellePiece;
     private Button bDevis;
-    private Button bFin;
+    private RadioButton rbPrecision;
     private Button bSauvegarder;
     private Button bCharger;
     
@@ -67,10 +68,8 @@ public class MainPaine extends BorderPane {
         this.bDevis.setOnAction(event ->{
             bcDevis();
         });
-        this.bFin = new Button("Fin");
-        this.bFin.setOnAction(event ->{
-            bcFin();
-        });
+        this.rbPrecision = new RadioButton("activer précision");
+
         this.bSauvegarder = new Button("Sauvegarder");
         this.bSauvegarder.setOnAction(event ->{
             bcSauvegarder();
@@ -78,7 +77,7 @@ public class MainPaine extends BorderPane {
         this.bCharger.setOnAction(event ->{
             bcCharger();
         });
-        VBox vbDroite = new VBox(this.lNombreEtages,this.bNouvelEtage,this.bNouvellePiece,this.bDevis,this.bFin,this.bSauvegarder,this.bCharger);
+        VBox vbDroite = new VBox(this.lNombreEtages,this.rbPrecision,this.bNouvelEtage,this.bNouvellePiece,this.bDevis,this.bSauvegarder,this.bCharger);
         vbDroite.setSpacing(10);
         
         HBox hbHaut = new HBox(this.bEtageBas,this.lEtage,this.bEtageHaut);

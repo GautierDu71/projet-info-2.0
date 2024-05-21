@@ -51,7 +51,12 @@ public class Controleur {
         ArrayList<Revetement> Revetements = new ArrayList();
         LectureRevetements(Revetements);
         
-
+        this.canvas.heightProperty().addListener((o)->{
+            if(this.Batiments.getEtages().size()!=0){drawEtage(this.etageActuel);} 
+        });
+        this.canvas.widthProperty().addListener((o)->{
+            if(this.Batiments.getEtages().size()!=0){drawEtage(this.etageActuel);}
+        });
                 
         
         //this.canvas = canvas_ ;
@@ -138,7 +143,8 @@ public class Controleur {
         int j;
         this.canvas.redrawAll();
         
-        this.canvas.contexte.setStroke(Color.LIGHTGREY);
+        
+        this.canvas.contexte.setStroke(Color.GREY);
         if (nEtage-1 >= 0){
             System.out.println(nEtage-1);
             ArrayList<Pièce> piecesEtageDessous = this.Batiments.getEtage(nEtage-1).getPieces();
