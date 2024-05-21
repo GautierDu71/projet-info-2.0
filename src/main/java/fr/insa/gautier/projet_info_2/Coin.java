@@ -10,15 +10,25 @@ package fr.insa.gautier.projet_info_2;
  */
 public class Coin {
     
+    private int intersections;
     private int id;
     private double x, y;
     private Etage Etage;
 
     public Coin(int id, double x, double y, Etage Etage) {
+        intersections = 0;
         this.id = id;
         this.x = x;
         this.y = y;
         this.Etage = Etage;
+    }
+
+    public int getIntersections() {
+        return intersections;
+    }
+
+    public void setIntersections(int intersections) {
+        this.intersections = intersections;
     }
 
     @Override

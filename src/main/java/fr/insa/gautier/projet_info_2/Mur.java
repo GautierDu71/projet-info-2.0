@@ -10,12 +10,14 @@ package fr.insa.gautier.projet_info_2;
  */
 public class Mur {
     
+    private boolean ext;
     private int id, portes, fenetres;
     private double separation;
     private Coin pt1, pt2;
     private Revetement rev1, rev2, rev3;
 
     public Mur(Coin pt1, Coin pt2) {
+        this.ext = true ;
         this.pt1 = pt1;
         this.pt2 = pt2;
         this.separation = 0;
@@ -26,13 +28,10 @@ public class Mur {
         this.rev2 = null;
     }
 
-    public Mur(Coin pt1, Coin pt2, double separation, Revetement rev1, Revetement rev2, Revetement rev3) {
-        this.separation = separation;
-        this.pt1 = pt1;
-        this.pt2 = pt2;
-        this.rev1 = rev1;
-        this.rev2 = rev2;
-        this.rev2 = rev3;
+
+
+    public void setExt(boolean ext) {
+        this.ext = ext;
     }
     
     public double Longueur(){

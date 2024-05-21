@@ -130,7 +130,7 @@ public class MainPaine extends BorderPane {
         ArrayList<Pièce> Pieces = new ArrayList();
         Pieces.add(new Pièce(Coins,new Revetement(1,"nn",true, true, true,3)));
         
-        this.controleur.Sauvegarde(this.controleur.getCoins(),this.controleur.getBatiments().getEtages(),this.controleur.getBatiments(),Murs,Pieces);
+        //this.controleur.Sauvegarde(this.controleur.getCoins(),this.controleur.getBatiments().getEtages(),this.controleur.getBatiments(),Murs,Pieces);
 
     }
     public void bcCharger(){

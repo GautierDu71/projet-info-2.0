@@ -34,7 +34,7 @@ public class Controleur {
     private DessinCanvas canvas;
     private int etageActuel = 0;
     private ArrayList<Coin> Coins = new ArrayList();
-    private ArrayList<Mur> Murs = new ArrayList(); 
+   
     
     
     //private DessinCanvas canvas;
@@ -79,9 +79,11 @@ public class Controleur {
                
 
                for(i=0 ; i<this.Batiments.getEtage(this.etageActuel).getPieces().size() ; i++ ){
-               coinproche = coinProche(this.Batiments.getEtage(this.etageActuel).getPiece(i).getCoins(),x,y);
+                   coinproche = coinProche(this.Batiments.getEtage(this.etageActuel).getPiece(i).getCoins(),x,y);              
                }
-               
+               if (coinproche != null){
+                   coinproche.setIntersections(coinproche.getIntersections()+1);
+               }
                
                
                if (this.Coins.isEmpty()){
@@ -94,15 +96,15 @@ public class Controleur {
                    }
                }  else if(coinProche(this.Coins,x,y) != null) {
                this.canvas.contexte.strokeLine(this.Coins.get(this.Coins.size()-1).getX(),this.Coins.get(this.Coins.size()-1).getY() , this.Coins.get(0).getX(), this.Coins.get(0).getY());
-               this.Batiments.getEtage(this.etageActuel).Ajouter(new Pièce(new ArrayList<Coin>(this.Coins),Revetements.get(0)));
+               this.Batiments.getEtage(this.etageActuel).AjouterP(new Pièce(new ArrayList<Coin>(this.Coins),Revetements.get(0)));
                this.Coins.clear();
                this.etat = 0;
                } else {
                    this.canvas.contexte.strokeLine(this.Coins.get(this.Coins.size()-1).getX(),this.Coins.get(this.Coins.size()-1).getY() , x, y);
                    if (coinproche == null){
-                        this.Coins.add(new Coin(this.Coins.size(),x,y,this.Batiments.getEtage(this.etageActuel)));
+                        this.Coins.add(new Coin(this.Coins.size(),x,y,this.Batiments.getEtage(this.etageActuel)));                        
                    } else {
-                        this.Coins.add(coinproche);
+                        this.Coins.add(coinproche);                      
                    }
                }
                

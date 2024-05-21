@@ -13,10 +13,26 @@ public class Etage {
     private int id;
     private double hauteur;
     private ArrayList<Pièce> pieces;
+    private ArrayList<Mur> Murs;
+
+    public ArrayList<Mur> getMurs() {
+        return Murs;
+    }
+    
+    public Mur getMur(int i) {
+        return Murs.get(i);
+    }
+    
+
+    public void setMurs(ArrayList<Mur> Murs) {
+        this.Murs = Murs;
+    }
+    
 
 
 
     public Etage(int id, double hauteur) {
+        this.Murs = new ArrayList();
         this.id = id;
         this.hauteur = hauteur;
         this.pieces = new ArrayList();
@@ -30,8 +46,12 @@ public class Etage {
         return pieces.get(i);
     }
 
-    public void Ajouter(Pièce p) {
+    public void AjouterP(Pièce p) {
         this.pieces.add(p);
+    }
+    
+    public void AjouterM(Mur M) {
+        this.Murs.add(M);
     }
 
     
