@@ -51,6 +51,10 @@ public class Pièce {
     public ArrayList<Coin> getCoins() {
         return coins;
     }
+    
+        public Coin getCoin(int i) {
+        return coins.get(i);
+    }
 
     public void setCoins(ArrayList<Coin> coins) {
         this.coins = coins;

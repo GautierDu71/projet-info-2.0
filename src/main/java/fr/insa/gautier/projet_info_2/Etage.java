@@ -25,6 +25,10 @@ public class Etage {
     public ArrayList<Pièce> getPieces() {
         return pieces;
     }
+    
+    public Pièce getPiece(int i) {
+        return pieces.get(i);
+    }
 
     public void Ajouter(Pièce p) {
         this.pieces.add(p);
