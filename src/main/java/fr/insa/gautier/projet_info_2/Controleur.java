@@ -37,6 +37,7 @@ public class Controleur {
     private int etageActuel = 0;
     private ArrayList<Coin> Coins = new ArrayList();
     private boolean precision;
+    private ArrayList<Mur> Murs = new ArrayList();
    
     
     
@@ -114,6 +115,11 @@ public class Controleur {
                }  else if(coinProche(this.Coins,x,y) != null) {
                this.canvas.contexte.strokeLine(this.Coins.get(this.Coins.size()-1).getX(),this.Coins.get(this.Coins.size()-1).getY() , this.Coins.get(0).getX(), this.Coins.get(0).getY());
                this.Batiments.getEtage(this.etageActuel).AjouterP(new Pièce(new ArrayList<Coin>(this.Coins),Revetements.get(0)));
+               
+               for (int index = 0; index < this.Coins.size()-1; index++) {
+                   creerMur(this.Coins.get(1), this.Coins.get(index+1));
+               }
+               
                this.Coins.clear();
                this.etat = 0;
                } else {
@@ -484,6 +490,17 @@ public void LectureSauvegarde() {
         }
         System.out.println(res);
         return res;
+    }
+
+    private Mur creerMur(Coin coin1, Coin coin2) {
+        for (int indexMurs = 0; indexMurs < this.Murs.size(); indexMurs++) {
+            if ((Murs.get(indexMurs).getPt1() == coin1 && Murs.get(indexMurs).getPt1() == coin2) || 
+                    (Murs.get(indexMurs).getPt1() == coin2 && Murs.get(indexMurs).getPt1() == coin1)){
+                return Murs.get(indexMurs);
+            } else {
+                return new Mur(coin 1, coin2);
+            }
+        }
     }
     
     
