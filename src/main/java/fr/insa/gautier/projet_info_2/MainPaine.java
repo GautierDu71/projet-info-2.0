@@ -54,7 +54,7 @@ public class MainPaine extends BorderPane {
         
         
         this.cDessin = new DessinCanvas();
-        this.controleur = new Controleur(this.cDessin,this.lEtage,this.lNombreEtages);
+        
         
         this.bNouvelEtage = new Button("Nouvel étage");
         this.bNouvelEtage.setOnAction(event ->{
@@ -69,6 +69,7 @@ public class MainPaine extends BorderPane {
             bcDevis();
         });
         this.rbPrecision = new RadioButton("activer précision");
+        
 
         this.bSauvegarder = new Button("Sauvegarder");
         this.bSauvegarder.setOnAction(event ->{
@@ -83,7 +84,7 @@ public class MainPaine extends BorderPane {
         HBox hbHaut = new HBox(this.bEtageBas,this.lEtage,this.bEtageHaut);
         hbHaut.setAlignment(Pos.CENTER);
         
-        
+        this.controleur = new Controleur(this.cDessin,this.lEtage,this.lNombreEtages,this.rbPrecision);
         
         
         

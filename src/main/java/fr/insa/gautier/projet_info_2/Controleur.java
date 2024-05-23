@@ -15,6 +15,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
@@ -28,12 +29,14 @@ import javafx.scene.paint.Color;
  */
 public class Controleur {
     
+     
     private Label lEtage;
     private Label lNombreEtages;
     private Batiment Batiments ;
     private DessinCanvas canvas;
     private int etageActuel = 0;
     private ArrayList<Coin> Coins = new ArrayList();
+    private boolean precision;
    
     
     
@@ -42,7 +45,8 @@ public class Controleur {
     private int etat = 0;
     
     
-    public Controleur(DessinCanvas canvas_, Label lEtage_, Label lNombreEtages_) {
+    public Controleur(DessinCanvas canvas_, Label lEtage_, Label lNombreEtages_, RadioButton rbPrecision_) {
+        
         
         this.lNombreEtages = lNombreEtages_;
         this.lEtage = lEtage_;
@@ -65,6 +69,14 @@ public class Controleur {
            int i;
            double x = o.getX();
            double y = o.getY();
+           
+           if(rbPrecision_.isSelected()){
+               x = Math.round(x/20)*20;
+               y = Math.round(y/20)*20;
+               System.out.println(x+" "+y);
+           }
+           
+           
            Coin coinproche = null ;
            
            System.out.println(this.etat);
