@@ -10,10 +10,10 @@ package fr.insa.gautier.projet_info_2;
  */
 public class Mur {
     
-    private boolean ext;
     private int id, portes, fenetres;
     private double separation;
     private Coin pt1, pt2;
+    private boolean ext;
     private Revetement rev1, rev2, rev3;
 
     public Mur(Coin pt1, Coin pt2) {
@@ -142,5 +142,11 @@ public class Mur {
     public void setRev3(Revetement rev3) {
         this.rev3 = rev3;
     }
-        
+
+    @Override
+    public String toString() {
+        return "Mur{" + "id=" + id + ", portes=" + portes + ", fenetres=" + fenetres + ", separation=" + separation + ", pt1=" + pt1 + ", pt2=" + pt2 + ", ext=" + ext + ", rev1=" + rev1 + ", rev2=" + rev2 + ", rev3=" + rev3 + '}';
+    }
+    
+    
 }
