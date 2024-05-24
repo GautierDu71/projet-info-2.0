@@ -14,6 +14,7 @@ public class Etage {
     private double hauteur;
     private ArrayList<Pièce> pieces;
     private ArrayList<Mur> Murs;
+    private ArrayList<Coin> Coins = new ArrayList();
 
     public ArrayList<Mur> getMurs() {
         return Murs;
