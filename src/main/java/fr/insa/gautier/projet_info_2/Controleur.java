@@ -561,34 +561,38 @@ public void LectureSauvegarde() {
             buffer.write('\r'+'\r');
             
             buffer.write("-------------------------------------"+'\r');
-            //for (int b = 0; b < Batiments.size(); b++) {
-                buffer.write("** Batiment 1"/*+Batiments.get(b).getIdBatiment()*/+" **"+'\r');
-                for (int i = 0; i < Etages.size(); i++) {
-                    for (int m = 0; m < Etages.get(i).getMurs().size(); m++) {
-                        for (int r = 0; r < this.Revetements.size(); r++) {
-                            if (Etages.get(i).getMurs().get(m).getRev1().equals(this.Revetements.get(r))) {
-                                Tot[r] += Etages.get(i).getMurs().get(m).getSurface(1)*this.Revetements.get(r).getPrixUnitaire();
-                            }
-                            if (Etages.get(i).getMurs().get(m).getRev2().equals(this.Revetements.get(r))) {
-                                Tot[r] += Etages.get(i).getMurs().get(m).getSurface(2)*this.Revetements.get(r).getPrixUnitaire();
-                            }
-                            if (Etages.get(i).getMurs().get(m).getRev3().equals(this.Revetements.get(r))) {
-                                Tot[r] += Etages.get(i).getMurs().get(m).getSurface(3)*this.Revetements.get(r).getPrixUnitaire();
-                            }
+            buffer.write("** Batiment 1"/*+Batiments.get(b).getIdBatiment()*/+" **"+'\r');
+            for (int i = 0; i < Etages.size(); i++) {
+                for (int m = 0; m < Etages.get(i).getMurs().size(); m++) {
+                    int revIdRandom = (int)Math.random()*this.Revetements.size();
+                    System.out.println(revIdRandom);
+                    Revetement rev1 = this.Revetements.get(revIdRandom);
+                    Etages.get(i).getMurs().get(m).setRev1(rev1);
+                    for (int r = 0; r < this.Revetements.size(); r++) {
+                        if (Etages.get(i).getMurs().get(m).getRev1().equals(this.Revetements.get(r))) {
+                            Tot[r] += Etages.get(i).getMurs().get(m).getSurface(1)*this.Revetements.get(r).getPrixUnitaire();
+                        }
+                        if (Etages.get(i).getMurs().get(m).getRev2().equals(this.Revetements.get(r))) {
+                            Tot[r] += Etages.get(i).getMurs().get(m).getSurface(2)*this.Revetements.get(r).getPrixUnitaire();
+                        }
+                        if (Etages.get(i).getMurs().get(m).getRev3().equals(this.Revetements.get(r))) {
+                            Tot[r] += Etages.get(i).getMurs().get(m).getSurface(3)*this.Revetements.get(r).getPrixUnitaire();
                         }
                     }
                 }
-                buffer.write("Revetement : "+'\t' + "prix unitaire : "+'\t' + "surface : " + '\t' + "prix total :" + '\r');
+            }
+            buffer.write("Revetement : "+ '\t'+ '\t'+'\t' + "prix unitaire : "+ '\t'+'\t' + "surface : " + '\t' + "prix total :" + '\r');
                 for (int r = 0; r < this.Revetements.size(); r++) {
-                    Revetement rev = this.Revetements.get(r);
-                    buffer.write(rev.getNom()+" : " + '\t'+rev.getPrixUnitaire() + "€" + '\t'+"surface = " + Tot[r]/rev.getPrixUnitaire()+'\t' + Tot[r] + "€" + '\r');
+                Revetement rev = this.Revetements.get(r);
+                buffer.write(rev.getNom()+" : "+'\t');
+                if (!(r==6)) {
+                    buffer.write(" "+'\t' + '\t');
                 }
-             
-            //}
-            //buffer.write("."+'\r'+"FIN");
+                buffer.write(rev.getPrixUnitaire() + " Eur" + '\t'+ '\t'+ '\t'+"surface = " + Tot[r]/rev.getPrixUnitaire()+'\t' + Tot[r] + " Eur" + '\r');
+            }
                 
             buffer.close();
-            System.out.println("Sauvegarde terminee.");
+            System.out.println("Devis termine.");
             } catch (IOException e) {
             System.out.println("Erreur.");
             e.printStackTrace();
