@@ -61,15 +61,30 @@ public class Mur {
     }
     
     public double prix() {
-        
+    double prix = 0;    
     double s = this.Surface();
     double sh = this.SurfaceHaut();
     
-    return (s+sh)*this.rev3.getPrixUnitaire()+s*this.rev1.getPrixUnitaire()+sh*this.rev2.getPrixUnitaire() ;
+    prix += s*this.rev1.getPrixUnitaire()+sh*this.rev2.getPrixUnitaire();
+    if (this.ext) {prix += (s+sh)*this.rev3.getPrixUnitaire();}
+    return prix ;
     }
     
     
-    
+    public double getSurface(int idSurface) {
+        switch (idSurface){
+            case 1:
+                return this.Surface();
+            case 2:
+                return this.SurfaceHaut();
+            case 3:
+                return this.Surface()+this.SurfaceHaut();
+            default:
+                return 0;
+        }
+                
+        
+    }
     
     public int getId() {
         return id;

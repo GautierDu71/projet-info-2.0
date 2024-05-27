@@ -105,7 +105,7 @@ public class MainPaine extends BorderPane {
         this.controleur.dessinPiece();
     }
     public void bcDevis(){
-        
+        this.controleur.calculDevis(this.controleur.getBatiments(),this.controleur.getBatiments().getEtages());
     }
     public void bcFin(){
         System.out.println("des crêpes");

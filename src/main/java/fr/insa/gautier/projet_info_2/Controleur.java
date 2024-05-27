@@ -39,6 +39,7 @@ public class Controleur {
     private ArrayList<Coin> AllCoins = new ArrayList();
     private boolean precision;
     private ArrayList<Mur> Murs = new ArrayList();
+    private ArrayList<Revetement> Revetements;
    
     
     
@@ -54,7 +55,7 @@ public class Controleur {
         this.lEtage = lEtage_;
         this.canvas = canvas_;
         this.Batiments = new Batiment(0);
-        ArrayList<Revetement> Revetements = new ArrayList();
+        this.Revetements = new ArrayList();
         LectureRevetements(Revetements);
         
         this.canvas.heightProperty().addListener((o)->{
@@ -96,7 +97,7 @@ public class Controleur {
                
                case 10:
                 this.canvas.contexte.setLineWidth(5);
-                this.Batiments.getEtage(this.etageActuel).AjouterP(new Pièce(new ArrayList<Coin>(),Revetements.get(0)));
+                this.Batiments.getEtage(this.etageActuel).AjouterP(new Pièce(new ArrayList<Coin>(),this.Revetements.get(0)));
                 Pièce pieceActuelle = this.Batiments.getEtage(this.etageActuel).getPiece(this.Batiments.getEtage(this.etageActuel).getPieces().size()-1);
                
                
@@ -530,6 +531,68 @@ public void LectureSauvegarde() {
         }
         return mur;
     }
-    
-    
+
+    public void calculDevis(Batiment Batiment,ArrayList<Etage> Etages) {
+        try (PrintWriter out = new PrintWriter("Devis.txt")) {
+            File myObj = new File("Devis.txt");
+            if (myObj.createNewFile()) {
+                System.out.println("Fichier cree: " + myObj.getName());
+            } else {
+                System.out.println("Fichier Devis trouve.");
+            }
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        
+        try {
+            FileWriter myWriter = new FileWriter("Devis.txt");
+            BufferedWriter buffer = new BufferedWriter(myWriter);
+            
+            int[] Tot = new int[this.Revetements.size()];
+            for (int r = 0; r < this.Revetements.size(); r++) {
+                Tot[r] = 0;
+            }
+            buffer.flush();
+            
+            buffer.write('\r'+'\r');
+            buffer.write("DEVIS DES PRIX DES REVETEMENTS"+'\r');
+            buffer.write('\r'+'\r');
+            
+            buffer.write("-------------------------------------"+'\r');
+            //for (int b = 0; b < Batiments.size(); b++) {
+                buffer.write("** Batiment 1"/*+Batiments.get(b).getIdBatiment()*/+" **"+'\r');
+                for (int i = 0; i < Etages.size(); i++) {
+                    for (int m = 0; m < Etages.get(i).getMurs().size(); m++) {
+                        for (int r = 0; r < this.Revetements.size(); r++) {
+                            if (Etages.get(i).getMurs().get(m).getRev1().equals(this.Revetements.get(r))) {
+                                Tot[r] += Etages.get(i).getMurs().get(m).getSurface(1)*this.Revetements.get(r).getPrixUnitaire();
+                            }
+                            if (Etages.get(i).getMurs().get(m).getRev2().equals(this.Revetements.get(r))) {
+                                Tot[r] += Etages.get(i).getMurs().get(m).getSurface(2)*this.Revetements.get(r).getPrixUnitaire();
+                            }
+                            if (Etages.get(i).getMurs().get(m).getRev3().equals(this.Revetements.get(r))) {
+                                Tot[r] += Etages.get(i).getMurs().get(m).getSurface(3)*this.Revetements.get(r).getPrixUnitaire();
+                            }
+                        }
+                    }
+                }
+                buffer.write("Revetement : "+'\t' + "prix unitaire : "+'\t' + "surface : " + '\t' + "prix total :" + '\r');
+                for (int r = 0; r < this.Revetements.size(); r++) {
+                    Revetement rev = this.Revetements.get(r);
+                    buffer.write(rev.getNom()+" : " + '\t'+rev.getPrixUnitaire() + "€" + '\t'+"surface = " + Tot[r]/rev.getPrixUnitaire()+'\t' + Tot[r] + "€" + '\r');
+                }
+             
+            //}
+            //buffer.write("."+'\r'+"FIN");
+                
+            buffer.close();
+            System.out.println("Sauvegarde terminee.");
+            } catch (IOException e) {
+            System.out.println("Erreur.");
+            e.printStackTrace();
+        }
+    }
+   
 }
