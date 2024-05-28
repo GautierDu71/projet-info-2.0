@@ -69,6 +69,7 @@ public class MainPaine extends BorderPane {
             bcDevis();
         });
         this.rbPrecision = new RadioButton("activer précision");
+        this.rbPrecision.setSelected(true);
         
 
         this.bSauvegarder = new Button("Sauvegarder");

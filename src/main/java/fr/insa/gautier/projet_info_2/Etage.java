@@ -29,6 +29,10 @@ public class Etage {
         this.Murs = Murs;
     }
     
+    
+    public void ajoutMur (Mur mur){
+        this.Murs.add(mur);
+    }
 
 
 

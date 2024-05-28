@@ -28,8 +28,11 @@ public class Mur {
         this.rev2 = null;
     }
 
-
-
+    
+    public boolean getExt(){
+        return this.ext;
+    }
+    
     public void setExt(boolean ext) {
         this.ext = ext;
     }

@@ -86,6 +86,8 @@ public class Controleur {
            for(i=0 ; i<this.Coins.size() ; i++ ){
                      coinproche = coinProche(this.Coins,x,y);              
                 }
+           
+           if (coinDedans(x,y,this.etageActuel) || coinproche != null){
            switch (this.etat) {
                
                case -1:
@@ -123,12 +125,12 @@ public class Controleur {
                if(coinProche(pieceActuelle.getCoins(),x,y) != null) {
                     
                     this.canvas.contexte.strokeLine(pieceActuelle.getCoin(pieceActuelle.getCoins().size()-1).getX(),pieceActuelle.getCoin(pieceActuelle.getCoins().size()-1).getY(), pieceActuelle.getCoin(0).getX(), pieceActuelle.getCoin(0).getY());
-                    Mur murExistant = MurExistant(pieceActuelle.getCoin(pieceActuelle.getCoins().size()-1),pieceActuelle.getCoin(pieceActuelle.getCoins().size()-2));
+                    Mur murExistant = MurExistant(pieceActuelle.getCoin(pieceActuelle.getCoins().size()-1),pieceActuelle.getCoin(0));
 
                     if (murExistant == null) {
-                       this.Murs.add(new Mur(pieceActuelle.getCoin(pieceActuelle.getCoins().size()-1),pieceActuelle.getCoin(0)));
+                       this.Batiments.getEtage(this.etageActuel).ajoutMur(new Mur(pieceActuelle.getCoin(pieceActuelle.getCoins().size()-1) ,pieceActuelle.getCoin(0)));
                    } else {
-                       this.Murs.add(murExistant);
+                       murExistant.setExt(false);
                    }                              
                     //this.AllCoins.addAll(Coins);
                     //this.Coins.clear();
@@ -145,14 +147,14 @@ public class Controleur {
                    Mur murExistant = MurExistant(pieceActuelle.getCoin(pieceActuelle.getCoins().size()-1),pieceActuelle.getCoin(pieceActuelle.getCoins().size()-2));
 
                    if (murExistant == null) {
-                       this.Murs.add(new Mur(this.Coins.get(this.Coins.size()-1),this.Coins.get(this.Coins.size()-2)));
+                       this.Batiments.getEtage(this.etageActuel).ajoutMur(new Mur(pieceActuelle.getCoin(pieceActuelle.getCoins().size()-1) ,pieceActuelle.getCoin(pieceActuelle.getCoins().size()-2)));
                    } else {
-                       this.Murs.add(murExistant);
+                       murExistant.setExt(false);
                    }
                }
                
                break ;
-           
+           }
            }
         });
     }    
@@ -185,14 +187,13 @@ public class Controleur {
         this.canvas.contexte.setStroke(Color.GREY);
         if (nEtage-1 >= 0){
             System.out.println(nEtage-1);
-            ArrayList<Pièce> piecesEtageDessous = this.Batiments.getEtage(nEtage-1).getPieces();
+            ArrayList<Mur> mursEtageDessous = this.Batiments.getEtage(nEtage-1).getMurs();
             System.out.println(this.Batiments.getEtage(nEtage-1).toString());
-            for (i=0 ; i< piecesEtageDessous.size() ; i++) {
-                ArrayList<Coin> coinsPiecei = piecesEtageDessous.get(i).getCoins();
-                for(j=1 ; j<coinsPiecei.size() ; j++) {
-                    this.canvas.contexte.strokeLine(coinsPiecei.get(j-1).getX(), coinsPiecei.get(j-1).getY(), coinsPiecei.get(j).getX(), coinsPiecei.get(j).getY());
-                }
-                this.canvas.contexte.strokeLine(coinsPiecei.get(0).getX(), coinsPiecei.get(0).getY(), coinsPiecei.get(coinsPiecei.size()-1).getX(), coinsPiecei.get(coinsPiecei.size()-1).getY());
+            for (i=0 ; i< mursEtageDessous.size() ; i++) {
+                if (mursEtageDessous.get(i).getExt()){
+                    this.canvas.contexte.strokeLine(mursEtageDessous.get(i).getPt1().getX(), mursEtageDessous.get(i).getPt1().getY(), mursEtageDessous.get(i).getPt2().getX(), mursEtageDessous.get(i).getPt2().getY());
+                    }
+
             }
         }
         
@@ -514,19 +515,26 @@ public void LectureSauvegarde() {
 
     public Mur MurExistant(Coin coin1, Coin coin2) {
         Mur mur = null;
+        ArrayList<Mur> murs = this.Batiments.getEtage(this.etageActuel).getMurs();
         System.out.println(coin1);
         System.out.println(coin2);
         
+            if (murs.isEmpty()) {
+        System.out.println("La liste de murs est vide.");
+        return mur;
+    }
+        
         System.out.println(this.Murs.size());
-        for (int indexMurs = 0; indexMurs < this.Murs.size(); indexMurs++) {
-            System.out.println(this.Murs.get(indexMurs).getPt1());
-            System.out.println(this.Murs.get(indexMurs).getPt2());
-            if ((this.Murs.get(indexMurs).getPt1() == coin1 && this.Murs.get(indexMurs).getPt2() == coin2) || 
-                    (this.Murs.get(indexMurs).getPt1() == coin2 && this.Murs.get(indexMurs).getPt2() == coin1)){
+        for (int indexMurs = 0; indexMurs < murs.size(); indexMurs++) {
+            
+            if (!murs.isEmpty()) {
+                
+            if ((murs.get(indexMurs).getPt1() == coin1 && murs.get(indexMurs).getPt2() == coin2) || 
+                    (murs.get(indexMurs).getPt1() == coin2 && murs.get(indexMurs).getPt2() == coin1)){
                 System.out.println("le mur existe deja");
-                mur = this.Murs.get(indexMurs);
+                mur = murs.get(indexMurs);
                 break;
-            }
+            }}
             //System.out.println(indexMurs);
         }
         return mur;
@@ -598,5 +606,57 @@ public void LectureSauvegarde() {
             e.printStackTrace();
         }
     }
+    public boolean coinDedans(double x, double y, int k){
+        
+        boolean coinDedans = false;
+        if(k>0){
+        ArrayList<Mur> murs = this.Batiments.getEtage(k-1).getMurs();
+        int i ;
+        int nbmurs = 0;
+        for(i=0 ; i<murs.size() ; i++){
+            Coin c1 = null;
+            Coin c2 = null;
+            
+            if(murs.get(i).getExt() == true){
+            if(murs.get(i).getPt1().getX() != murs.get(i).getPt2().getX()){
+                
+                if(murs.get(i).getPt1().getX() <= murs.get(i).getPt2().getX()){
+                    c1 = murs.get(i).getPt1();
+                    c2 = murs.get(i).getPt2();
+                } else {
+                    c1 = murs.get(i).getPt2();
+                    c2 = murs.get(i).getPt1();
+                } 
+                
+                if(c1.getX() != c2.getX()){
+                if( (c1.getX() <= x) && (c2.getX() > x) ){
+                        if( ((c1.getY() - c2.getY())/(c1.getX() - c2.getX()))*(x-c1.getX())+c1.getY() > y){
+                            System.out.println((((c1.getY() - c2.getY())/(c1.getX() - c2.getX()))*(x-c1.getX())+c1.getY())+"est Fxc");
+                            nbmurs++;
+                        }
+                } 
+                } 
+                
+                
+                
+            }
+            }
+                
+            }
+           if(nbmurs % 2 != 0){
+            coinDedans = true;            
+        }
+        } else {coinDedans=true;}
+        return coinDedans; 
+        }
+    
+        public Batiment getBatiment() {
+            return this.Batiments;
+        }
+        
+        public int getEtageActuel(){
+            return this.etageActuel ;
+        }
+
    
 }
