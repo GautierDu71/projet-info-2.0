@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
@@ -31,6 +32,7 @@ public class MainPaine extends BorderPane {
     private Label lNombreEtages;
     private Button bNouvelEtage;
     private Button bNouvellePiece;
+    private Button bRevetements;
     private Button bDevis;
     private RadioButton rbPrecision;
     private Button bSauvegarder;
@@ -64,6 +66,10 @@ public class MainPaine extends BorderPane {
         this.bNouvellePiece.setOnAction(event ->{
             bcNouvellePiece();
         });
+        this.bRevetements = new Button("Revêtements...");
+        this.bRevetements.setOnAction(event -> {
+            bRevetements();
+        });
         this.bDevis = new Button("Devis");
         this.bDevis.setOnAction(event ->{
             bcDevis();
@@ -79,8 +85,8 @@ public class MainPaine extends BorderPane {
         this.bCharger.setOnAction(event ->{
             bcCharger();
         });
-        VBox vbDroite = new VBox(this.lNombreEtages,this.rbPrecision,this.bNouvelEtage,this.bNouvellePiece,this.bDevis,this.bSauvegarder,this.bCharger);
-        vbDroite.setSpacing(10);
+        VBox vbDroite = new VBox(10,this.lNombreEtages,this.rbPrecision,this.bNouvelEtage,this.bNouvellePiece,this.bRevetements,this.bDevis,this.bSauvegarder,this.bCharger);
+        vbDroite.setMargin(this.bRevetements,new Insets(20.0,0.0,20.0,0.0));
         
         HBox hbHaut = new HBox(this.bEtageBas,this.lEtage,this.bEtageHaut);
         hbHaut.setAlignment(Pos.CENTER);
@@ -111,6 +117,10 @@ public class MainPaine extends BorderPane {
     public void bcFin(){
         System.out.println("des crêpes");
     }
+    public void bRevetements(){
+        this.controleur.creationPaneRev();
+    }
+    
     public void bcSauvegarder(){
 
         

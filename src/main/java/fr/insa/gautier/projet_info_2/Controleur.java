@@ -14,10 +14,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import javafx.event.EventHandler;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 
 
@@ -135,6 +137,7 @@ public class Controleur {
                     //this.AllCoins.addAll(Coins);
                     //this.Coins.clear();
                     this.etat = 0;
+                    actualiserLabelEtage();
                } else {
                    this.canvas.contexte.strokeLine(pieceActuelle.getCoin(pieceActuelle.getCoins().size()-1).getX(),pieceActuelle.getCoin(pieceActuelle.getCoins().size()-1).getY() , x, y);
                    
@@ -539,6 +542,19 @@ public void LectureSauvegarde() {
         }
         return mur;
     }
+    
+    
+     public void creationPaneRev() {
+       Stage sRevetements = new Stage();
+            sRevetements.setTitle("Revêtements");
+            var scene = new Scene(new MainPaineRevetements(this,this.lEtage),150,300);
+            sRevetements.setScene(scene);
+            sRevetements.setX(2.0);
+           sRevetements.show();
+    }
+
+
+    
 
     public void calculDevis(Batiment Batiment,ArrayList<Etage> Etages) {
         try (PrintWriter out = new PrintWriter("Devis.txt")) {
