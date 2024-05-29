@@ -3,7 +3,11 @@ package fr.insa.gautier.projet_info_2;
 import java.util.ArrayList;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -21,8 +25,10 @@ public class MainPaineRevetements extends BorderPane{
     private VBox vbox ;
     ArrayList<Button> boutonsPiece;
     ArrayList<Button> boutonsMurs;
+    private ArrayList<Revetement> Revetements;
     
-    public MainPaineRevetements(Controleur controleur_, Label lEtage_){
+    public MainPaineRevetements(Controleur controleur_, Label lEtage_, ArrayList<Revetement> Revetements_){
+        this.Revetements = Revetements_;
         this.controleur = controleur_;
         this.vbox = new VBox();        
         
@@ -62,20 +68,48 @@ public class MainPaineRevetements extends BorderPane{
     public void menuPrincipal() {
         this.vbox.getChildren().clear();
         Etage etageActuel = this.controleur.getBatiment().getEtage(this.controleur.getEtageActuel());
-        ArrayList<Button> boutonsPiece = new ArrayList();
+        ArrayList<HBox> menusPiece = new ArrayList();
         for(int i=0 ; i<etageActuel.getPieces().size() ; i++){
-            boutonsPiece.add(new Button("Pièce n°"+(i+1)));          
-        }
+            ChoiceBox piecei = new ChoiceBox<>();
+            for(int j=0 ; j<this.Revetements.size() ; j++){
+                if(this.Revetements.get(j).isPourSol()) {
+                    piecei.getItems().add(this.Revetements.get(j).getNom());
+                }
+            }
+            Label lPiecei = new Label("pièce n°" + (i+1) + ": ");
+            HBox hBoxPiecei = new HBox(lPiecei,piecei);
+            menusPiece.add(hBoxPiecei);
+            
+        }    
+            
+            
+        
         this.vbox.getChildren().add(new Label("Pièces :"));
-        this.vbox.getChildren().addAll(boutonsPiece);
+        this.vbox.getChildren().addAll(menusPiece);
         this.vbox.getChildren().add(new Label("Murs :"));
         
-        ArrayList<Button> boutonsMurs = new ArrayList();
-        for(int j=0 ; j<etageActuel.getMurs().size() ; j++){
-            boutonsMurs.add(new Button("Mur n°"+(j+1)));          
-        }
-        this.vbox.getChildren().addAll(boutonsMurs);
-        
+        ArrayList<HBox> menusMurs = new ArrayList();
+        System.out.println(etageActuel.getMurs().toString());
+        for(int i=0 ; i<etageActuel.getMurs().size() ; i++){
+            System.out.println(i);
+            ChoiceBox muriRev1 = new ChoiceBox<>();
+            for(int j=0 ; j<this.Revetements.size() ; j++){
+                if(this.Revetements.get(j).isPourMur()) {
+                    muriRev1.getItems().add(this.Revetements.get(j).getNom());
+                }
+            }
+            ChoiceBox muriRev2 = new ChoiceBox<>();
+            for(int j=0 ; j<this.Revetements.size() ; j++){
+                if(this.Revetements.get(j).isPourMur()) {
+                    muriRev2.getItems().add(this.Revetements.get(j).getNom());
+                }
+            }
+            Label lMuri = new Label("mur n°" + (i+1) + ": ");
+            HBox hBoxMuri = new HBox(lMuri,muriRev1,muriRev2);
+            menusMurs.add(hBoxMuri);
+            
+        }    
+         this.vbox.getChildren().addAll(menusMurs);
     }
 }
 

@@ -547,7 +547,7 @@ public void LectureSauvegarde() {
      public void creationPaneRev() {
        Stage sRevetements = new Stage();
             sRevetements.setTitle("Revêtements");
-            var scene = new Scene(new MainPaineRevetements(this,this.lEtage),150,300);
+            var scene = new Scene(new MainPaineRevetements(this,this.lEtage,this.Revetements),150,300);
             sRevetements.setScene(scene);
             sRevetements.setX(2.0);
            sRevetements.show();
