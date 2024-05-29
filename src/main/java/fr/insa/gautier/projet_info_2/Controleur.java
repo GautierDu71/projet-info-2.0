@@ -60,6 +60,8 @@ public class Controleur {
         this.Revetements = new ArrayList();
         LectureRevetements(Revetements);
         
+        Revetement revDefaultSol = revetementDefautSol();
+        
         this.canvas.heightProperty().addListener((o)->{
             if(this.Batiments.getEtages().size()!=0){drawEtage(this.etageActuel);} 
         });
@@ -101,7 +103,7 @@ public class Controleur {
                
                case 10:
                 this.canvas.contexte.setLineWidth(5);
-                this.Batiments.getEtage(this.etageActuel).AjouterP(new Pièce(new ArrayList<Coin>(),this.Revetements.get(0)));
+                this.Batiments.getEtage(this.etageActuel).AjouterP(new Pièce(new ArrayList<Coin>(),revDefaultSol));
                 Pièce pieceActuelle = this.Batiments.getEtage(this.etageActuel).getPiece(this.Batiments.getEtage(this.etageActuel).getPieces().size()-1);
                
                
@@ -160,7 +162,18 @@ public class Controleur {
            }
            }
         });
-    }    
+    }
+
+    public Revetement revetementDefautSol() {
+        Revetement sol = null;
+        for(int i=0 ; i<this.Revetements.size() ;i++){
+            if(Revetements.get(i).isPourSol()){
+                sol = Revetements.get(i);
+                break;
+            }
+        }
+        return sol;
+    }
     
     public void changementEtage(int i){
     int etageSuivant = this.etageActuel+i;

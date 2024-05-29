@@ -74,7 +74,15 @@ public class MainPaineRevetements extends BorderPane{
             for(int j=0 ; j<this.Revetements.size() ; j++){
                 if(this.Revetements.get(j).isPourSol()) {
                     piecei.getItems().add(this.Revetements.get(j).getNom());
+                    System.out.println(etageActuel.getPiece(i).getSol().toString());
+                    System.out.println(this.Revetements.get(j));
+                    System.out.println("000");
+                    if(this.Revetements.get(j) == etageActuel.getPiece(i).getSol()){
+                        piecei.getSelectionModel().select(this.Revetements.get(j));
+                        System.out.println("lol"+this.Revetements.get(j).toString());
+                    }
                 }
+                
             }
             Label lPiecei = new Label("pièce n°" + (i+1) + ": ");
             HBox hBoxPiecei = new HBox(lPiecei,piecei);
@@ -88,14 +96,13 @@ public class MainPaineRevetements extends BorderPane{
         this.vbox.getChildren().addAll(menusPiece);
         this.vbox.getChildren().add(new Label("Murs :"));
         
-        ArrayList<HBox> menusMurs = new ArrayList();
-        System.out.println(etageActuel.getMurs().toString());
-        for(int i=0 ; i<etageActuel.getMurs().size() ; i++){
-            System.out.println(i);
+        ArrayList<HBox> menusMurs = new ArrayList();        
+        for(int i=0 ; i<etageActuel.getMurs().size() ; i++){            
             ChoiceBox muriRev1 = new ChoiceBox<>();
             for(int j=0 ; j<this.Revetements.size() ; j++){
                 if(this.Revetements.get(j).isPourMur()) {
                     muriRev1.getItems().add(this.Revetements.get(j).getNom());
+                    
                 }
             }
             ChoiceBox muriRev2 = new ChoiceBox<>();
