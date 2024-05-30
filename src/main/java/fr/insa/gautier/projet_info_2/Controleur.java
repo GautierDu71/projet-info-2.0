@@ -61,6 +61,7 @@ public class Controleur {
         LectureRevetements(Revetements);
         
         Revetement revDefaultSol = revetementDefautSol();
+        Revetement revDefaultMur = revetementDefautSol();
         
         this.canvas.heightProperty().addListener((o)->{
             if(this.Batiments.getEtages().size()!=0){drawEtage(this.etageActuel);} 
@@ -560,7 +561,7 @@ public void LectureSauvegarde() {
      public void creationPaneRev() {
        Stage sRevetements = new Stage();
             sRevetements.setTitle("Revêtements");
-            var scene = new Scene(new MainPaineRevetements(this,this.lEtage,this.Revetements),150,300);
+            var scene = new Scene(new MainPaineRevetements(this,this.lEtage),150,300);
             sRevetements.setScene(scene);
             sRevetements.setX(2.0);
            sRevetements.show();
@@ -685,6 +686,10 @@ public void LectureSauvegarde() {
         
         public int getEtageActuel(){
             return this.etageActuel ;
+        }
+        
+        public ArrayList<Revetement> getRevetements(){
+            return this.Revetements;
         }
 
    

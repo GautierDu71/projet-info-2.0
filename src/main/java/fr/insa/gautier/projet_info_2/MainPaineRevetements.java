@@ -27,9 +27,9 @@ public class MainPaineRevetements extends BorderPane{
     ArrayList<Button> boutonsMurs;
     private ArrayList<Revetement> Revetements;
     
-    public MainPaineRevetements(Controleur controleur_, Label lEtage_, ArrayList<Revetement> Revetements_){
-        this.Revetements = Revetements_;
+    public MainPaineRevetements(Controleur controleur_, Label lEtage_){       
         this.controleur = controleur_;
+        this.Revetements = this.controleur.getRevetements();
         this.vbox = new VBox();        
         
         this.lEtage = new Label();
@@ -74,12 +74,9 @@ public class MainPaineRevetements extends BorderPane{
             for(int j=0 ; j<this.Revetements.size() ; j++){
                 if(this.Revetements.get(j).isPourSol()) {
                     piecei.getItems().add(this.Revetements.get(j).getNom());
-                    System.out.println(etageActuel.getPiece(i).getSol().toString());
-                    System.out.println(this.Revetements.get(j));
-                    System.out.println("000");
+                    
                     if(this.Revetements.get(j) == etageActuel.getPiece(i).getSol()){
-                        piecei.getSelectionModel().select(this.Revetements.get(j));
-                        System.out.println("lol"+this.Revetements.get(j).toString());
+                        piecei.getSelectionModel().select(piecei.getItems().get(j-1));
                     }
                 }
                 
@@ -102,6 +99,9 @@ public class MainPaineRevetements extends BorderPane{
             for(int j=0 ; j<this.Revetements.size() ; j++){
                 if(this.Revetements.get(j).isPourMur()) {
                     muriRev1.getItems().add(this.Revetements.get(j).getNom());
+                    if(this.Revetements.get(j) == etageActuel.getMur(i).getRev1()){
+                        muriRev1.getSelectionModel().select(muriRev1.getItems().get(j-1));
+                    }
                     
                 }
             }
@@ -109,6 +109,9 @@ public class MainPaineRevetements extends BorderPane{
             for(int j=0 ; j<this.Revetements.size() ; j++){
                 if(this.Revetements.get(j).isPourMur()) {
                     muriRev2.getItems().add(this.Revetements.get(j).getNom());
+                     if(this.Revetements.get(j) == etageActuel.getMur(i).getRev2()){
+                        muriRev2.getSelectionModel().select(muriRev2.getItems().get(j-1));
+                    }
                 }
             }
             Label lMuri = new Label("mur n°" + (i+1) + ": ");
