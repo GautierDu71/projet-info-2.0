@@ -6,22 +6,16 @@ package fr.insa.gautier.projet_info_2;
 
 import java.util.ArrayList;
 
-/**
- *
- * @author emarx02
- */
 public class Batiment {
-    int idBatiment;
     
-
-
+    int idBatiment;
     private ArrayList<Etage> etages ;
-
+    //constructeur
     public Batiment(int idBatiment) {
         this.idBatiment = idBatiment;
         this.etages = new ArrayList<Etage>();
     }
-
+    //getters et setters
     public int getIdBatiment() {
         return idBatiment;
     }
@@ -41,7 +35,7 @@ public class Batiment {
     public Etage getEtage(int i) {
         return etages.get(i);
     }
-
+    //pour ajouter un etage a la liste
     public void ajoutEtage() {
         this.etages.add(new Etage(this.etages.size(),4));
     }

@@ -5,44 +5,37 @@
 package fr.insa.gautier.projet_info_2;
 import java.util.ArrayList ;
 
-/**
- *
- * @author gserouart01
- */
 public class Pièce {
     private ArrayList<Coin> coins ;
     private Revetement sol ;
-
-
 
     public Pièce(ArrayList<Coin> coins, Revetement sol) {
         this.coins = coins;
         this.sol = sol;
     }
-   
+    //donne le prix de la piece (non utilise)
     public double prix() {        
         return this.sol.getPrixUnitaire()*surface();
     }
-    
-    
-    
-    
+    //ajoute un point à la liste
     public void addCoin(Coin a) {
     this.coins.add(a) ;
     }
+    //calcule la surface de la piece quelle que soit sa forme en utilisant une formule necessitant que les points soient places dans l'ordre
     public double surface() {
         double surface = 0 ;
         int i ;
         
         for (i=0 ; i<coins.size()-1 ; i++) {            
-        surface = surface + (this.coins.get(i).getX()* this.coins.get(i+1).getY() - this.coins.get(i+1).getX()* this.coins.get(i).getY());    
+        surface += (this.coins.get(i).getX()* this.coins.get(i+1).getY() - this.coins.get(i+1).getX()* this.coins.get(i).getY());    
         }
-        surface = surface + (this.coins.get(coins.size()-1).getX()* this.coins.get(0).getY() - this.coins.get(0).getX()* this.coins.get(coins.size()-1).getY());
+        //la formule entre le dernier et le premier point
+        surface += (this.coins.get(coins.size()-1).getX()* this.coins.get(0).getY() - this.coins.get(0).getX()* this.coins.get(coins.size()-1).getY());
         
-    surface = surface/(2*40*40) ;
+    surface = surface/(2*40*40); // le 40 au carre est pour s'alligner au systeme de coordonnees
     return Math.abs(surface);
     } 
-
+    //getters et setters
     @Override
     public String toString() {
         return "Pi\u00e8ce{" + "coins=" + coins + '}';

@@ -4,17 +4,13 @@
  */
 package fr.insa.gautier.projet_info_2;
 
-/**
- *
- * @author gserouart01
- */
 public class Coin {
     
     private int intersections;
     private int id;
     private double x, y;
     private Etage Etage;
-
+    //constructeur
     public Coin(int id, double x, double y, Etage Etage) {
         intersections = 0;
         this.id = id;
@@ -22,7 +18,7 @@ public class Coin {
         this.y = y;
         this.Etage = Etage;
     }
-
+    //getters et setters
     public int getIntersections() {
         return intersections;
     }
@@ -66,12 +62,5 @@ public class Coin {
 
     public void setEtage(Etage Etage) {
         this.Etage = Etage;
-    }
-
-
-
-
-    
-    
-       
+    }     
 }
