@@ -39,8 +39,8 @@ public class Pièce {
         }
         surface = surface + (this.coins.get(coins.size()-1).getX()* this.coins.get(0).getY() - this.coins.get(0).getX()* this.coins.get(coins.size()-1).getY());
         
-    surface = surface/2 ;
-    return surface;
+    surface = surface/(2*40*40) ;
+    return Math.abs(surface);
     } 
 
     @Override

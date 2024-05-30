@@ -122,26 +122,7 @@ public class MainPaine extends BorderPane {
     }
     
     public void bcSauvegarder(){
-
-        
-        
-        ArrayList<Etage> Etages = new ArrayList();
-        Etages.add(new Etage(0,2));
-        
-        ArrayList<Batiment> Batiments = new ArrayList();
-        Batiments.add(new Batiment(0));
-       
-        ArrayList<Coin> Coins = new ArrayList();
-        Coins.add(new Coin(0,1,2,Etages.get(0)));
-        Coins.add(new Coin(1,3,5,Etages.get(0)));
-        
-        ArrayList<Mur> Murs = new ArrayList();
-        Murs.add(new Mur(Coins.get(0),Coins.get(1),null,null));
-        
-        ArrayList<Pièce> Pieces = new ArrayList();
-        Pieces.add(new Pièce(Coins,new Revetement(1,"nn",true, true, true,3)));
-        
-        //this.controleur.Sauvegarde(this.controleur.getCoins(),this.controleur.getBatiments().getEtages(),this.controleur.getBatiments(),Murs,Pieces);
+        this.controleur.Sauvegarde();
 
     }
     public void bcCharger(){

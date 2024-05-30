@@ -386,70 +386,67 @@ public class Controleur {
             e.printStackTrace();
         }
     }
-        /*
-        public void Sauvegarde(ArrayList<Coin> Coins,ArrayList<Etage> Etages,Batiment Batiments,ArrayList<Mur> Murs,ArrayList<Pièce> Pieces) {
-            try (PrintWriter out = new PrintWriter("Sauvegarde.txt")) {
-            File myObj = new File("Sauvegarde.txt");
-            if (myObj.createNewFile()) {
-                System.out.println("Fichier cree: " + myObj.getName());
-            } else {
-                System.out.println("Fichier sauvegarde trouve.");
-            }
-        } catch (FileNotFoundException ex) {
-            ex.printStackTrace();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
         
-        try {
-            FileWriter myWriter = new FileWriter("Sauvegarde.txt");
-            BufferedWriter buffer = new BufferedWriter(myWriter);
-            
-            buffer.flush();
-            
-            buffer.write("BATIMENTS"+'\r');
-            for (int b = 0; b < Batiments.size(); b++) {
-                buffer.write(Batiments.get(b).getIdBatiment()+","+Batiments.get(b).getEtages().size()+'\r');
-            }
-            buffer.write("."+'\r');
-            for (int b = 0; b < Batiments.size(); b++) {
-                buffer.write("** Batiment "+Batiments.get(b).getIdBatiment()+" **"+'\r'+"."+'\r');
-                buffer.write("ETAGES"+'\r');
-                for (int i = 0; i < Etages.size(); i++) {
-                    buffer.write(Etages.get(i).getId()+","+Etages.get(i).getHauteur()+'\r');
-                }
-            
-                buffer.write("."+'\r'+"COINS"+'\r');
-                for (int i = 0; i < Coins.size(); i++){
-                    buffer.write(Coins.get(i).getId()+","+Coins.get(i).getX()+","+Coins.get(i).getY()+","+Coins.get(i).getEtage().getId()+'\r');
-                }
-                
-                buffer.write("."+'\r'+"MURS"+'\r');
-                for (int i = 0; i < Murs.size(); i++){
-                    buffer.write(Murs.get(i).getPt1().getId()+","+Murs.get(i).getPt1().getId()+","+Murs.get(i).getRev1()+","+Murs.get(i).getRev2()+","+Murs.get(i).getRev3()+","+
-                            Murs.get(i).getSeparation()+","+Murs.get(i).getPortes()+","+Murs.get(i).getFenetres()+'\r');
-                }
-                
-                buffer.write("."+'\r'+"PIECES"+'\r');
-                for (int i = 0; i < Pieces.size(); i++){
-                    buffer.write(Pieces.get(i).getSol().getNom());
-                    for (int j = 0; j < Pieces.get(i).getCoins().size(); j++) {
-                        buffer.write(","+Pieces.get(i).getCoins().get(j).getId());
-                    }
-                    buffer.write('\r');
-                }
-                
-                
-            }
-            //buffer.write("."+'\r'+"FIN");
-                
-            buffer.close();
-            System.out.println("Sauvegarde terminee.");
-            } catch (IOException e) {
-            System.out.println("Erreur.");
-            e.printStackTrace();
+    public void Sauvegarde() {
+        try (PrintWriter out = new PrintWriter("Sauvegarde.txt")) {
+        File myObj = new File("Sauvegarde.txt");
+        if (myObj.createNewFile()) {
+            System.out.println("Fichier cree: " + myObj.getName());
+        } else {
+            System.out.println("Fichier sauvegarde trouve.");
         }
-    } */
+    } catch (FileNotFoundException ex) {
+        ex.printStackTrace();
+    } catch (IOException ex) {
+        ex.printStackTrace();
+    }
+    
+    try {
+        FileWriter myWriter = new FileWriter("Sauvegarde.txt");
+        BufferedWriter buffer = new BufferedWriter(myWriter);
+        
+        buffer.flush();
+            
+        buffer.write("BATIMENTS"+'\r');
+        buffer.write(this.Batiments.getIdBatiment()+","+this.Batiments.getEtages().size()+'\r');
+        buffer.write('\r');
+        
+        buffer.write("** Batiment "+Batiments.getIdBatiment()+" **"+'\r' + '\r');
+        
+        for (int e = 0; e < this.Batiments.getEtages().size(); e++) {
+            buffer.write("ETAGE "+this.Batiments.getEtage(e).getId()+'\r');
+            buffer.write(this.Batiments.getEtage(e).getId()+","+this.Batiments.getEtage(e).getHauteur()+'\r'); 
+            buffer.write("Points de l'etage :" + '\r');
+            for (int p = 0; p < this.Batiments.getEtage(e).getPieces().size(); p++) {
+                Pièce piece = this.Batiments.getEtage(e).getPiece(p);
+                for (int c = 0; c < piece.getCoins().size(); c++) {
+                    buffer.write(piece.getCoin(c).getId() + "," + piece.getCoin(c).getX() + "," + piece.getCoin(c).getY() + "," + piece.getCoin(c).getEtage().getId() + '\r');
+                }
+            }                
+            buffer.write("Pieces de l'etage :" + '\r');
+            for (int p = 0; p < this.Batiments.getEtage(e).getPieces().size(); p++) {
+                Pièce piece = this.Batiments.getEtage(e).getPiece(p);
+                buffer.write(p + "," + piece.getCoins().size() + "," + piece.getSol().getNom() + '\r');
+            }                
+            buffer.write('\r' + "Murs de l'etage :" + '\r');
+            for (int m = 0; m < this.Batiments.getEtage(e).getMurs().size(); m++) {
+                Mur mur = this.Batiments.getEtage(e).getMur(m);
+                buffer.write(mur.getId() + "," + mur.getPt1().getId() + "," + mur.getPt2().getId() + "," + mur.getRev1().getIdRev() + "," + mur.getRev2().getIdRev() + "," + mur.getExt() + "," + mur.getFenetres() + "," + mur.getPortes() + '\r');
+            }
+            buffer.write('\r');
+
+        }
+
+        
+        buffer.write('\r'+"FIN");
+                
+        buffer.close();
+        System.out.println("Sauvegarde terminee.");
+        } catch (IOException e) {
+        System.out.println("Erreur.");
+        e.printStackTrace();
+    }
+}
     
     
     
@@ -621,7 +618,7 @@ public void LectureSauvegarde() {
             FileWriter myWriter = new FileWriter("Devis.txt");
             BufferedWriter buffer = new BufferedWriter(myWriter);
             
-            int[] Tot = new int[this.Revetements.size()];
+            double[] Tot = new double[this.Revetements.size()];
             for (int r = 0; r < this.Revetements.size(); r++) {
                 Tot[r] = 0;
             }
@@ -632,34 +629,45 @@ public void LectureSauvegarde() {
             buffer.write('\r'+'\r');
             
             buffer.write("-------------------------------------"+'\r');
-            buffer.write("** Batiment 1"/*+Batiments.get(b).getIdBatiment()*/+" **"+'\r');
+            buffer.write("** Batiment 1"+" **"+'\r');
             for (int i = 0; i < Etages.size(); i++) {
                 for (int m = 0; m < Etages.get(i).getMurs().size(); m++) {
-                    int revIdRandom = (int)Math.random()*this.Revetements.size();
-                    System.out.println(revIdRandom);
-                    Revetement rev1 = this.Revetements.get(revIdRandom);
-                    Etages.get(i).getMurs().get(m).setRev1(rev1);
                     for (int r = 0; r < this.Revetements.size(); r++) {
-                        if (Etages.get(i).getMurs().get(m).getRev1().equals(this.Revetements.get(r))) {
+                        if (Etages.get(i).getMurs().get(m).getRev1() == null) {
+                            Tot[r] += 0;
+                        } else if(Etages.get(i).getMurs().get(m).getRev1().equals(this.Revetements.get(r))) {
                             Tot[r] += Etages.get(i).getMurs().get(m).getSurface(1)*this.Revetements.get(r).getPrixUnitaire();
                         }
-                        if (Etages.get(i).getMurs().get(m).getRev2().equals(this.Revetements.get(r))) {
+                        if (Etages.get(i).getMurs().get(m).getRev2() == null) {
+                            Tot[r] += 0;
+                        } else if(Etages.get(i).getMurs().get(m).getRev2().equals(this.Revetements.get(r))) {
                             Tot[r] += Etages.get(i).getMurs().get(m).getSurface(2)*this.Revetements.get(r).getPrixUnitaire();
                         }
-                        if (Etages.get(i).getMurs().get(m).getRev3().equals(this.Revetements.get(r))) {
+                        if (Etages.get(i).getMurs().get(m).getRev3() == null) {
+                            Tot[r] += 0;
+                        } else if(Etages.get(i).getMurs().get(m).getRev3().equals(this.Revetements.get(r))) {
                             Tot[r] += Etages.get(i).getMurs().get(m).getSurface(3)*this.Revetements.get(r).getPrixUnitaire();
                         }
                     }
                 }
+                for (int p = 0; p< Etages.get(i).getPieces().size(); p++) {
+                    for (int r = 0; r < this.Revetements.size(); r++) {
+                       if (Etages.get(i).getPiece(p).getSol()== null) {
+                            Tot[r] += 0;
+                        } else if(Etages.get(i).getPiece(p).getSol().equals(this.Revetements.get(r))) {
+                            Tot[r] += Etages.get(i).getPiece(p).surface()*this.Revetements.get(r).getPrixUnitaire();
+                        }
+                    } 
+                }
             }
-            buffer.write("Revetement : "+ '\t'+ '\t'+'\t' + "prix unitaire : "+ '\t'+'\t' + "surface : " + '\t' + "prix total :" + '\r');
+            buffer.write("Revetement : "+ '\t'+ '\t'+'\t' + "prix unitaire : "+ '\t'+'\t' + "surface : " + '\t' +'\t' + "prix total :" + '\r');
                 for (int r = 0; r < this.Revetements.size(); r++) {
                 Revetement rev = this.Revetements.get(r);
                 buffer.write(rev.getNom()+" : "+'\t');
                 if (!(r==6)) {
                     buffer.write(" "+'\t' + '\t');
                 }
-                buffer.write(rev.getPrixUnitaire() + " Eur" + '\t'+ '\t'+ '\t'+"surface = " + Tot[r]/rev.getPrixUnitaire()+'\t' + Tot[r] + " Eur" + '\r');
+                buffer.write(rev.getPrixUnitaire() + " Eur" + '\t'+ '\t'+ '\t'+"surface = " + Tot[r]/rev.getPrixUnitaire()+ " m^2" + '\t' + Tot[r] + " Eur" + '\r');
             }
                 
             buffer.close();

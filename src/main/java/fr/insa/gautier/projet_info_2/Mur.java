@@ -40,7 +40,8 @@ public class Mur {
     public double Longueur(){
         double longueur;
         longueur = Math.sqrt((this.pt1.getX()-this.pt2.getX())*(this.pt1.getX()-this.pt2.getX()) + (this.pt1.getY()-this.pt2.getY())*(this.pt1.getY()-this.pt2.getY()));
-    return longueur;
+        //System.out.println(longueur);
+        return longueur / 40;
     }
     
     public double Surface(){
