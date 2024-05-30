@@ -136,7 +136,7 @@ public class MainPaine extends BorderPane {
         Coins.add(new Coin(1,3,5,Etages.get(0)));
         
         ArrayList<Mur> Murs = new ArrayList();
-        Murs.add(new Mur(Coins.get(0),Coins.get(1)));
+        Murs.add(new Mur(Coins.get(0),Coins.get(1),null,null));
         
         ArrayList<Pièce> Pieces = new ArrayList();
         Pieces.add(new Pièce(Coins,new Revetement(1,"nn",true, true, true,3)));

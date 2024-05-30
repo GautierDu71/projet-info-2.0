@@ -61,7 +61,7 @@ public class Controleur {
         LectureRevetements(Revetements);
         
         Revetement revDefaultSol = revetementDefautSol();
-        Revetement revDefaultMur = revetementDefautSol();
+        Revetement revDefaultMur = revetementDefautMur();
         
         this.canvas.heightProperty().addListener((o)->{
             if(this.Batiments.getEtages().size()!=0){drawEtage(this.etageActuel);} 
@@ -104,23 +104,30 @@ public class Controleur {
                
                case 10:
                 this.canvas.contexte.setLineWidth(5);
-                this.Batiments.getEtage(this.etageActuel).AjouterP(new Pièce(new ArrayList<Coin>(),revDefaultSol));
-                Pièce pieceActuelle = this.Batiments.getEtage(this.etageActuel).getPiece(this.Batiments.getEtage(this.etageActuel).getPieces().size()-1);
+                
+                Pièce pieceActuelle = null;
                
                
                 if (coinproche == null) {
-                    if(this.Batiments.getEtage(this.etageActuel).getPieces().size()==1){
+                    if(this.Batiments.getEtage(this.etageActuel).getPieces().size()==0){
+                    this.Batiments.getEtage(this.etageActuel).AjouterP(new Pièce(new ArrayList<Coin>(),revDefaultSol));
+                    pieceActuelle = this.Batiments.getEtage(this.etageActuel).getPiece(this.Batiments.getEtage(this.etageActuel).getPieces().size()-1);
                     this.Coins.add(new Coin(this.Coins.size(),x,y,this.Batiments.getEtage(this.etageActuel)));
                     System.out.println("taille Coins = "+this.Coins.size());
                     this.Batiments.getEtage(this.etageActuel).getPiece(this.Batiments.getEtage(this.etageActuel).getPieces().size()-1).addCoin(this.Coins.get(this.Coins.size()-1));
                     System.out.println("taille Coins = "+this.Coins.size());
+                    
+                    this.etat = 11;
                     }
                 } else {
+                    this.Batiments.getEtage(this.etageActuel).AjouterP(new Pièce(new ArrayList<Coin>(),revDefaultSol));
+                    pieceActuelle = this.Batiments.getEtage(this.etageActuel).getPiece(this.Batiments.getEtage(this.etageActuel).getPieces().size()-1);
                     this.Coins.add(coinproche);
-                    this.Batiments.getEtage(this.etageActuel).getPiece(this.Batiments.getEtage(this.etageActuel).getPieces().size()-1).addCoin(this.Coins.get(this.Coins.size()-1));
+                    this.Batiments.getEtage(this.etageActuel).getPiece(this.Batiments.getEtage(this.etageActuel).getPieces().size()-1).addCoin(this.Coins.get(this.Coins.size()-1));                    
+                    this.etat = 11;
                 }
                
-               this.etat = 11;
+               
                break;
                
                case 11:
@@ -133,7 +140,7 @@ public class Controleur {
                     Mur murExistant = MurExistant(pieceActuelle.getCoin(pieceActuelle.getCoins().size()-1),pieceActuelle.getCoin(0));
 
                     if (murExistant == null) {
-                       this.Batiments.getEtage(this.etageActuel).ajoutMur(new Mur(pieceActuelle.getCoin(pieceActuelle.getCoins().size()-1) ,pieceActuelle.getCoin(0)));
+                       this.Batiments.getEtage(this.etageActuel).ajoutMur(new Mur(pieceActuelle.getCoin(pieceActuelle.getCoins().size()-1) ,pieceActuelle.getCoin(0),revDefaultMur,revDefaultMur));
                    } else {
                        murExistant.setExt(false);
                    }                              
@@ -153,7 +160,7 @@ public class Controleur {
                    Mur murExistant = MurExistant(pieceActuelle.getCoin(pieceActuelle.getCoins().size()-1),pieceActuelle.getCoin(pieceActuelle.getCoins().size()-2));
 
                    if (murExistant == null) {
-                       this.Batiments.getEtage(this.etageActuel).ajoutMur(new Mur(pieceActuelle.getCoin(pieceActuelle.getCoins().size()-1) ,pieceActuelle.getCoin(pieceActuelle.getCoins().size()-2)));
+                       this.Batiments.getEtage(this.etageActuel).ajoutMur(new Mur(pieceActuelle.getCoin(pieceActuelle.getCoins().size()-1) ,pieceActuelle.getCoin(pieceActuelle.getCoins().size()-2),revDefaultMur,revDefaultMur));
                    } else {
                        murExistant.setExt(false);
                    }
@@ -175,6 +182,32 @@ public class Controleur {
         }
         return sol;
     }
+    
+    public Revetement revetementDefautMur() {
+        Revetement mur = null;
+        for(int i=0 ; i<this.Revetements.size() ;i++){
+            if(Revetements.get(i).isPourMur()){
+                mur = Revetements.get(i);
+                break;
+            }
+        }
+        return mur;
+    }
+    
+    public void showPiece(Pièce piecei){
+        ArrayList<Coin> coinsPiecei = piecei.getCoins();
+        this.canvas.contexte.setStroke(Color.LIGHTCORAL);
+                for(int j=1 ; j<coinsPiecei.size() ; j++) {
+                    this.canvas.contexte.strokeLine(coinsPiecei.get(j-1).getX(), coinsPiecei.get(j-1).getY(), coinsPiecei.get(j).getX(), coinsPiecei.get(j).getY());
+                }
+                this.canvas.contexte.strokeLine(coinsPiecei.get(0).getX(), coinsPiecei.get(0).getY(), coinsPiecei.get(coinsPiecei.size()-1).getX(), coinsPiecei.get(coinsPiecei.size()-1).getY());
+    }
+    
+    public void showMur(Mur muri){
+        this.canvas.contexte.setStroke(Color.LIGHTCORAL);
+        this.canvas.contexte.strokeLine(muri.getPt1().getX(), muri.getPt1().getY(), muri.getPt2().getX(), muri.getPt2().getY());
+    }
+    
     
     public void changementEtage(int i){
     int etageSuivant = this.etageActuel+i;
@@ -561,7 +594,7 @@ public void LectureSauvegarde() {
      public void creationPaneRev() {
        Stage sRevetements = new Stage();
             sRevetements.setTitle("Revêtements");
-            var scene = new Scene(new MainPaineRevetements(this,this.lEtage),150,300);
+            var scene = new Scene(new MainPaineRevetements(this,this.lEtage),400,400);
             sRevetements.setScene(scene);
             sRevetements.setX(2.0);
            sRevetements.show();

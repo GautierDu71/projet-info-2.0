@@ -13,7 +13,7 @@
 132;Parquet;0;1;0;46.36
 114;Vinyle Lino;0;1;0;23.55
 156;Moquette;0;1;0;48.10
-69;Mozzarella;1;0;0;13.2
+69;Mozzarella;1;0;0;132000.0
 1126;Stratifie;0;1;0;31.99
 174;Gazon;0;1;0;17.95
 180;Liege;0;1;0;33.90

@@ -16,16 +16,16 @@ public class Mur {
     private boolean ext;
     private Revetement rev1, rev2, rev3;
 
-    public Mur(Coin pt1, Coin pt2) {
+    public Mur(Coin pt1, Coin pt2,Revetement rev1,Revetement rev2) {
         this.ext = true ;
         this.pt1 = pt1;
         this.pt2 = pt2;
         this.separation = 0;
         this.fenetres = 0;
         this.portes = 0;
-        this.rev1 = null;
-        this.rev2 = null;
-        this.rev2 = null;
+        this.rev1 = rev1;
+        this.rev2 = rev2;
+        
     }
 
     

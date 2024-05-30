@@ -1,6 +1,7 @@
 package fr.insa.gautier.projet_info_2;
 
 import java.util.ArrayList;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -8,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -69,16 +71,27 @@ public class MainPaineRevetements extends BorderPane{
         this.vbox.getChildren().clear();
         Etage etageActuel = this.controleur.getBatiment().getEtage(this.controleur.getEtageActuel());
         ArrayList<HBox> menusPiece = new ArrayList();
+        int decalage = 0;
+        
         for(int i=0 ; i<etageActuel.getPieces().size() ; i++){
             ChoiceBox piecei = new ChoiceBox<>();
+            Pièce pieceI = etageActuel.getPiece(i);
+            piecei.setOnMouseEntered(event -> {                
+                this.controleur.showPiece(pieceI);
+            });
+            piecei.setOnMouseExited(event ->{
+                this.controleur.drawEtage(this.controleur.getEtageActuel());
+            });
+            decalage=0;
             for(int j=0 ; j<this.Revetements.size() ; j++){
                 if(this.Revetements.get(j).isPourSol()) {
                     piecei.getItems().add(this.Revetements.get(j).getNom());
                     
                     if(this.Revetements.get(j) == etageActuel.getPiece(i).getSol()){
-                        piecei.getSelectionModel().select(piecei.getItems().get(j-1));
+                        System.out.println("decalage : "+decalage+"j: "+j);
+                        piecei.getSelectionModel().select(piecei.getItems().get(j-decalage));
                     }
-                }
+                } else {decalage++;}
                 
             }
             Label lPiecei = new Label("pièce n°" + (i+1) + ": ");
@@ -94,25 +107,40 @@ public class MainPaineRevetements extends BorderPane{
         this.vbox.getChildren().add(new Label("Murs :"));
         
         ArrayList<HBox> menusMurs = new ArrayList();        
-        for(int i=0 ; i<etageActuel.getMurs().size() ; i++){            
+        for(int i=0 ; i<etageActuel.getMurs().size() ; i++){
+            Mur murI = etageActuel.getMur(i);
+            decalage = 0;
             ChoiceBox muriRev1 = new ChoiceBox<>();
+            muriRev1.setOnMouseEntered(event -> {                
+                this.controleur.showMur(murI);
+            });
+            muriRev1.setOnMouseExited(event ->{
+                this.controleur.drawEtage(this.controleur.getEtageActuel());
+            });
             for(int j=0 ; j<this.Revetements.size() ; j++){
                 if(this.Revetements.get(j).isPourMur()) {
                     muriRev1.getItems().add(this.Revetements.get(j).getNom());
                     if(this.Revetements.get(j) == etageActuel.getMur(i).getRev1()){
-                        muriRev1.getSelectionModel().select(muriRev1.getItems().get(j-1));
+                        muriRev1.getSelectionModel().select(muriRev1.getItems().get(j-decalage));
                     }
                     
-                }
+                } else {decalage++;}
             }
+            decalage = 0;
             ChoiceBox muriRev2 = new ChoiceBox<>();
+            muriRev2.setOnMouseEntered(event -> {                
+                this.controleur.showMur(murI);
+            });
+            muriRev2.setOnMouseExited(event ->{
+                this.controleur.drawEtage(this.controleur.getEtageActuel());
+            });
             for(int j=0 ; j<this.Revetements.size() ; j++){
                 if(this.Revetements.get(j).isPourMur()) {
                     muriRev2.getItems().add(this.Revetements.get(j).getNom());
                      if(this.Revetements.get(j) == etageActuel.getMur(i).getRev2()){
-                        muriRev2.getSelectionModel().select(muriRev2.getItems().get(j-1));
+                        muriRev2.getSelectionModel().select(muriRev2.getItems().get(j-decalage));
                     }
-                }
+                } else {decalage++;}
             }
             Label lMuri = new Label("mur n°" + (i+1) + ": ");
             HBox hBoxMuri = new HBox(lMuri,muriRev1,muriRev2);
