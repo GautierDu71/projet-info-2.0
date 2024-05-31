@@ -104,6 +104,8 @@ public class MainPaineRevetements extends BorderPane{
                 }
             });
             
+            
+            
             Label lPiecei = new Label("pièce n°" + (i+1) + ": ");
             HBox hBoxPiecei = new HBox(lPiecei,piecei);
             menusPiece.add(hBoxPiecei);
@@ -173,8 +175,37 @@ public class MainPaineRevetements extends BorderPane{
                 }
             });
             
+            Label portes = new Label("portes: ");
+            Label nportes = new Label(""+murI.getPortes());           
+            Button portesPlus = new Button("+");
+            portesPlus.setOnAction(o->{
+                murI.addPorte();
+                nportes.setText(""+murI.getPortes());
+            });            
+            Button portesMoins = new Button("-");
+            portesMoins.setOnAction(o->{
+                murI.removePorte();
+                nportes.setText(""+murI.getPortes());
+            });
+            
+            
+            Label fenetres = new Label("fenetres: ");
+            Label nfenetres = new Label(""+murI.getFenetres());            
+            Button fenetresPlus = new Button("+");
+            fenetresPlus.setOnAction(o->{
+                murI.addFenetre();
+                nfenetres.setText(""+murI.getFenetres());
+            });            
+            Button fenetresMoins = new Button("-");
+            fenetresMoins.setOnAction(o->{
+                murI.removeFenetre();
+                nfenetres.setText(""+murI.getFenetres());
+            });
+            
+            
             Label lMuri = new Label("mur n°" + (i+1) + ": ");
-            HBox hBoxMuri = new HBox(lMuri,muriRev1,muriRev2);
+            HBox hBoxMuri = new HBox(lMuri,muriRev1,muriRev2,portes,portesMoins,nportes,portesPlus,fenetres,fenetresMoins,nfenetres,fenetresPlus);
+            hBoxMuri.setSpacing(8);
             menusMurs.add(hBoxMuri);
             
         }    

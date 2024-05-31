@@ -568,7 +568,7 @@ public class Controleur {
     public void creationPaneRev() { //la creation d'une nouvelle fenetre pour les revetements
         Stage sRevetements = new Stage();
         sRevetements.setTitle("Revêtements");
-        var scene = new Scene(new MainPaineRevetements(this,this.lEtage),400,400);
+        var scene = new Scene(new MainPaineRevetements(this,this.lEtage),800,400);
         sRevetements.setScene(scene);
         sRevetements.setX(2.0);
         sRevetements.show();

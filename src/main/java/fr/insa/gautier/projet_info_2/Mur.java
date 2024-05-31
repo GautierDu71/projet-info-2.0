@@ -102,7 +102,7 @@ public class Mur {
             this.portes --;
         }
     }
-    public void remove() {
+    public void removeFenetre() {
         if (this.fenetres > 0) {
             this.fenetres --;
         }
