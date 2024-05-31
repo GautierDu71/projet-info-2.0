@@ -629,15 +629,15 @@ public class Controleur {
                     } 
                 }
             }
-            DecimalFormat numberFormat = new DecimalFormat("#.###");
-            buffer.write("Revetement : "+ '\t'+ '\t'+'\t' + "prix unitaire : "+ '\t'+'\t' + "surface : " + '\t' + "prix total :" + '\r'); //entete du devis
+            DecimalFormat numberFormat = new DecimalFormat("0.000");
+            buffer.write("Revetement : "+ '\t'+ '\t'+'\t' + "prix unitaire : "+ '\t'+ "surface : " + '\t' + '\t' + "prix total :" + '\r'); //entete du devis
             for (int r = 0; r < this.Revetements.size(); r++) { //pour chauqe revetement, on ecrit les donnees de nom, prix au metre carre, surface, cout
                 Revetement rev = this.Revetements.get(r);
                 buffer.write(rev.getNom()+" : "+'\t'); //ajustement si le nom es trop long
                 if (!(r==6)) {
                     buffer.write(" "+'\t' + '\t');
                 }
-                buffer.write(rev.getPrixUnitaire() + " Eur" + '\t'+ '\t'+ '\t'+"S = " + numberFormat.format(Tot[r]/rev.getPrixUnitaire())+ " m^2" + '\t' +  numberFormat.format(Tot[r]) + " Eur" + '\r');
+                buffer.write(rev.getPrixUnitaire() + " Eur" + '\t'+ '\t'+"S = " + numberFormat.format(Tot[r]/rev.getPrixUnitaire())+ " m^2" + '\t' + '\t' +  numberFormat.format(Tot[r]) + " Eur" + '\r');
             }
                 
             buffer.close();
