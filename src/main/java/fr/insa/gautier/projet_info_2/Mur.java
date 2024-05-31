@@ -20,7 +20,7 @@ public class Mur {
     double hauteurPorte = 2.04;
     double surfacePorte = largeurPorte * hauteurPorte;
     
-    public Mur(Coin pt1, Coin pt2,Revetement rev1,Revetement rev2) {
+    public Mur(int id, Coin pt1, Coin pt2,Revetement rev1,Revetement rev2) {
         this.ext = true ;
         this.pt1 = pt1;
         this.pt2 = pt2;
@@ -28,7 +28,8 @@ public class Mur {
         this.fenetres = 0;
         this.portes = 0;
         this.rev1 = rev1;
-        this.rev2 = rev2;    
+        this.rev2 = rev2;   
+        this.id = id;
     }
     //donne la longueur du mur
     public double Longueur(){

@@ -119,7 +119,7 @@ public class Controleur {
                         Mur murExistant = MurExistant(pieceActuelle.getCoin(pieceActuelle.getCoins().size()-1),pieceActuelle.getCoin(0)); //on teste si le mur existe entre le clic et le point precedent
 
                         if (murExistant == null) { //si non on cree le mur
-                            this.Batiments.getEtage(this.etageActuel).ajoutMur(new Mur(pieceActuelle.getCoin(pieceActuelle.getCoins().size()-1) ,pieceActuelle.getCoin(0),revDefaultMur,revDefaultMur));
+                            this.Batiments.getEtage(this.etageActuel).ajoutMur(new Mur(this.Batiments.getEtage(this.etageActuel).getMurs().size(),pieceActuelle.getCoin(pieceActuelle.getCoins().size()-1) ,pieceActuelle.getCoin(0),revDefaultMur,revDefaultMur));
                         } else { //si non, on dit que le mur est exterieur et on n'en cree pas
                             murExistant.setExt(false);
                         }                               
@@ -137,7 +137,7 @@ public class Controleur {
                         }
                         Mur murExistant = MurExistant(pieceActuelle.getCoin(pieceActuelle.getCoins().size()-1),pieceActuelle.getCoin(pieceActuelle.getCoins().size()-2));
                         if (murExistant == null) { //si le mur est nouveau, on le cree dans la bonne liste
-                           this.Batiments.getEtage(this.etageActuel).ajoutMur(new Mur(pieceActuelle.getCoin(pieceActuelle.getCoins().size()-1) ,pieceActuelle.getCoin(pieceActuelle.getCoins().size()-2),revDefaultMur,revDefaultMur));
+                           this.Batiments.getEtage(this.etageActuel).ajoutMur(new Mur(this.Batiments.getEtage(this.etageActuel).getMurs().size(),pieceActuelle.getCoin(pieceActuelle.getCoins().size()-1) ,pieceActuelle.getCoin(pieceActuelle.getCoins().size()-2),revDefaultMur,revDefaultMur));
                         } else { 
                            murExistant.setExt(false);
                         }
