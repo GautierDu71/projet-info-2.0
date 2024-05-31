@@ -422,8 +422,8 @@ public class Controleur {
     }
 }
     
-    //la lecture de sauvegarde utilisait un buffer reader, ce qui n'est pas optimal donc on a decide de se focaliser sur d'autres fojnctions plutot que de se battre avec un system qui n'est pas optimal. en connaissance de cause , il aurait fallu utiliser un scanner
-    
+    //la lecture de sauvegarde utilisait un buffer reader, ce qui n'est pas optimal donc on a decide de se focaliser sur d'autres 
+    //fonctions plutot que de se battre avec un system qui n'est pas optimal. en connaissance de cause , il aurait fallu utiliser un scanner
 /*public void LectureSauvegarde() {
 	try {
             // Création d'un fileReader pour lire le fichier
@@ -534,6 +534,7 @@ public class Controleur {
         return res;
     }
 */
+    
     //detection d'n mur existant selon ses coordonnees
     public Mur MurExistant(Coin coin1, Coin coin2) {
         Mur mur = null;
