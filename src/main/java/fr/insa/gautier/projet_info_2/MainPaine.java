@@ -123,7 +123,7 @@ public class MainPaine extends BorderPane {
     }
     public void bcCharger(){
         System.out.println("Chargement...");
-        this.controleur.LectureSauvegarde();
+        //this.controleur.LectureSauvegarde();
         
     }
 }

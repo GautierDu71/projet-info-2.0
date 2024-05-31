@@ -11,7 +11,15 @@ public class Mur {
     private Coin pt1, pt2;
     private boolean ext;
     private Revetement rev1, rev2, rev3;
-
+    
+    double largeurFenetre = 1.225;
+    double hauteurFenetre = 1.65;
+    double surfaceFenetre = largeurFenetre * hauteurFenetre;
+    
+    double largeurPorte = 0.78;
+    double hauteurPorte = 2.04;
+    double surfacePorte = largeurPorte * hauteurPorte;
+    
     public Mur(Coin pt1, Coin pt2,Revetement rev1,Revetement rev2) {
         this.ext = true ;
         this.pt1 = pt1;
@@ -61,15 +69,31 @@ public class Mur {
     }
     //donne la surface du mur selon quelle zone on souhaite
     public double getSurface(int idSurface) {
+        
         switch (idSurface){
             case 1: //surface au dessous de la separation
-                return this.Surface();
+                return this.Surface() - surfaceFenetre*this.fenetres - surfacePorte*this.portes;
             case 2: //surface au dessus de la separation
-                return this.SurfaceHaut();
+                return this.SurfaceHaut() - surfaceFenetre*this.fenetres - surfacePorte*this.portes;
             case 3: //surface totale
-                return this.Surface()+this.SurfaceHaut();
+                return this.Surface() + this.SurfaceHaut() - surfaceFenetre*this.fenetres - surfacePorte*this.portes;
             default:
                 return 0;
+        }
+    }
+    //ajout de portes et fenetres
+    public void addPorte() {
+        if ((this.Longueur() - this.portes*largeurPorte - this.fenetres*largeurFenetre) > largeurPorte) {
+            this.portes++;
+        } else {
+            System.out.println("pas assez de largeur pour une porte");
+        }
+    }
+    public void addFenetre() {
+        if ((this.Longueur() - this.portes*largeurPorte - this.fenetres*largeurFenetre) > largeurFenetre) {
+            this.fenetres++;
+        } else {
+            System.out.println("pas assez de largeur pour une fenetre");
         }
     }
     //getters et setters

@@ -12,6 +12,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -250,9 +251,9 @@ public class Controleur {
         this.Batiments.ajoutEtage();
         this.actualiserLabelNombreEtage();
     }
-    /*public void devis() {        
+    public void devis() {        
         this.etat = 10 ;        
-    }*/
+    }
     
     //getters et setters
     public Batiment getBatiments() {
@@ -399,7 +400,7 @@ public class Controleur {
                     buffer.write(piece.getCoin(c).getId() + "," + piece.getCoin(c).getX() + "," + piece.getCoin(c).getY() + "," + piece.getCoin(c).getEtage().getId() + '\r');
                 }
             }                
-            buffer.write("Pieces de l'etage :" + '\r'); //on affiche les donnees necessaires a la creation de chauqe piece
+            buffer.write('\r' + "Pieces de l'etage :" + '\r'); //on affiche les donnees necessaires a la creation de chauqe piece
             for (int p = 0; p < this.Batiments.getEtage(e).getPieces().size(); p++) {
                 Pièce piece = this.Batiments.getEtage(e).getPiece(p);
                 buffer.write(p + "," + piece.getCoins().size() + "," + piece.getSol().getNom() + '\r');
@@ -592,9 +593,9 @@ public class Controleur {
             }
             buffer.flush();
             
-            buffer.write('\r'+'\r');
+            buffer.write(" " + '\r');
             buffer.write("DEVIS DES PRIX DES REVETEMENTS"+'\r');
-            buffer.write('\r'+'\r');
+            buffer.write(" " + '\r');
             
             buffer.write("-------------------------------------"+'\r');
             buffer.write("** Batiment 1"+" **"+'\r'); //on fait le devis par batiment
@@ -628,14 +629,15 @@ public class Controleur {
                     } 
                 }
             }
-            buffer.write("Revetement : "+ '\t'+ '\t'+'\t' + "prix unitaire : "+ '\t'+'\t' + "surface : " + '\t' +'\t' + "prix total :" + '\r'); //entete du devis
+            DecimalFormat numberFormat = new DecimalFormat("#.###");
+            buffer.write("Revetement : "+ '\t'+ '\t'+'\t' + "prix unitaire : "+ '\t'+'\t' + "surface : " + '\t' + "prix total :" + '\r'); //entete du devis
             for (int r = 0; r < this.Revetements.size(); r++) { //pour chauqe revetement, on ecrit les donnees de nom, prix au metre carre, surface, cout
                 Revetement rev = this.Revetements.get(r);
                 buffer.write(rev.getNom()+" : "+'\t'); //ajustement si le nom es trop long
                 if (!(r==6)) {
                     buffer.write(" "+'\t' + '\t');
                 }
-                buffer.write(rev.getPrixUnitaire() + " Eur" + '\t'+ '\t'+ '\t'+"surface = " + Tot[r]/rev.getPrixUnitaire()+ " m^2" + '\t' + Tot[r] + " Eur" + '\r');
+                buffer.write(rev.getPrixUnitaire() + " Eur" + '\t'+ '\t'+ '\t'+"S = " + numberFormat.format(Tot[r]/rev.getPrixUnitaire())+ " m^2" + '\t' +  numberFormat.format(Tot[r]) + " Eur" + '\r');
             }
                 
             buffer.close();
