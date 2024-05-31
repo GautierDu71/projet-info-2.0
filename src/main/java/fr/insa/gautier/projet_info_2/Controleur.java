@@ -644,7 +644,11 @@ public class Controleur {
                 }
                 buffer.write(rev.getPrixUnitaire() + " Eur" + '\t'+ '\t'+"S = " + numberFormat.format(Tot[r]/rev.getPrixUnitaire())+ " m^2" + '\t' + '\t' +  numberFormat.format(Tot[r]) + " Eur" + '\r');
             }
-                
+            double total = 0;
+            for (int t = 0; t < Tot.length; t++) {
+                total += Tot[t];
+            }
+            buffer.write(" " + '\t' + '\t' + '\t' + '\t' + '\t' + '\t' + '\t' + "TOTAL = " + numberFormat.format(total) + " EUR");
             buffer.close();
             System.out.println("Devis termine.");
             } catch (IOException e) {

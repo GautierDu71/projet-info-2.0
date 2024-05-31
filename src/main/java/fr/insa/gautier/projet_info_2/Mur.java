@@ -83,18 +83,28 @@ public class Mur {
         }
     }
     //ajout de portes et fenetres
-    public void addPorte(int n) {
-        if ((this.Longueur() - this.portes*largeurPorte - this.fenetres*largeurFenetre) > n*largeurPorte) {
-            this.portes += n;
+    public void addPorte() {
+        if ((this.Longueur() - this.portes*largeurPorte - this.fenetres*largeurFenetre) > largeurPorte) {
+            this.portes ++;
         } else {
             System.out.println("pas assez de largeur pour une porte");
         }
     }
-    public void addFenetre(int n) {
-        if ((this.Longueur() - this.portes*largeurPorte - this.fenetres*largeurFenetre) > n*largeurFenetre) {
-            this.fenetres += n;
+    public void addFenetre() {
+        if ((this.Longueur() - this.portes*largeurPorte - this.fenetres*largeurFenetre) > largeurFenetre) {
+            this.fenetres ++;
         } else {
             System.out.println("pas assez de largeur pour une fenetre");
+        }
+    }
+    public void removePorte() {
+        if (this.portes > 0) {
+            this.portes --;
+        }
+    }
+    public void remove() {
+        if (this.fenetres > 0) {
+            this.fenetres --;
         }
     }
     //getters et setters
