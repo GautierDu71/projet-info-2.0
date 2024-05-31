@@ -82,16 +82,16 @@ public class Mur {
         }
     }
     //ajout de portes et fenetres
-    public void addPorte() {
-        if ((this.Longueur() - this.portes*largeurPorte - this.fenetres*largeurFenetre) > largeurPorte) {
-            this.portes++;
+    public void addPorte(int n) {
+        if ((this.Longueur() - this.portes*largeurPorte - this.fenetres*largeurFenetre) > n*largeurPorte) {
+            this.portes += n;
         } else {
             System.out.println("pas assez de largeur pour une porte");
         }
     }
-    public void addFenetre() {
-        if ((this.Longueur() - this.portes*largeurPorte - this.fenetres*largeurFenetre) > largeurFenetre) {
-            this.fenetres++;
+    public void addFenetre(int n) {
+        if ((this.Longueur() - this.portes*largeurPorte - this.fenetres*largeurFenetre) > n*largeurFenetre) {
+            this.fenetres += n;
         } else {
             System.out.println("pas assez de largeur pour une fenetre");
         }
