@@ -231,13 +231,19 @@ public class Controleur {
         //on dessine les murs de l'etage actuel en noir
         this.canvas.contexte.setStroke(Color.BLACK);
         ArrayList<Pièce> piecesEtage = this.Batiments.getEtage(nEtage).getPieces();
-            for (i=0 ; i< piecesEtage.size() ; i++) {
-                ArrayList<Coin> coinsPiecei = piecesEtage.get(i).getCoins();
-                for(j=1 ; j<coinsPiecei.size() ; j++) {
-                    this.canvas.contexte.strokeLine(coinsPiecei.get(j-1).getX(), coinsPiecei.get(j-1).getY(), coinsPiecei.get(j).getX(), coinsPiecei.get(j).getY());
-                }
-                this.canvas.contexte.strokeLine(coinsPiecei.get(0).getX(), coinsPiecei.get(0).getY(), coinsPiecei.get(coinsPiecei.size()-1).getX(), coinsPiecei.get(coinsPiecei.size()-1).getY());
+        if (piecesEtage.size() > 0) {
+            System.out.println("il y a bien des pieces");
+        }
+        for (i=0 ; i< piecesEtage.size() ; i++) {
+            ArrayList<Coin> coinsPiecei = piecesEtage.get(i).getCoins();
+            if (coinsPiecei.size() > 0) {
+                System.out.println("il y a bien des coins dans la piece");
             }
+            for(j=1 ; j<coinsPiecei.size() ; j++) {
+                this.canvas.contexte.strokeLine(coinsPiecei.get(j-1).getX(), coinsPiecei.get(j-1).getY(), coinsPiecei.get(j).getX(), coinsPiecei.get(j).getY());
+            }
+            this.canvas.contexte.strokeLine(coinsPiecei.get(0).getX(), coinsPiecei.get(0).getY(), coinsPiecei.get(coinsPiecei.size()-1).getX(), coinsPiecei.get(coinsPiecei.size()-1).getY());
+        }
     }
     //methode pour determiner si la ou on a clique est proche d'un point existant
     public Coin coinProche(ArrayList<Coin> Coins, double x, double y){
@@ -410,7 +416,11 @@ public class Controleur {
             buffer.write("Pieces de l'etage :" + '\r'); //on affiche les donnees necessaires a la creation de chauqe piece
             for (int p = 0; p < this.Batiments.getEtage(e).getPieces().size(); p++) {
                 Pièce piece = this.Batiments.getEtage(e).getPiece(p);
-                buffer.write(p + "," + piece.getCoins().size() + "," + piece.getSol().getIdRev()+ '\r');
+                buffer.write(p + "," + piece.getCoins().size() + ",");
+                for (int c = 0; c < piece.getCoins().size()-1; c++) {
+                    buffer.write(piece.getCoin(c).getId() + "-");
+                }
+                buffer.write(piece.getCoin(piece.getCoins().size()-1).getId() + "," + piece.getSol().getIdRev()+ '\r');
             }                
             buffer.write("Murs de l'etage :" + '\r'); //on affiche les donnees necessaires a la creation de chaque mur
             for (int m = 0; m < this.Batiments.getEtage(e).getMurs().size(); m++) {
@@ -441,7 +451,6 @@ public class Controleur {
             ArrayList<Coin> Points = new ArrayList();
             int comptPoints = -1;
             int comptPieces = -1;
-            int decalagePts = 0;
             // Lit le contenu du fichier ligne par ligne
             while (scanner.hasNextLine()) {
                 String ligne = scanner.nextLine();
@@ -460,37 +469,46 @@ public class Controleur {
                 } else {
                 }
                 double[] temp = new double[8];
-                int compteur = 0;
+                int[] ptsPiece = new int[40];
                     
                 String[] donnees = ligne.split(","); // Sépare les données par des virgules
-                for (String donnee : donnees) {
+                for (int d = 0; d < donnees.length; d++) {
                     //System.out.println(donnee);
                     //System.out.println(etatDonnee);
-                    if (!(donnee.contains("E") || donnee.contains("e") || etatDonnee == 10)) {
-                        double valeur = Double.parseDouble(donnee.trim());
-                        temp[compteur] = valeur;
+                    if (donnees[d].contains("-")) {
+                        String[] pointsDeLaPiece = donnees[d].split("-");
+                        for (int p = 0; p < pointsDeLaPiece.length; p++) {
+                            int idPoint = (int)Double.parseDouble(pointsDeLaPiece[p].trim());
+                            ptsPiece[p] = idPoint;
+                        }
+                    } else if (!(donnees[d].contains("E") || donnees[d].contains("e") || etatDonnee == 10)) {
+                        double valeur = Double.parseDouble(donnees[d].trim());
+                        temp[d] = valeur;
+                    } else {
+                        temp[0] = 200;
                     }
-                    compteur++;
                 }
                 switch (etatDonnee) {
                     case 10:
                         break;
                     case 20:
-                        this.Batiments.ajoutEtage();
+                        if (!(temp[0]==200)) {
+                            this.Batiments.ajoutEtage();
+                            System.out.println("l'etage est cree yay   ");
+                        }
                         break;
                     case 30:
                         if ((int)temp[0] == comptPoints-1) {
                             Points.add(new Coin((int)temp[0], temp[1], temp[2],this.Batiments.getEtage(this.Batiments.getEtages().size()-1)));
                             System.out.println("le point est cree yay   ");
-                        } else {
-                            decalagePts++;
                         }
                         break;
                     case 40:
                         ArrayList<Coin> tempCoins = new ArrayList();
                         for (int c = 0; c < temp[1]; c++) {
-                            tempCoins.add(Points.get(c));
+                            tempCoins.add(getCoin(Points, ptsPiece[c]));
                         }
+                        tempCoins.add(getCoin(Points, ptsPiece[0]));
                         Revetement tempRev = getRev(Revetements, (int)temp[2]);
                         this.Batiments.getEtage(this.Batiments.getEtages().size()-1).AjouterP(new Pièce(tempCoins, tempRev));
                         System.out.println("la piece est cree yay   ");
@@ -500,7 +518,6 @@ public class Controleur {
                         System.out.println("le mur est cree yay   ");
                         break;
                 }
-                compteur = 0;
             }
 
             // Ferme le scanner
