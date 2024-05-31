@@ -25,8 +25,6 @@ public class MainPaineRevetements extends BorderPane{
     private Button bEtageHaut;
     private Button bEtageBas;
     private VBox vbox ;
-    ArrayList<Button> boutonsPiece;
-    ArrayList<Button> boutonsMurs;
     private ArrayList<Revetement> Revetements;
     
     public MainPaineRevetements(Controleur controleur_, Label lEtage_){       
@@ -34,13 +32,13 @@ public class MainPaineRevetements extends BorderPane{
         this.Revetements = this.controleur.getRevetements();
         this.vbox = new VBox();        
         
-        this.lEtage = new Label();
-        lEtage.textProperty().bind(lEtage_.textProperty());
-        lEtage.textProperty().addListener(cl ->{
+        this.lEtage = new Label(); 
+        lEtage.textProperty().bind(lEtage_.textProperty()); //on bind le texte etage actuel avec celui de l'autre fenêtre
+        lEtage.textProperty().addListener(cl ->{ //si on change d'état, on actualise le menu
             menuPrincipal();
         });
         
-        this.bEtageBas = new Button("<");
+        this.bEtageBas = new Button("<");   //boutons de changement d'étage, reliés au controleur 
         this.bEtageBas.setOnAction(event ->{
             changementEtage(-1);
         });
@@ -49,7 +47,7 @@ public class MainPaineRevetements extends BorderPane{
             changementEtage(1);
         });
         
-        HBox hbHaut = new HBox(this.bEtageBas,this.lEtage,this.bEtageHaut);
+        HBox hbHaut = new HBox(this.bEtageBas,this.lEtage,this.bEtageHaut); 
         hbHaut.setAlignment(Pos.CENTER);
         
         this.vbox.setAlignment(Pos.CENTER);

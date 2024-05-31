@@ -40,6 +40,10 @@ public class Batiment {
         this.etages.add(new Etage(this.etages.size(),4));
     }
     
+    public void clear() {
+        this.etages.clear();
+    }
+    
     @Override
     public String toString() {
         return "Batiment{" + "idBatiment=" + idBatiment + ", etages=" + etages + '}';

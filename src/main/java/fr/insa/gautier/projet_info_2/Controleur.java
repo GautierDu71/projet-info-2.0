@@ -219,7 +219,7 @@ public class Controleur {
             ArrayList<Mur> mursEtageDessous = this.Batiments.getEtage(nEtage-1).getMurs();
             System.out.println(this.Batiments.getEtage(nEtage-1).toString());
             for (i=0 ; i< mursEtageDessous.size() ; i++) {
-                if (mursEtageDessous.get(i).getExt()){
+                if (mursEtageDessous.get(i).getExt()){ 
                     this.canvas.contexte.strokeLine(mursEtageDessous.get(i).getPt1().getX(), mursEtageDessous.get(i).getPt1().getY(), mursEtageDessous.get(i).getPt2().getX(), mursEtageDessous.get(i).getPt2().getY());
                     }
 
