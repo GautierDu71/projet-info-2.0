@@ -74,6 +74,7 @@ public class MainPaineRevetements extends BorderPane{
         int decalage = 0;
         
         for(int i=0 ; i<etageActuel.getPieces().size() ; i++){
+            decalage = 0;
             ChoiceBox piecei = new ChoiceBox<>();
             Pièce pieceI = etageActuel.getPiece(i);
             piecei.setOnMouseEntered(event -> {                
@@ -81,8 +82,7 @@ public class MainPaineRevetements extends BorderPane{
             });
             piecei.setOnMouseExited(event ->{
                 this.controleur.drawEtage(this.controleur.getEtageActuel());
-            });
-            decalage=0;
+            });            
             for(int j=0 ; j<this.Revetements.size() ; j++){
                 if(this.Revetements.get(j).isPourSol()) {
                     piecei.getItems().add(this.Revetements.get(j).getNom());
@@ -94,10 +94,14 @@ public class MainPaineRevetements extends BorderPane{
                     
                 } else {decalage++;}
             }
-            decalage = decalage;
+            
             piecei.getSelectionModel().selectedItemProperty().addListener(o->{                
-                int index = piecei.getSelectionModel().getSelectedIndex();
-                pieceI.setSol(this.Revetements.get(index));
+                for(int k = 0 ; k<this.Revetements.size() ; k++){                    
+                    if(this.Revetements.get(k).getNom().equals(piecei.getSelectionModel().selectedItemProperty().getValue())){
+                        pieceI.setSol(this.Revetements.get(k));
+                        break;
+                    }
+                }
             });
             
             Label lPiecei = new Label("pièce n°" + (i+1) + ": ");
@@ -133,6 +137,16 @@ public class MainPaineRevetements extends BorderPane{
                     
                 } else {decalage++;}
             }
+            
+            muriRev1.getSelectionModel().selectedItemProperty().addListener(o->{                
+                for(int k = 0 ; k<this.Revetements.size() ; k++){                    
+                    if(this.Revetements.get(k).getNom().equals(muriRev1.getSelectionModel().selectedItemProperty().getValue())){
+                        murI.setRev1(this.Revetements.get(k));
+                        break;
+                    }
+                }
+            });
+            
             decalage = 0;
             ChoiceBox muriRev2 = new ChoiceBox<>();
             muriRev2.setOnMouseEntered(event -> {                
@@ -149,6 +163,16 @@ public class MainPaineRevetements extends BorderPane{
                     }
                 } else {decalage++;}
             }
+            
+            muriRev2.getSelectionModel().selectedItemProperty().addListener(o->{                
+                for(int k = 0 ; k<this.Revetements.size() ; k++){                    
+                    if(this.Revetements.get(k).getNom().equals(muriRev2.getSelectionModel().selectedItemProperty().getValue())){
+                        murI.setRev2(this.Revetements.get(k));
+                        break;
+                    }
+                }
+            });
+            
             Label lMuri = new Label("mur n°" + (i+1) + ": ");
             HBox hBoxMuri = new HBox(lMuri,muriRev1,muriRev2);
             menusMurs.add(hBoxMuri);

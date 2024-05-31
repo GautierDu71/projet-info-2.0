@@ -171,18 +171,22 @@ public class Controleur {
         return mur;
     }
     //on surligne la piece
-    public void showPiece(Pièce piecei){
+    public void showPiece(Pièce piecei){        
         ArrayList<Coin> coinsPiecei = piecei.getCoins();
-        this.canvas.contexte.setStroke(Color.LIGHTCORAL);
+        this.canvas.contexte.setStroke(Color.web("FFBC1F"));
+        this.canvas.contexte.setLineWidth(6);
                 for(int j=1 ; j<coinsPiecei.size() ; j++) {
                     this.canvas.contexte.strokeLine(coinsPiecei.get(j-1).getX(), coinsPiecei.get(j-1).getY(), coinsPiecei.get(j).getX(), coinsPiecei.get(j).getY());
                 }
                 this.canvas.contexte.strokeLine(coinsPiecei.get(0).getX(), coinsPiecei.get(0).getY(), coinsPiecei.get(coinsPiecei.size()-1).getX(), coinsPiecei.get(coinsPiecei.size()-1).getY());
+        
     }
     //on surligne le mur
     public void showMur(Mur muri){
-        this.canvas.contexte.setStroke(Color.LIGHTCORAL);
+        this.canvas.contexte.setStroke(Color.web("FFBC1F"));
+        this.canvas.contexte.setLineWidth(6);
         this.canvas.contexte.strokeLine(muri.getPt1().getX(), muri.getPt1().getY(), muri.getPt2().getX(), muri.getPt2().getY());
+        
     }
     //lorsqu'on change d'etage, on l'affiche
     public void changementEtage(int i){
@@ -208,7 +212,7 @@ public class Controleur {
         int i;
         int j;
         this.canvas.redrawAll();
-        
+        this.canvas.contexte.setLineWidth(5);
         this.canvas.contexte.setStroke(Color.GREY);
         if (nEtage-1 >= 0){ //si il existe un etage au dessous, on le dessine en gris poir voir les limites a ne pas depasser
             System.out.println(nEtage-1);
