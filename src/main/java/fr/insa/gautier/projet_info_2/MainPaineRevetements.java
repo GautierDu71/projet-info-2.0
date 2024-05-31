@@ -91,9 +91,15 @@ public class MainPaineRevetements extends BorderPane{
                         System.out.println("decalage : "+decalage+"j: "+j);
                         piecei.getSelectionModel().select(piecei.getItems().get(j-decalage));
                     }
+                    
                 } else {decalage++;}
-                
             }
+            decalage = decalage;
+            piecei.getSelectionModel().selectedItemProperty().addListener(o->{                
+                int index = piecei.getSelectionModel().getSelectedIndex();
+                pieceI.setSol(this.Revetements.get(index));
+            });
+            
             Label lPiecei = new Label("pièce n°" + (i+1) + ": ");
             HBox hBoxPiecei = new HBox(lPiecei,piecei);
             menusPiece.add(hBoxPiecei);
@@ -123,6 +129,7 @@ public class MainPaineRevetements extends BorderPane{
                     if(this.Revetements.get(j) == etageActuel.getMur(i).getRev1()){
                         muriRev1.getSelectionModel().select(muriRev1.getItems().get(j-decalage));
                     }
+                    
                     
                 } else {decalage++;}
             }
