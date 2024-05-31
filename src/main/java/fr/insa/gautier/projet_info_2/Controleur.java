@@ -21,6 +21,9 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 public class Controleur {
     
@@ -219,7 +222,7 @@ public class Controleur {
             ArrayList<Mur> mursEtageDessous = this.Batiments.getEtage(nEtage-1).getMurs();
             System.out.println(this.Batiments.getEtage(nEtage-1).toString());
             for (i=0 ; i< mursEtageDessous.size() ; i++) {
-                if (mursEtageDessous.get(i).getExt()){ 
+                if (mursEtageDessous.get(i).getExt()){
                     this.canvas.contexte.strokeLine(mursEtageDessous.get(i).getPt1().getX(), mursEtageDessous.get(i).getPt1().getY(), mursEtageDessous.get(i).getPt2().getX(), mursEtageDessous.get(i).getPt2().getY());
                     }
 
@@ -390,7 +393,7 @@ public class Controleur {
         //on fait la liste des batiments
         buffer.write("BATIMENTS"+'\r');
         buffer.write(this.Batiments.getIdBatiment()+","+this.Batiments.getEtages().size()+'\r');
-        buffer.write('\r');
+        //buffer.write('\r');
         //dans le premeir batiment
         buffer.write("** Batiment "+Batiments.getIdBatiment()+" **"+'\r' + '\r');
         //on lit par etage
@@ -404,19 +407,19 @@ public class Controleur {
                     buffer.write(piece.getCoin(c).getId() + "," + piece.getCoin(c).getX() + "," + piece.getCoin(c).getY() + "," + piece.getCoin(c).getEtage().getId() + '\r');
                 }
             }                
-            buffer.write('\r' + "Pieces de l'etage :" + '\r'); //on affiche les donnees necessaires a la creation de chauqe piece
+            buffer.write("Pieces de l'etage :" + '\r'); //on affiche les donnees necessaires a la creation de chauqe piece
             for (int p = 0; p < this.Batiments.getEtage(e).getPieces().size(); p++) {
                 Pièce piece = this.Batiments.getEtage(e).getPiece(p);
-                buffer.write(p + "," + piece.getCoins().size() + "," + piece.getSol().getNom() + '\r');
+                buffer.write(p + "," + piece.getCoins().size() + "," + piece.getSol().getIdRev()+ '\r');
             }                
-            buffer.write('\r' + "Murs de l'etage :" + '\r'); //on affiche les donnees necessaires a la creation de chaque mur
+            buffer.write("Murs de l'etage :" + '\r'); //on affiche les donnees necessaires a la creation de chaque mur
             for (int m = 0; m < this.Batiments.getEtage(e).getMurs().size(); m++) {
                 Mur mur = this.Batiments.getEtage(e).getMur(m);
-                buffer.write(mur.getId() + "," + mur.getPt1().getId() + "," + mur.getPt2().getId() + "," + mur.getRev1().getIdRev() + "," + mur.getRev2().getIdRev() + "," + mur.getExt() + "," + mur.getFenetres() + "," + mur.getPortes() + '\r');
+                buffer.write(mur.getId() + "," + mur.getPt1().getId() + "," + mur.getPt2().getId() + "," + mur.getRev1().getIdRev() + "," + mur.getRev2().getIdRev() + "," + (mur.getExt() ? 1 : 0) + "," + mur.getFenetres() + "," + mur.getPortes() + '\r');
             }
-            buffer.write('\r');
+            //buffer.write('\r');
         }
-        buffer.write('\r'+"FIN");
+        buffer.write("FIN avec un e");
                 
         buffer.close();
         System.out.println("Sauvegarde terminee.");
@@ -428,116 +431,87 @@ public class Controleur {
     
     //la lecture de sauvegarde utilisait un buffer reader, ce qui n'est pas optimal donc on a decide de se focaliser sur d'autres 
     //fonctions plutot que de se battre avec un system qui n'est pas optimal. en connaissance de cause , il aurait fallu utiliser un scanner
-/*public void LectureSauvegarde() {
-	try {
-            // Création d'un fileReader pour lire le fichier
-            FileReader fileReader = new FileReader("Sauvegarde.txt");
-            
-            // Création d'un bufferedReader qui utilise le fileReader
-            BufferedReader reader = new BufferedReader(fileReader);
-			
-            String line = reader.readLine();
-            
-            char tempChar[] = new char[10];
-            int etat = 0;
-            int batNo = 0;
-            int lnDepuisChangement = 0;
-            char virgule = ',';
-            
-            ArrayList<Batiment> Batiments = new ArrayList();
-            ArrayList<Etage> Etages = new ArrayList();
-            ArrayList<Coin> Coins = new ArrayList();
-            ArrayList<Mur> Murs = new ArrayList();
-            ArrayList<Pièce> Pieces = new ArrayList();
-
-
-            while (line != null) {
-                // creation de variables temporaires
-                int lecteur = 0;
-                int indVirgules[] = new int[7];
-                int comptVirgules = 0;
-                // affichage de la ligne
-                System.out.println(line);
-                
-                switch (line) {
-                    case "BATIMENTS":
-                        lnDepuisChangement = 0;
-                        etat = 1;
-                        break;
-                    case "ETAGES":
-                        lnDepuisChangement = 0;
-                        etat = 2;
-                        break;
-                    case "COINS":
-                        lnDepuisChangement = 0;
-                        etat = 3;
-                        break;
-                    case "MURS":
-                        lnDepuisChangement = 0;
-                        etat = 4;
-                        break;
-                    case "PIECES":
-                        lnDepuisChangement = 0;
-                        etat = 5;
-                        break;
-                    case ".":
-                        break;
-                        
-                    default:
-                        lnDepuisChangement++;
-                        break;
+    public void LectureSauvegarde() {
+        String cheminFichier = "Sauvegarde.txt";
+        this.Batiments.clear();
+        try {
+            // Crée un objet Scanner pour lire le fichier
+            Scanner scanner = new Scanner(new File(cheminFichier));
+            int etatDonnee = 0;
+            ArrayList<Coin> Points = new ArrayList();
+            int comptPoints = -1;
+            int comptPieces = -1;
+            int decalagePts = 0;
+            // Lit le contenu du fichier ligne par ligne
+            while (scanner.hasNextLine()) {
+                String ligne = scanner.nextLine();
+                if (ligne.contains("BATIMENTS")) {
+                    etatDonnee = 10;
+                } else if (ligne.contains("ETAGE") || (etatDonnee == 20 && !(ligne.contains("Points de l'etage :")))) {
+                    etatDonnee = 20;
+                } else if (ligne.contains("Points de l'etage :") || (etatDonnee == 30 && !(ligne.contains("Pieces de l'etage :")))) {
+                    etatDonnee = 30;            
+                    comptPoints++;
+                } else if (ligne.contains("Pieces de l'etage :") || (etatDonnee == 40 && !(ligne.contains("Murs de l'etage :")))) {
+                    etatDonnee = 40;
+                    comptPieces++;
+                } else if (ligne.contains("Murs de l'etage :") || (etatDonnee == 50 && !(ligne.contains("Points de l'etage :")))) {
+                    etatDonnee = 50;
+                } else {
                 }
-                
-                while (lecteur < line.length()) {
-                    char iEmeChar = line.charAt(lecteur);
-                    if (iEmeChar == virgule) {
-                        //on crée un tabeau avec les emplacements des ";"
-                        indVirgules[comptVirgules] = lecteur;
-                        comptVirgules++;
-                    }
-                    lecteur++;
-                }
-                
-                if (etat == 0 && lnDepuisChangement > 0) {
+                double[] temp = new double[8];
+                int compteur = 0;
                     
-                } else if(etat == 1 && lnDepuisChangement > 0) {
-
-                } else if(etat == 2 && lnDepuisChangement > 0) {
-                    Etages.add(new Etage(calculInt(line,0,indVirgules[0]), Double.parseDouble(line.substring(indVirgules[0]+1, line.length()))));
-                    //System.out.println(Etages.get(0));
-                } else if(etat == 3 && lnDepuisChangement > 0) {
-                
-                } else if(etat == 4 && lnDepuisChangement > 0) {
-                
-                } else if(etat == 5 && lnDepuisChangement > 0) {
-                
+                String[] donnees = ligne.split(","); // Sépare les données par des virgules
+                for (String donnee : donnees) {
+                    //System.out.println(donnee);
+                    //System.out.println(etatDonnee);
+                    if (!(donnee.contains("E") || donnee.contains("e") || etatDonnee == 10)) {
+                        double valeur = Double.parseDouble(donnee.trim());
+                        temp[compteur] = valeur;
+                    }
+                    compteur++;
                 }
-                
-                // manoeuvre d'arrondis pour eviter les imprecisions a 0.00000001 pres
-                
-                
-                // ajout le revetement a une Array List
-                
-                // lecture de la prochaine ligne
-                comptVirgules = 0;
-                line = reader.readLine();
+                switch (etatDonnee) {
+                    case 10:
+                        break;
+                    case 20:
+                        this.Batiments.ajoutEtage();
+                        break;
+                    case 30:
+                        if ((int)temp[0] == comptPoints-1) {
+                            Points.add(new Coin((int)temp[0], temp[1], temp[2],this.Batiments.getEtage(this.Batiments.getEtages().size()-1)));
+                            System.out.println("le point est cree yay   ");
+                        } else {
+                            decalagePts++;
+                        }
+                        break;
+                    case 40:
+                        ArrayList<Coin> tempCoins = new ArrayList();
+                        for (int c = 0; c < temp[1]; c++) {
+                            tempCoins.add(Points.get(c));
+                        }
+                        Revetement tempRev = getRev(Revetements, (int)temp[2]);
+                        this.Batiments.getEtage(this.Batiments.getEtages().size()-1).AjouterP(new Pièce(tempCoins, tempRev));
+                        System.out.println("la piece est cree yay   ");
+                        break;
+                    case 50:
+                        this.Batiments.getEtage(this.Batiments.getEtages().size()-1).AjouterM(new Mur((int)temp[0], getCoin(Points, (int)temp[1]), getCoin(Points, (int)temp[2]), getRev(Revetements, (int)temp[3]), getRev(Revetements, (int)temp[4]), temp[5]==1, (int)temp[6], (int)temp[7]));
+                        System.out.println("le mur est cree yay   ");
+                        break;
+                }
+                compteur = 0;
             }
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+
+            // Ferme le scanner
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            System.err.println("Le fichier n'a pas été trouvé : " + e.getMessage());
         }
+        actualiserLabelNombreEtage();
+        drawEtage(0);
     }
-    
-    
-    public int calculInt(String line, int debut, int fin) {
-        int res = 0;
-        for (int i = debut; i < fin; i++){
-            res += Character.getNumericValue(line.charAt(i)) * Math.pow(10, fin - debut - i -1);
-        }
-        System.out.println(res);
-        return res;
-    }
-*/
+
     
     //detection d'n mur existant selon ses coordonnees
     public Mur MurExistant(Coin coin1, Coin coin2) {
@@ -700,6 +674,24 @@ public class Controleur {
             coinDedans=true;
         }
         return coinDedans; 
+    }
+    public Revetement getRev(ArrayList<Revetement> Revetements, int n) {
+        Revetement tempRev = revetementDefautSol();        
+        for (int r = 0; r < Revetements.size(); r++) {
+            if (Revetements.get(r).getIdRev() == n) {
+                tempRev = Revetements.get(r);
+            }
+        }
+        return tempRev;
+    }
+    public Coin getCoin (ArrayList<Coin> Coins, int n) {
+        Coin tempCoin = null;        
+        for (int r = 0; r < Coins.size(); r++) {
+            if (Coins.get(r).getId() == n) {
+                tempCoin = Coins.get(r);
+            }
+        }
+        return tempCoin;
     }
     //getters et setetrs
     public Batiment getBatiment() {

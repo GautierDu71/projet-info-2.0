@@ -31,6 +31,19 @@ public class Mur {
         this.rev2 = rev2;   
         this.id = id;
     }
+
+    public Mur(int id, Coin pt1, Coin pt2, Revetement rev1, Revetement rev2, boolean ext, int portes, int fenetres) {
+        this.id = id;
+        this.portes = portes;
+        this.fenetres = fenetres;
+        this.pt1 = pt1;
+        this.pt2 = pt2;
+        this.ext = ext;
+        this.rev1 = rev1;
+        this.rev2 = rev2;
+    }
+    
+    
     //donne la longueur du mur
     public double Longueur(){
         double longueur;
