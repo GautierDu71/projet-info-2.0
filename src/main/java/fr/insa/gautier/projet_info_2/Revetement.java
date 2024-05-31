@@ -4,10 +4,6 @@
  */
 package fr.insa.gautier.projet_info_2;
 
-/**
- *
- * @author gserouart01
- */
 public class Revetement {
     private int idRev;
     private String nom;
@@ -22,7 +18,7 @@ public class Revetement {
         this.pourMur = pourMur;
         this.prixUnitaire = prixUnitaire;
     }
-    
+    //getetrs et setters
     public boolean isPourPlafond() {
         return pourPlafond;
     }

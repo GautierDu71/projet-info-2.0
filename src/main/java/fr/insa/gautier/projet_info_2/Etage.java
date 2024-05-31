@@ -5,10 +5,6 @@
 package fr.insa.gautier.projet_info_2;
 import java.util.* ;
 
-/**
- *
- * @author gserouart01
- */
 public class Etage {
     private int id;
     private double hauteur;
@@ -16,6 +12,21 @@ public class Etage {
     private ArrayList<Mur> Murs;
     private ArrayList<Coin> Coins = new ArrayList();
 
+    public Etage(int id, double hauteur) {
+        this.Murs = new ArrayList();
+        this.id = id;
+        this.hauteur = hauteur;
+        this.pieces = new ArrayList();
+    }
+    //pour gerer les listes 
+    public void AjouterP(Pièce p) {
+        this.pieces.add(p);
+    }
+    
+    public void AjouterM(Mur M) {
+        this.Murs.add(M);
+    }
+    //getters et setters
     public ArrayList<Mur> getMurs() {
         return Murs;
     }
@@ -24,25 +35,14 @@ public class Etage {
         return Murs.get(i);
     }
     
-
     public void setMurs(ArrayList<Mur> Murs) {
         this.Murs = Murs;
     }
-    
     
     public void ajoutMur (Mur mur){
         this.Murs.add(mur);
     }
 
-
-
-    public Etage(int id, double hauteur) {
-        this.Murs = new ArrayList();
-        this.id = id;
-        this.hauteur = hauteur;
-        this.pieces = new ArrayList();
-    }
-    
     public ArrayList<Pièce> getPieces() {
         return pieces;
     }
@@ -51,15 +51,6 @@ public class Etage {
         return pieces.get(i);
     }
 
-    public void AjouterP(Pièce p) {
-        this.pieces.add(p);
-    }
-    
-    public void AjouterM(Mur M) {
-        this.Murs.add(M);
-    }
-
-    
     public int getId() {
         return id;
     }
@@ -76,12 +67,8 @@ public class Etage {
         this.hauteur = hauteur;
     }
     
-    
-
     @Override
     public String toString() {
         return "Etage{" + "id=" + id + ", hauteur=" + hauteur + ", pieces=" + pieces + '}';
     }
-    
-    
 }

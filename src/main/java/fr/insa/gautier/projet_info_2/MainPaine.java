@@ -23,8 +23,7 @@ import javafx.scene.layout.HBox;
  * @author gserouart01
  */
 public class MainPaine extends BorderPane {
-    
-
+    //les elements
     private Label lEtage;
     private Button bEtageHaut;
     private Button bEtageBas;
@@ -42,7 +41,7 @@ public class MainPaine extends BorderPane {
     private Controleur controleur ;
     
     public MainPaine() {
-        
+        //les boutons pour naviquer les etages
         this.lNombreEtages = new Label("nombre d'étages : 0");
         this.lEtage = new Label("étage actuel : 0");
         this.bEtageBas = new Button("<");
@@ -57,7 +56,7 @@ public class MainPaine extends BorderPane {
         
         this.cDessin = new DessinCanvas();
         
-        
+        //les boutons principaux
         this.bNouvelEtage = new Button("Nouvel étage");
         this.bNouvelEtage.setOnAction(event ->{
             bcNouvelEtage();
@@ -85,6 +84,8 @@ public class MainPaine extends BorderPane {
         this.bCharger.setOnAction(event ->{
             bcCharger();
         });
+        
+        
         VBox vbDroite = new VBox(10,this.lNombreEtages,this.rbPrecision,this.bNouvelEtage,this.bNouvellePiece,this.bRevetements,this.bDevis,this.bSauvegarder,this.bCharger);
         vbDroite.setMargin(this.bRevetements,new Insets(20.0,0.0,20.0,0.0));
         
@@ -92,16 +93,13 @@ public class MainPaine extends BorderPane {
         hbHaut.setAlignment(Pos.CENTER);
         
         this.controleur = new Controleur(this.cDessin,this.lEtage,this.lNombreEtages,this.rbPrecision);
-        
-        
-        
-        
+
         this.setTop(hbHaut);
         this.setRight(vbDroite);
         this.setCenter(this.cDessin);
                 
     }
-    
+    //les fonctions des boutons appellent le controleur
     public void changementEtage(int i) {
         this.controleur.changementEtage(i);
     }
@@ -120,33 +118,12 @@ public class MainPaine extends BorderPane {
     public void bRevetements(){
         this.controleur.creationPaneRev();
     }
-    
     public void bcSauvegarder(){
-
-        
-        
-        ArrayList<Etage> Etages = new ArrayList();
-        Etages.add(new Etage(0,2));
-        
-        ArrayList<Batiment> Batiments = new ArrayList();
-        Batiments.add(new Batiment(0));
-       
-        ArrayList<Coin> Coins = new ArrayList();
-        Coins.add(new Coin(0,1,2,Etages.get(0)));
-        Coins.add(new Coin(1,3,5,Etages.get(0)));
-        
-        ArrayList<Mur> Murs = new ArrayList();
-        Murs.add(new Mur(Coins.get(0),Coins.get(1),null,null));
-        
-        ArrayList<Pièce> Pieces = new ArrayList();
-        Pieces.add(new Pièce(Coins,new Revetement(1,"nn",true, true, true,3)));
-        
-        //this.controleur.Sauvegarde(this.controleur.getCoins(),this.controleur.getBatiments().getEtages(),this.controleur.getBatiments(),Murs,Pieces);
-
+        this.controleur.Sauvegarde();
     }
     public void bcCharger(){
         System.out.println("Chargement...");
-            this.controleur.LectureSauvegarde();
+        //this.controleur.LectureSauvegarde();
         
     }
 }
