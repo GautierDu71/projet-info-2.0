@@ -41,7 +41,7 @@ public class MainPaine extends BorderPane {
     private Controleur controleur ;
     
     public MainPaine() {
-        //les boutons pour naviquer les etages
+        //les boutons pour naviguer les etages
         this.lNombreEtages = new Label("nombre d'étages : 0");
         this.lEtage = new Label("étage actuel : 0");
         this.bEtageBas = new Button("<");
@@ -92,7 +92,7 @@ public class MainPaine extends BorderPane {
         HBox hbHaut = new HBox(this.bEtageBas,this.lEtage,this.bEtageHaut);
         hbHaut.setAlignment(Pos.CENTER);
         
-        this.controleur = new Controleur(this.cDessin,this.lEtage,this.lNombreEtages,this.rbPrecision);
+        this.controleur = new Controleur(this.cDessin,this.lEtage,this.lNombreEtages,this.rbPrecision); //on initialise le controleur dans le constructeur du MainPane
 
         this.setTop(hbHaut);
         this.setRight(vbDroite);
