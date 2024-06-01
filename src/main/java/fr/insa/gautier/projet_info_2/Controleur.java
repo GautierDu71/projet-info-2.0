@@ -439,8 +439,9 @@ public class Controleur {
     }
 }
     
-    //la lecture de sauvegarde utilisait un buffer reader, ce qui n'est pas optimal donc on a decide de se focaliser sur d'autres 
-    //fonctions plutot que de se battre avec un system qui n'est pas optimal. en connaissance de cause , il aurait fallu utiliser un scanner
+    //la lecture sauvegarde utilisait un buffer reader, qui n'etai pas optimal... on a donc cherche a se focaliser sur d'autres fonctionnalites
+    //puis on a cherche a utiliser un scanner, qui marche beaucoup mieux mais on n'avait plus de temps donc la lecture de la savegarde et cree bien les etages, murs, pieces, points
+    //mais il y a un probleme d'affichage que nous n'avons pas eu le temps de resoudre
     public void LectureSauvegarde() {
         String cheminFichier = "Sauvegarde.txt";
         this.Batiments.clear();
