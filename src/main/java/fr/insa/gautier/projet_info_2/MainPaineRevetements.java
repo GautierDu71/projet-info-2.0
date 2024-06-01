@@ -71,17 +71,17 @@ public class MainPaineRevetements extends BorderPane{
         ArrayList<HBox> menusPiece = new ArrayList();
         int decalage = 0;
         
-        for(int i=0 ; i<etageActuel.getPieces().size() ; i++){
+        for(int i=0 ; i<etageActuel.getPieces().size() ; i++){ //affiche les pieces et leurs revetements
             decalage = 0;
             ChoiceBox piecei = new ChoiceBox<>();
             Pièce pieceI = etageActuel.getPiece(i);
-            piecei.setOnMouseEntered(event -> {                
+            piecei.setOnMouseEntered(event -> {    //lorsqu'on survole, on surligle la piece            
                 this.controleur.showPiece(pieceI);
             });
-            piecei.setOnMouseExited(event ->{
+            piecei.setOnMouseExited(event ->{ //et quand on sort ed la piece, on redesine sans surlignage
                 this.controleur.drawEtage(this.controleur.getEtageActuel());
             });            
-            for(int j=0 ; j<this.Revetements.size() ; j++){
+            for(int j=0 ; j<this.Revetements.size() ; j++){ //affiche les revetements
                 if(this.Revetements.get(j).isPourSol()) {
                     piecei.getItems().add(this.Revetements.get(j).getNom());
                     
@@ -93,7 +93,7 @@ public class MainPaineRevetements extends BorderPane{
                 } else {decalage++;}
             }
             
-            piecei.getSelectionModel().selectedItemProperty().addListener(o->{                
+            piecei.getSelectionModel().selectedItemProperty().addListener(o->{        //appliquer la selection        
                 for(int k = 0 ; k<this.Revetements.size() ; k++){                    
                     if(this.Revetements.get(k).getNom().equals(piecei.getSelectionModel().selectedItemProperty().getValue())){
                         pieceI.setSol(this.Revetements.get(k));
@@ -117,17 +117,17 @@ public class MainPaineRevetements extends BorderPane{
         this.vbox.getChildren().add(new Label("Murs :"));
         
         ArrayList<HBox> menusMurs = new ArrayList();        
-        for(int i=0 ; i<etageActuel.getMurs().size() ; i++){
+        for(int i=0 ; i<etageActuel.getMurs().size() ; i++){ //affiche les mure, les revetements et les portes et fenetres
             Mur murI = etageActuel.getMur(i);
             decalage = 0;
             ChoiceBox muriRev1 = new ChoiceBox<>();
-            muriRev1.setOnMouseEntered(event -> {                
+            muriRev1.setOnMouseEntered(event -> {            //surligne le mur quand la souris survole sa ligne    
                 this.controleur.showMur(murI);
             });
-            muriRev1.setOnMouseExited(event ->{
+            muriRev1.setOnMouseExited(event ->{ // //et redessine sans surlignage
                 this.controleur.drawEtage(this.controleur.getEtageActuel());
             });
-            for(int j=0 ; j<this.Revetements.size() ; j++){
+            for(int j=0 ; j<this.Revetements.size() ; j++){ //menu deroulant
                 if(this.Revetements.get(j).isPourMur()) {
                     muriRev1.getItems().add(this.Revetements.get(j).getNom());
                     if(this.Revetements.get(j) == etageActuel.getMur(i).getRev1()){
@@ -138,7 +138,7 @@ public class MainPaineRevetements extends BorderPane{
                 } else {decalage++;}
             }
             
-            muriRev1.getSelectionModel().selectedItemProperty().addListener(o->{                
+            muriRev1.getSelectionModel().selectedItemProperty().addListener(o->{     //appliquer la selection
                 for(int k = 0 ; k<this.Revetements.size() ; k++){                    
                     if(this.Revetements.get(k).getNom().equals(muriRev1.getSelectionModel().selectedItemProperty().getValue())){
                         murI.setRev1(this.Revetements.get(k));
@@ -172,7 +172,7 @@ public class MainPaineRevetements extends BorderPane{
                     }
                 }
             });
-            
+            //boutons pour portes et fenetres
             Label portes = new Label("portes: ");
             Label nportes = new Label(""+murI.getPortes());           
             Button portesPlus = new Button("+");
